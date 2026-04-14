@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="slides-format" content="viewport">
+<title>Culmina Health — Competitive Landscape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nav.css">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+@theme {
+  --color-bg: #EEF6F5;
+  --color-bg-deep: #E2F0EE;
+  --color-bg-dark: #0D3D3D;
+  --color-bg-dark-deep: #092C2C;
+  --color-surface: #FFFFFF;
+  --color-text: #13384A;
+  --color-text-secondary: #2D5A6A;
+  --color-text-muted: #637381;
+  --color-accent-1: #1DA8A0;
+  --color-accent-2: #0D8A83;
+  --color-accent-3: #5EC4BD;
+  --color-mint: #E2F4F1;
+  --color-mint-border: #B8DDD9;
+  --color-glass-bg: rgba(255,255,255,0.85);
+  --color-glass-border: rgba(29,168,160,0.18);
+  --color-vignette: rgba(0,0,0,0.04);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+}
+</style>
+<style>
+:root {
+  --color-bg: #EEF6F5;
+  --color-text: #13384A;
+  --color-bg-dark: #0D3D3D;
+  --color-accent-1: #1DA8A0;
+  --glow-color-rgb: 29,168,160;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;overflow:hidden;height:100vh;width:100vw;}
+body{font-family:'DM Sans',system-ui,sans-serif;color:var(--color-text);background:var(--color-bg);}
+.deck{width:100vw;height:100vh;position:relative;padding-top:68px;}
+.slide{position:absolute;top:68px;left:0;width:100%;height:calc(100% - 68px);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:scale(0.97);transition:opacity 0.6s ease,transform 0.6s ease;pointer-events:none;overflow:hidden;}
+.slide.active{opacity:1;transform:scale(1);pointer-events:all;}
+.slide>.content{position:relative;z-index:2;width:100%;max-width:1160px;padding:clamp(1.5rem,3.5vw,3.5rem);}
+.nav-controls{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:100;background:rgba(255,255,255,0.12);backdrop-filter:blur(12px);padding:9px 22px;border-radius:40px;border:1px solid rgba(29,168,160,0.25);}
+.nav-btn{width:36px;height:36px;border:none;background:rgba(29,168,160,0.12);color:#1DA8A0;border-radius:50%;font-size:1.15rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+.nav-btn:hover{background:rgba(29,168,160,0.25);}
+.slide-dots{display:flex;gap:7px;}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(29,168,160,0.22);cursor:pointer;transition:background 0.25s,transform 0.25s;}
+.dot.active{background:#1DA8A0;transform:scale(1.35);}
+.slide-counter{font-size:0.78rem;color:#637381;min-width:38px;text-align:center;font-family:'DM Sans',sans-serif;}
+.reveal{opacity:0;transform:translateY(18px);}
+
+/* Teal top stripe — hidden, nav.css provides the global one */
+.top-stripe{display:none;}
+/* dark slide overrides */
+.slide-dark .section-label{color:#5EC4BD;}
+/* Section label */
+.section-label{font-family:'DM Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1DA8A0;margin-bottom:0.55rem;}
+
+/* Light slide styles */
+.slide-light{background:#EEF6F5;}
+.slide-light .slide-heading{color:#13384A;font-family:'Playfair Display',Georgia,serif;}
+.slide-light .body-text{color:#2D5A6A;}
+.slide-light .muted{color:#637381;}
+
+/* Dark slide styles */
+.slide-dark{background:#0D3D3D;}
+/* .slide-dark .top-stripe — removed, global nav stripe handles this */
+.slide-dark .section-label{color:#5EC4BD;}
+.slide-dark .slide-heading{color:#FFFFFF;font-family:'Playfair Display',Georgia,serif;}
+.slide-dark .body-text{color:#B2D8D5;}
+.slide-dark .muted{color:#7ABFBA;}
+
+/* White card (light slides) */
+.white-card{background:#FFFFFF;border:1px solid #C8E6E2;border-radius:14px;padding:1.5rem 1.75rem;}
+/* Mint card (light slides) */
+.mint-card{background:#E2F4F1;border:1px solid #B8DDD9;border-radius:12px;padding:1.1rem 1.4rem;}
+/* Dark card */
+.dark-card{background:rgba(255,255,255,0.07);border:1px solid rgba(29,168,160,0.25);border-radius:12px;padding:1.1rem 1.4rem;}
+
+/* Numbered badge */
+.badge{width:38px;height:38px;min-width:38px;background:#1DA8A0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;color:#fff;font-family:'DM Sans',sans-serif;}
+
+/* Feature table */
+.feat-table{width:100%;border-collapse:collapse;font-size:0.82rem;font-family:'DM Sans',sans-serif;}
+.feat-table th{background:#1DA8A0;color:#fff;padding:0.55rem 0.7rem;font-weight:600;font-size:0.75rem;letter-spacing:0.04em;text-align:center;}
+.feat-table th:first-child{text-align:left;}
+.feat-table td{padding:0.5rem 0.7rem;border-bottom:1px solid #C8E6E2;text-align:center;vertical-align:middle;}
+.feat-table td:first-child{text-align:left;font-weight:600;color:#13384A;}
+.feat-table tr:nth-child(even) td{background:#F5FAFA;}
+.feat-table .yes{color:#1DA8A0;font-size:1rem;}
+.feat-table .no{color:#CFD8DC;font-size:1rem;}
+.feat-table .partial{color:#E68A3A;font-size:0.8rem;font-weight:600;}
+.feat-table .vp{background:#E2F4F1 !important;font-weight:700;color:#0D8A83;}
+
+/* Horizontal bar */
+.hbar-track{height:7px;background:#E2F4F1;border-radius:6px;overflow:hidden;}
+.hbar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#1DA8A0,#5EC4BD);transition:width 1s cubic-bezier(0.16,1,0.3,1);}
+
+/* Gradient mesh blobs */
+@keyframes float-slow{0%{transform:translate(0,0) scale(1);}33%{transform:translate(40px,-30px) scale(1.1);}66%{transform:translate(-30px,20px) scale(0.92);}100%{transform:translate(0,0) scale(1);}}
+@keyframes float-drift{0%{transform:translate(0,0) scale(1) rotate(0deg);}50%{transform:translate(-40px,-40px) scale(1.12) rotate(3deg);}100%{transform:translate(0,0) scale(1) rotate(0deg);}}
+.gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);}
+.blob:nth-child(1){animation:float-slow 12s ease-in-out infinite;}
+.blob:nth-child(2){animation:float-drift 16s ease-in-out infinite;}
+.blob:nth-child(3){animation:float-slow 20s ease-in-out infinite reverse;}
+.slide::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.04) 100%);}
+
+/* Competitor profile card */
+.comp-card{background:#FFFFFF;border:1px solid #C8E6E2;border-radius:14px;padding:1.25rem 1.4rem;transition:transform 0.25s,box-shadow 0.25s;}
+.comp-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(29,168,160,0.12);}
+.comp-card .comp-name{font-family:'Playfair Display',serif;font-weight:700;font-size:1.05rem;color:#13384A;margin-bottom:0.2rem;}
+.comp-card .comp-tag{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1DA8A0;margin-bottom:0.5rem;}
+.comp-card .comp-body{font-size:0.82rem;color:#2D5A6A;line-height:1.5;}
+
+/* US card (dark-teal card on dark bg) */
+.us-card{background:rgba(29,168,160,0.1);border:1px solid rgba(29,168,160,0.3);border-radius:14px;padding:1.25rem 1.5rem;transition:transform 0.25s;}
+.us-card:hover{transform:translateY(-3px);}
+.us-card .us-name{font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:#FFFFFF;margin-bottom:0.2rem;}
+.us-card .us-tag{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5EC4BD;margin-bottom:0.55rem;}
+.us-card .us-body{font-size:0.83rem;color:#B2D8D5;line-height:1.5;}
+.us-card .us-lesson{font-size:0.78rem;color:#7ABFBA;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid rgba(29,168,160,0.2);}
+.us-card .us-lesson strong{color:#5EC4BD;}
+
+/* Differentiator card */
+.diff-card{border-left:4px solid #1DA8A0;background:#FFFFFF;border-radius:0 12px 12px 0;padding:0.85rem 1.2rem;transition:transform 0.2s;}
+.diff-card:hover{transform:translateX(4px);}
+.diff-card .diff-title{font-weight:700;font-size:0.92rem;color:#13384A;margin-bottom:0.25rem;}
+.diff-card .diff-body{font-size:0.8rem;color:#2D5A6A;line-height:1.45;}
+
+/* Tag pills */
+.pill{display:inline-block;font-size:0.68rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:20px;}
+.pill-teal{background:#E2F4F1;color:#0D8A83;}
+.pill-dark{background:rgba(29,168,160,0.18);color:#5EC4BD;}
+
+/* Mouse spotlight */
+.mouse-spotlight{position:fixed;inset:0;z-index:99;pointer-events:none;}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.2s!important;}}
+</style>
+</head>
+<body>
+<div id="top-stripe"></div>
+<header id="site-header">
+  <a href="index.html" class="site-wordmark">
+    <span class="wm-dot"></span>Culmina Health
+  </a>
+  <nav id="site-nav"></nav>
+</header>
+<div class="mouse-spotlight" id="spotlight"></div>
+<div class="deck">
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 1 — TITLE (dark)
+═══════════════════════════════════════════════════ -->
+<div class="slide slide-dark active" data-slide="1">
+  <div class="top-stripe"></div>
+  <div class="gradient-mesh">
+    <div class="blob" style="width:500px;height:500px;top:-120px;right:-100px;background:#1DA8A0;opacity:0.13;"></div>
+    <div class="blob" style="width:320px;height:320px;bottom:-80px;left:-80px;background:#5EC4BD;opacity:0.10;"></div>
+    <div class="blob" style="width:220px;height:220px;top:40%;left:20%;background:#0D8A83;opacity:0.08;"></div>
+  </div>
+  <canvas id="titleCanvas" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+  <div class="content text-center" style="z-index:2;">
+    <div class="reveal" style="font-size:3.5rem;margin-bottom:0.6rem;">✦</div>
+    <h1 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5.5vw,4.2rem);font-weight:900;color:#fff;letter-spacing:-0.02em;margin:0 0 0.5rem;">VitalPath</h1>
+    <p class="reveal" style="font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.1rem,2.2vw,1.5rem);color:#1DA8A0;margin:0 0 1.5rem;">Competitive Landscape</p>
+    <div class="reveal" style="width:220px;height:2px;background:linear-gradient(90deg,transparent,#1DA8A0,transparent);margin:0 auto 1.8rem;"></div>
+    <p class="reveal" style="font-size:0.9rem;color:#7ABFBA;letter-spacing:0.06em;margin:0 0 0.5rem;">Canadian Market Focus &nbsp;·&nbsp; Canadian Competitors &nbsp;·&nbsp; US Reference Models</p>
+    <p class="reveal" style="font-size:0.85rem;color:#4A8A85;">Strategic differentiation for the health-literate professional</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 2 — MARKET FRAMING (light)
+═══════════════════════════════════════════════════ -->
+<div class="slide slide-light" data-slide="2">
+  <div class="top-stripe"></div>
+  <div class="gradient-mesh">
+    <div class="blob" style="width:350px;height:350px;top:-80px;right:-60px;background:#1DA8A0;opacity:0.07;"></div>
+    <div class="blob" style="width:250px;height:250px;bottom:-60px;left:-40px;background:#5EC4BD;opacity:0.06;"></div>
+  </div>
+  <div class="content">
+    <div class="section-label reveal">Market framing</div>
+    <h2 class="slide-heading reveal" style="font-size:clamp(1.9rem,3.8vw,2.8rem);font-weight:900;line-height:1.15;margin:0 0 1.5rem;max-width:700px;">The gap is integration, not access.</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;">
+      <div class="white-card reveal">
+        <p class="section-label" style="margin-bottom:0.4rem;">The opportunity</p>
+        <p class="body-text" style="font-size:0.88rem;line-height:1.6;margin:0;">Canada's telehealth market is crowded at the edges — convenience prescriptions on one end, expensive concierge clinics on the other. The middle is empty: a <strong>virtual-first, longitudinal membership</strong> built for health-literate professionals who want interpretation, not just access.</p>
+      </div>
+      <div class="white-card reveal">
+        <p class="section-label" style="margin-bottom:0.4rem;">The target member</p>
+        <p class="body-text" style="font-size:0.88rem;line-height:1.6;margin:0;">A <strong>35–55 year old knowledge worker</strong> who tracks their health with wearables, listens to longevity podcasts, and uses private lab services — but still needs a physician for prescriptions, monitoring, and clinical legitimacy. The unmet need is trustworthy interpretation and a system for turning data into decisions.</p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.2rem;">
+      <div class="mint-card reveal" style="text-align:center;">
+        <div style="font-size:1.6rem;font-weight:900;color:#1DA8A0;font-family:'Playfair Display',serif;">More than Rx</div>
+        <div class="muted" style="font-size:0.78rem;margin-top:0.3rem;">Not a prescription funnel</div>
+      </div>
+      <div class="mint-card reveal" style="text-align:center;">
+        <div style="font-size:1.6rem;font-weight:900;color:#1DA8A0;font-family:'Playfair Display',serif;">More accessible</div>
+        <div class="muted" style="font-size:0.78rem;margin-top:0.3rem;">Than $500/month concierge</div>
+      </div>
+      <div class="mint-card reveal" style="text-align:center;">
+        <div style="font-size:1.6rem;font-weight:900;color:#1DA8A0;font-family:'Playfair Display',serif;">More Canadian</div>
+        <div class="muted" style="font-size:0.78rem;margin-top:0.3rem;">Than imported US wellness brands</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 3 — CANADIAN COMPETITOR OVERVIEW (light)
+═══════════════════════════════════════════════════ -->
+<div class="slide slide-light" data-slide="3">
+  <div class="top-stripe"></div>
+  <div class="gradient-mesh">
+    <div class="blob" style="width:300px;height:300px;top:-60px;right:-50px;background:#1DA8A0;opacity:0.07;"></div>
+    <div class="blob" style="width:200px;height:200px;bottom:-50px;left:-30px;background:#5EC4BD;opacity:0.06;"></div>
+  </div>
+  <div class="content">
+    <div class="section-label reveal">Canadian competitors</div>
+    <h2 class="slide-heading reveal" style="font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:900;margin:0 0 1.1rem;">Seven players to know</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.85rem;">
+      <div class="comp-card reveal">
+        <div class="comp-name">Felix Health</div>
+        <div class="comp-tag">Scaled telehealth + longevity</div>
+        <div class="comp-body">Consumer-friendly platform with pharmacy fulfillment and 35+ biomarker longevity offering. Strong national brand, but rooted in transaction convenience — not in becoming a member's health operating system.</div>
+      </div>
+      <div class="comp-card reveal">
+        <div class="comp-name">Science &amp; Humans</div>
+        <div class="comp-tag">Hormone optimization</div>
+        <div class="comp-body">Validates demand for digital hormone care in Canada. Strong in midlife optimization, HRT, and physician-guided protocols. Narrow category — doesn't extend naturally to broader preventive membership.</div>
+      </div>
+      <div class="comp-card reveal">
+        <div class="comp-name">WeightSimple</div>
+        <div class="comp-tag">Metabolic / GLP-1</div>
+        <div class="comp-body">Stronger clinical end of Canadian weight telehealth. Structured beyond a pure prescription funnel. Constrained to weight management — not a platform for longevity, wearables, or cognitive performance.</div>
+      </div>
+      <div class="comp-card reveal">
+        <div class="comp-name">Maple</div>
+        <div class="comp-tag">General virtual care</div>
+        <div class="comp-body">Best-known general telehealth brand in Canada. Wide access and consumer trust. Competes on access rather than optimization depth — no longitudinal biomarker strategy or education layer.</div>
+      </div>
+      <div class="comp-card reveal">
+        <div class="comp-name">Phoenix</div>
+        <div class="comp-tag">Men's health DTC</div>
+        <div class="comp-body">Effective stigma-reducing DTC model for men's testosterone and ED categories. Constrained by gender focus — doesn't extend to the cross-gender proactive health professional market.</div>
+      </div>
+      <div class="comp-card reveal">
+        <div class="comp-name">Hims &amp; Hers Canada</div>
+        <div class="comp-tag">DTC expansion risk</div>
+        <div class="comp-body">Scaled US brand entering Canada via broad DTC acquisition and medication-led categories. Risk is future expansion from prescriptions into preventive programs. VitalPath can win on local specificity first.</div>
+      </div>
+    </div>
+    <div class="comp-card reveal" style="margin-top:0.85rem;display:flex;gap:1.2rem;align-items:flex-start;">
+      <div style="flex:1;">
+        <div class="comp-name">Precision Longevity</div>
+        <div class="comp-tag">Premium physician-led longevity clinic</div>
+        <div class="comp-body">Clearest Canadian example of data-driven, personalized preventive care with biomarkers, genetics, and advanced diagnostics. Validates Canadian appetite for proactive longevity — but reveals a steep price and accessibility gap VitalPath can fill.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 4 — CANADIAN FEATURE COMPARISON TABLE (light)
+═══════════════════════════════════════════════════ -->
+<div class="slide slide-light" data-slide="4">
+  <div class="top-stripe"></div>
+  <div class="gradient-mesh">
+    <div class="blob" style="width:280px;height:280px;top:-50px;right:-40px;background:#1DA8A0;opacity:0.06;"></div>
+  </div>
+  <div class="content">
+    <div class="section-label reveal">Feature comparison</div>
+    <h2 class="slide-heading reveal" style="font-size:clamp(1.5rem,2.8vw,2rem);font-weight:900;margin:0 0 1rem;">Canadian competitors vs. VitalPath</h2>
+    <div class="reveal" style="overflow:auto;">
+      <table class="feat-table">
+        <thead>
+          <tr>
+            <th style="min-width:160px;">Feature</th>
+            <th>Felix</th>
+            <th>Sci &amp; Humans</th>
+            <th>WeightSimple</th>
+            <th>Maple</th>
+            <th>Phoenix</th>
+            <th>Hims/Hers CA</th>
+            <th>Precision Longevity</th>
+            <th class="vp" style="background:#0D8A83!important;">VitalPath</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Canadian-built &amp; operated</td>
+            <td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td>
+            <td class="yes vp">✓</td>
+          </tr>
+          <tr>
+            <td>Longitudinal biomarker tracking</td>
+            <td class="partial">Partial</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td>
+            <td class="yes vp">✓</td>
+          </tr>
+          <tr>
+            <td>Recurring physician relationship</td>
+            <td class="partial">Episodic</td><td class="yes">✓</td><td class="partial">Partial</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td>
+            <td class="yes vp">✓</td>
+          </tr>
+          <tr>
+            <td>Integrated pharmacy layer</td>
+            <td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td>
+            <td class="yes vp">✓</td>
+          </tr>
+          <tr>
+            <td>Wearable &amp; data integration</td>
+            <td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td>
+            <td class="yes vp">✓</td>
+          </tr>
+          <tr>
+            <td>Structured member education</td>
+            <td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td>
+            <td class="yes vp">✓</td>
+          </tr>
+          <tr>
+            <td>Lab interpretation &amp; trend review</td>
+            <td class="partial">New</td><td class="partial">Partial</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td>
+            <td class="yes vp">✓</td>
+          </tr>
+          <tr>
+            <td>Cross-gender, whole-person model</td>
+            <td class="yes">✓</td><td class="partial">Partial</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td>
+            <td class="yes vp">✓</td>
+          </tr>
+          <tr>
+            <td>Membership / subscription model</td>
+            <td class="partial">Partial</td><td class="yes">✓</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td><td class="partial">Partial</td><td class="yes">✓</td>
+            <td class="yes vp">✓</td>
+          </tr>
+          <tr>
+            <td>Accessible price point (&lt;$200/mo)</td>
+            <td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td>
+            <td class="yes vp">✓</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="reveal" style="margin-top:0.75rem;font-size:0.74rem;color:#637381;">✓ = Yes &nbsp; ✗ = No &nbsp; Partial = Limited or in progress &nbsp;|&nbsp; <strong style="color:#0D8A83;">VitalPath</strong> is the only platform designed to integrate all ten dimensions.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 5 — US REFERENCE MODELS (dark)
+═══════════════════════════════════════════════════ -->
+<div class="slide slide-dark" data-slide="5">
+  <div class="top-stripe"></div>
+  <div class="gradient-mesh">
+    <div class="blob" style="width:400px;height:400px;top:-100px;right:-80px;background:#1DA8A0;opacity:0.12;"></div>
+    <div class="blob" style="width:280px;height:280px;bottom:-70px;left:-50px;background:#5EC4BD;opacity:0.09;"></div>
+    <div class="blob" style="width:180px;height:180px;top:45%;left:30%;background:#0D8A83;opacity:0.07;"></div>
+  </div>
+  <div class="content">
+    <div class="section-label reveal">US reference models</div>
+    <h2 class="slide-heading reveal" style="font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;margin:0 0 0.35rem;">Two US companies show what's possible — and why Canada needs its own version.</h2>
+    <p class="body-text reveal" style="font-size:0.87rem;margin:0 0 1.2rem;">Neither operates in Canada. Both validate that health-literate consumers will pay recurring fees for exactly what VitalPath is building.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;">
+      <div class="us-card reveal">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
+          <div style="width:42px;height:42px;border-radius:10px;background:rgba(29,168,160,0.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">🔬</div>
+          <div>
+            <div class="us-name">Function Health</div>
+            <div class="us-tag">Data-first membership &nbsp;·&nbsp; $499/year</div>
+          </div>
+        </div>
+        <div class="us-body">160+ lab tests annually, clinician-reviewed results, longitudinal dashboard, and personalized action guidance. Proves that consumers will pay for <strong style="color:#fff;">comprehensive insight</strong> when interpretation is built in — not just test kits. The retention engine is the dashboard, not the visit.</div>
+        <div class="us-lesson"><strong>Key lesson for VitalPath:</strong> Lead with data, trending, and clinician interpretation. The emotional hook is confidence and control — not medication access. Optional services layer on top once trust is built.</div>
+      </div>
+      <div class="us-card reveal">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
+          <div style="width:42px;height:42px;border-radius:10px;background:rgba(29,168,160,0.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">🤝</div>
+          <div>
+            <div class="us-name">Parsley Health</div>
+            <div class="us-tag">Relationship-based care &nbsp;·&nbsp; 12-mo membership</div>
+          </div>
+        </div>
+        <div class="us-body">5 in-depth medical visits/year, nutrition coaching, personalized care plans, advanced diagnostics, and ongoing support from a 5-person care team. Shows that consumers pay for <strong style="color:#fff;">depth and continuity</strong> — not just access. Virtual delivery doesn't weaken the model when it preserves responsiveness.</div>
+        <div class="us-lesson"><strong>Key lesson for VitalPath:</strong> Structure education and support as product, not goodwill. Long visits are a differentiator. Recurring care works best when it combines interpretation, accountability, and coordination.</div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:1rem;background:rgba(29,168,160,0.1);border:1px solid rgba(29,168,160,0.25);border-radius:10px;padding:0.75rem 1.1rem;font-size:0.82rem;color:#B2D8D5;">
+      <strong style="color:#5EC4BD;">Together, they map VitalPath's strategic spectrum:</strong> Function = data &amp; testing at the centre. Parsley = wrap those insights into ongoing, relationship-driven care. Canada needs both halves in one local platform.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 6 — VITALPATH DIFFERENTIATORS (light)
+═══════════════════════════════════════════════════ -->
+<div class="slide slide-light" data-slide="6">
+  <div class="top-stripe"></div>
+  <div class="gradient-mesh">
+    <div class="blob" style="width:300px;height:300px;top:-60px;right:-40px;background:#1DA8A0;opacity:0.07;"></div>
+    <div class="blob" style="width:200px;height:200px;bottom:-50px;left:-30px;background:#5EC4BD;opacity:0.05;"></div>
+  </div>
+  <div class="content">
+    <div class="section-label reveal">VitalPath differentiation</div>
+    <h2 class="slide-heading reveal" style="font-size:clamp(1.7rem,3.2vw,2.3rem);font-weight:900;margin:0 0 1.1rem;">Six reasons VitalPath wins where others don't</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
+      <div class="diff-card reveal">
+        <div class="diff-title">1. A sharper customer thesis</div>
+        <div class="diff-body">Designed for proactive, health-literate professionals who want better <em>interpretation</em>, not just better access. This creates clarity across branding, features, content, and pricing that generalist platforms can't match.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-title">2. Data plus doctor — not one or the other</div>
+        <div class="diff-body">Most services offer tests without context, or physician access without longitudinal signal. VitalPath combines a persistent health record, biomarker trends, wearable inputs, and clinician review in a single ongoing relationship.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-title">3. Education as a product layer</div>
+        <div class="diff-body">Competitors treat education as marketing copy or post-visit instructions. VitalPath makes it part of the membership: explainers, protocols, dashboards, and structured interpretation that help members understand their bodies over time.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-title">4. Progressive but clinically supervised</div>
+        <div class="diff-body">The target member is curious about new health tools but needs clinical legitimacy. VitalPath owns the middle ground — evidence-aware and practical rather than fringe or underground.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-title">5. Pharmacy as support, not the story</div>
+        <div class="diff-body">Medication access matters — but leading with GLP-1s or TRT risks commoditization. Keeping pharmacy as a support function preserves the brand identity around insight, continuity, and proactive health.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-title">6. The Canadian version of US preventive membership</div>
+        <div class="diff-body">Function and Parsley prove demand in the US. VitalPath localizes that model for Canada: provincial workflows, privacy context, local compliance, and a brand that feels more relevant than imported US wellness.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 7 — THREE LAYERS (light, reference design style)
+═══════════════════════════════════════════════════ -->
+<div class="slide slide-light" data-slide="7">
+  <div class="top-stripe"></div>
+  <div class="gradient-mesh">
+    <div class="blob" style="width:300px;height:300px;top:-50px;right:-40px;background:#1DA8A0;opacity:0.07;"></div>
+  </div>
+  <div class="content">
+    <div class="section-label reveal">Product architecture</div>
+    <h2 class="slide-heading reveal" style="font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;margin:0 0 0.3rem;max-width:680px;">Three reinforcing layers — none of which competitors combine.</h2>
+    <p class="body-text reveal" style="font-size:0.88rem;margin:0 0 1.2rem;max-width:600px;">Broad enough to matter, specific enough to differentiate from general telehealth, hormone niches, weight funnels, and high-end concierge clinics.</p>
+    <div style="display:grid;grid-template-columns:1fr 1.15fr;gap:1.4rem;align-items:start;">
+      <div class="white-card reveal" style="padding:1.5rem 1.75rem;">
+        <p style="font-size:0.88rem;color:#2D5A6A;line-height:1.65;margin:0;">The product architecture is defined by three layers that reinforce each other. A member can enter through labs, move into clinical care, use the portal for data continuity, access interpretation, attend educational content, and manage prescriptions in a connected workflow — all inside one membership.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.85rem;">
+        <div class="mint-card reveal" style="display:flex;align-items:center;gap:0.9rem;">
+          <div class="badge">1</div>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;color:#13384A;">Trusted Clinical Layer</div>
+            <div style="font-size:0.8rem;color:#637381;margin-top:0.15rem;">Physicians focused on prevention, metabolic health, hormones, and long-term performance — with unrushed, recurring visits as a core differentiator.</div>
+          </div>
+        </div>
+        <div class="mint-card reveal" style="display:flex;align-items:center;gap:0.9rem;">
+          <div class="badge">2</div>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;color:#13384A;">Medication Layer</div>
+            <div style="font-size:0.8rem;color:#637381;margin-top:0.15rem;">A narrow, relevant dispensary for therapies aligned with the care model — not a general pharmacy. Enables the clinical layer without making medications the brand.</div>
+          </div>
+        </div>
+        <div class="mint-card reveal" style="display:flex;align-items:center;gap:0.9rem;">
+          <div class="badge">3</div>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;color:#13384A;">Data &amp; Education Layer</div>
+            <div style="font-size:0.8rem;color:#637381;margin-top:0.15rem;">A personal portal for lab trends, wearable signals, biomarker education, and behaviour change tools. The retention engine — and the feature no Canadian competitor has built.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 8 — STRATEGIC IMPLICATIONS (dark)
+═══════════════════════════════════════════════════ -->
+<div class="slide slide-dark" data-slide="8">
+  <div class="top-stripe"></div>
+  <div class="gradient-mesh">
+    <div class="blob" style="width:400px;height:400px;top:-100px;right:-70px;background:#1DA8A0;opacity:0.11;"></div>
+    <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-50px;background:#5EC4BD;opacity:0.08;"></div>
+  </div>
+  <canvas id="closeCanvas" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+  <div class="content">
+    <div class="section-label reveal">Strategic implications</div>
+    <h2 class="slide-heading reveal" style="font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;margin:0 0 1.1rem;max-width:740px;">The competitive gap isn't features — it's the coherent whole.</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div style="display:flex;flex-direction:column;gap:0.8rem;">
+        <div class="dark-card reveal">
+          <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Position as a membership, not a clinic</div>
+          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">Frame the product as a virtual-first longevity and preventive-health membership for professionals who want to understand, track, and improve over time.</div>
+        </div>
+        <div class="dark-card reveal">
+          <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Don't lead with GLP-1s or TRT</div>
+          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">The durable category is health optimization membership — medications are one tool inside the care model, not the headline. Leading with prescriptions risks becoming a commodity.</div>
+        </div>
+        <div class="dark-card reveal">
+          <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Win on local specificity before US brands localize</div>
+          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">Hims/Hers is already in Canada. Function and Parsley could follow. VitalPath's window is to establish Canadian credibility, workflows, and relationships before the category gets crowded from the south.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.8rem;">
+        <div class="dark-card reveal">
+          <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Build the data portal as the retention engine</div>
+          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">Function Health proves that the dashboard — not the visit — keeps members subscribed. Invest in the data and education layer as seriously as the clinical one.</div>
+        </div>
+        <div class="dark-card reveal">
+          <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Use education as product, not marketing</div>
+          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">Parsley Health shows that structured interpretation, coaching, and content can be packaged as part of the membership. This is the feature no Canadian competitor has built — and the one most valued by the target member.</div>
+        </div>
+        <div class="dark-card reveal">
+          <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Bottom line</div>
+          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">The strongest opportunity is to become the <em style="color:#5EC4BD;">trusted proactive-health platform</em> for health-literate Canadians — not another prescription company. No one in Canada has built that yet.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .deck -->
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+  <div class="slide-dots" id="dots"></div>
+  <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+  <span class="slide-counter" id="counter">1 / 8</span>
+</div>
+
+<script>
+/* === DECK NAVIGATION === */
+let current=1;
+const total=document.querySelectorAll('.slide').length;
+const dotsContainer=document.getElementById('dots');
+const counter=document.getElementById('counter');
+for(let i=1;i<=total;i++){const dot=document.createElement('div');dot.className='dot'+(i===1?' active':'');dot.onclick=()=>goToSlide(i);dotsContainer.appendChild(dot);}
+function goToSlide(n){
+  const prev=document.querySelector('.slide.active');
+  const next=document.querySelector(`.slide[data-slide="${n}"]`);
+  if(prev)prev.classList.remove('active');
+  if(next){next.classList.add('active');animateSlide(next);}
+  current=n;updateNav();
+}
+function changeSlide(dir){let n=current+dir;if(n<1)n=total;if(n>total)n=1;goToSlide(n);}
+function updateNav(){document.querySelectorAll('.dot').forEach((d,i)=>{d.classList.toggle('active',i+1===current);});counter.textContent=current+' / '+total;}
+document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'){e.preventDefault();changeSlide(-1);}});
+let touchStartX=0;
+document.addEventListener('touchstart',(e)=>{touchStartX=e.touches[0].clientX;});
+document.addEventListener('touchend',(e)=>{const diff=touchStartX-e.changedTouches[0].clientX;if(Math.abs(diff)>50)changeSlide(diff>0?1:-1);});
+
+/* === REVEAL ANIMATIONS === */
+function animateSlide(slide){
+  slide.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.transition='none';el.style.opacity='0';el.style.transform='translateY(18px)';
+    el.offsetHeight;
+    const delay=i*0.07;
+    el.style.transition=`opacity 0.4s ease ${delay}s,transform 0.4s ease ${delay}s`;
+    el.style.opacity='1';el.style.transform='translateY(0)';
+  });
+  /* animate bar fills */
+  slide.querySelectorAll('.hbar-fill:not(.fill-init)').forEach((bar,i)=>{
+    bar.classList.add('fill-init');bar.style.width='0%';bar.style.transition=`width 0.7s ease ${i*0.1}s`;
+    bar.offsetHeight;bar.style.width=bar.dataset.width+'%';
+  });
+}
+
+/* === PARTICLE CANVAS === */
+function initParticles(canvas){
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  function resize(){canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;}
+  resize();
+  const count=35;let mx=-1000,my=-1000;
+  const particles=Array.from({length:count},()=>({
+    x:Math.random()*canvas.width,y:Math.random()*canvas.height,
+    vx:(Math.random()-0.5)*0.25,vy:(Math.random()-0.5)*0.25,
+    size:Math.random()*2+0.6,alpha:Math.random()*0.25+0.08
+  }));
+  canvas.addEventListener('mousemove',(e)=>{const r=canvas.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;});
+  canvas.addEventListener('mouseleave',()=>{mx=-1000;my=-1000;});
+  (function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      const dx=p.x-mx,dy=p.y-my,dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<100){const f=(100-dist)/100*1.5;p.vx+=(dx/dist)*f*0.08;p.vy+=(dy/dist)*f*0.08;}
+      p.vx*=0.98;p.vy*=0.98;p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;
+      if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+      ctx.fillStyle=`rgba(29,168,160,${p.alpha})`;ctx.fill();
+    });
+    requestAnimationFrame(animate);
+  })();
+}
+initParticles(document.getElementById('titleCanvas'));
+initParticles(document.getElementById('closeCanvas'));
+
+/* === MOUSE SPOTLIGHT === */
+document.addEventListener('mousemove',(e)=>{
+  const s=document.getElementById('spotlight');
+  if(s)s.style.background=`radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px,rgba(29,168,160,0.05),transparent 40%)`;
+});
+
+/* Initial animate */
+try{animateSlide(document.querySelector('.slide.active'));}catch(e){}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="slides-format" content="viewport">
+<title>Culmina Health — Product Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nav.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100vw;height:100vh;overflow:hidden;background:#EEF6F5;font-family:'DM Sans',system-ui,sans-serif;}
+
+/* Top teal stripe — suppressed, nav.css provides global one */
+.top-stripe{display:none;}
+
+.slide{
+  width:100vw;height:calc(100vh - 68px);
+  margin-top:68px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:clamp(1rem,3vw,3rem) clamp(1.5rem,5vw,5rem);
+  position:relative;overflow:hidden;
+}
+
+/* ── Soft ambient blobs ── */
+.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.blob-1{width:420px;height:420px;top:-100px;right:-80px;background:#1DA8A0;opacity:0.08;animation:floatA 14s ease-in-out infinite;}
+.blob-2{width:280px;height:280px;bottom:-70px;left:-60px;background:#5EC4BD;opacity:0.07;animation:floatB 18s ease-in-out infinite;}
+@keyframes floatA{0%,100%{transform:translate(0,0);}50%{transform:translate(-40px,30px);}}
+@keyframes floatB{0%,100%{transform:translate(0,0);}50%{transform:translate(30px,-25px);}}
+
+/* ── Section label ── */
+.section-label{
+  font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:#1DA8A0;margin-bottom:0.4rem;font-family:'DM Sans',sans-serif;
+}
+
+/* ── Main heading ── */
+.main-heading{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:clamp(1.5rem,2.8vw,2.2rem);
+  color:#13384A;line-height:1.15;
+  margin-bottom:0.3rem;
+}
+
+/* ── Mission statement ── */
+.mission-text{
+  font-size:clamp(0.78rem,1.1vw,0.9rem);color:#2D5A6A;line-height:1.6;
+  max-width:580px;
+}
+
+/* ══════════════════════════════════════════
+   DIAGRAM CONTAINER
+══════════════════════════════════════════ */
+.diagram{
+  position:relative;
+  width:100%;max-width:980px;
+  margin-top:clamp(0.8rem,1.8vh,1.5rem);
+}
+
+/* ── Top row: Clinical + Medication ── */
+.top-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.2rem;
+  position:relative;
+  z-index:2;
+}
+
+/* ── Clinical card ── */
+.card-clinical{
+  background:#FFFFFF;
+  border:1.5px solid #C8E6E2;
+  border-bottom:none;
+  border-radius:16px 16px 0 0;
+  padding:1.3rem 1.5rem 1.6rem;
+  position:relative;
+  transition:box-shadow 0.25s;
+}
+.card-clinical:hover{box-shadow:0 6px 24px rgba(29,168,160,0.13);}
+
+/* ── Medication card ── */
+.card-medication{
+  background:#FFFFFF;
+  border:1.5px solid #C8E6E2;
+  border-bottom:none;
+  border-radius:16px 16px 0 0;
+  padding:1.3rem 1.5rem 1.6rem;
+  position:relative;
+  transition:box-shadow 0.25s;
+}
+.card-medication:hover{box-shadow:0 6px 24px rgba(29,168,160,0.13);}
+
+/* ── Badge ── */
+.badge{
+  width:34px;height:34px;min-width:34px;
+  background:#1DA8A0;border-radius:8px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:0.9rem;color:#fff;
+  font-family:'DM Sans',sans-serif;
+  margin-bottom:0.6rem;
+}
+
+.card-title{
+  font-family:'Playfair Display',serif;font-weight:700;
+  font-size:clamp(0.95rem,1.4vw,1.1rem);color:#13384A;
+  margin-bottom:0.4rem;
+}
+.card-body{
+  font-size:clamp(0.72rem,1vw,0.82rem);color:#637381;
+  line-height:1.55;
+}
+
+/* ── Connector drip — visual link from top cards into data layer ── */
+/* Each card has a "drip" pseudo-element that drops into the data bar */
+.card-clinical::after,
+.card-medication::after{
+  content:'';
+  position:absolute;
+  bottom:-1.5px;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,#1DA8A0,#5EC4BD);
+}
+
+/* ── Thin vertical connectors ── */
+.connectors{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1.2rem;height:18px;
+}
+.connector{
+  position:relative;
+}
+.connector::before{
+  content:'';
+  position:absolute;
+  top:0;left:50%;
+  width:2px;height:100%;
+  background:linear-gradient(to bottom,#1DA8A0,#5EC4BD);
+  transform:translateX(-50%);
+}
+/* downward arrow */
+.connector::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:50%;
+  transform:translateX(-50%);
+  width:0;height:0;
+  border-left:5px solid transparent;
+  border-right:5px solid transparent;
+  border-top:6px solid #1DA8A0;
+}
+
+/* ── Data layer ── */
+.card-data{
+  background:linear-gradient(135deg,#0D3D3D 0%,#0B4A47 50%,#0D3D3D 100%);
+  border:1.5px solid rgba(29,168,160,0.4);
+  border-radius:0 0 16px 16px;
+  padding:1.2rem 1.5rem;
+  position:relative;
+  z-index:2;
+  overflow:hidden;
+  transition:box-shadow 0.25s;
+}
+.card-data:hover{box-shadow:0 8px 32px rgba(29,168,160,0.22);}
+
+/* Subtle glow inside data card */
+.card-data::before{
+  content:'';
+  position:absolute;
+  top:-40px;left:50%;transform:translateX(-50%);
+  width:60%;height:120px;
+  background:radial-gradient(ellipse,rgba(29,168,160,0.18) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* Top edge glow on data card */
+.card-data::after{
+  content:'';
+  position:absolute;
+  top:0;left:10%;right:10%;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#1DA8A0,#5EC4BD,#1DA8A0,transparent);
+  border-radius:2px;
+}
+
+.data-badge{
+  width:34px;height:34px;
+  background:rgba(29,168,160,0.25);
+  border:1px solid rgba(29,168,160,0.5);
+  border-radius:8px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:0.9rem;color:#fff;
+  font-family:'DM Sans',sans-serif;
+  margin-bottom:0.6rem;
+}
+
+.data-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1rem;align-items:start;
+}
+
+.data-title{
+  font-family:'Playfair Display',serif;font-weight:700;
+  font-size:clamp(1rem,1.5vw,1.2rem);color:#fff;
+  margin-bottom:0.35rem;
+}
+.data-body{
+  font-size:clamp(0.72rem,1vw,0.83rem);color:#B2D8D5;
+  line-height:1.55;
+}
+
+/* Data feature pills */
+.data-features{
+  display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.2rem;
+}
+.data-pill{
+  background:rgba(29,168,160,0.18);
+  border:1px solid rgba(29,168,160,0.3);
+  color:#5EC4BD;
+  font-size:0.68rem;font-weight:600;letter-spacing:0.04em;
+  padding:0.2rem 0.55rem;border-radius:20px;
+  font-family:'DM Sans',sans-serif;
+}
+
+/* "spans both" label */
+.spans-label{
+  position:absolute;
+  right:1.2rem;top:1.1rem;
+  font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(94,196,189,0.7);
+  display:flex;align-items:center;gap:0.35rem;
+}
+.spans-label::before{
+  content:'';display:block;
+  width:28px;height:1px;
+  background:rgba(94,196,189,0.4);
+}
+.spans-label::after{
+  content:'';display:block;
+  width:28px;height:1px;
+  background:rgba(94,196,189,0.4);
+}
+
+/* Bracket / brace line on left showing Data "underlies" both */
+.bracket{
+  position:absolute;
+  left:-22px;
+  top:0;bottom:0;
+  width:10px;
+  border-left:2px solid rgba(29,168,160,0.35);
+  border-top:2px solid rgba(29,168,160,0.35);
+  border-bottom:2px solid rgba(29,168,160,0.35);
+  border-radius:4px 0 0 4px;
+}
+
+/* ── Reveal animation ── */
+.reveal{opacity:0;transform:translateY(14px);}
+
+/* ── Legend / footer note ── */
+.footer-note{
+  margin-top:clamp(0.5rem,1.2vh,1rem);
+  font-size:0.72rem;color:#637381;
+  text-align:center;
+  max-width:700px;
+}
+</style>
+</head>
+<body>
+<div id="top-stripe"></div>
+<header id="site-header">
+  <a href="index.html" class="site-wordmark">
+    <span class="wm-dot"></span>Culmina Health
+  </a>
+  <nav id="site-nav"></nav>
+</header>
+
+<div class="slide">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div style="width:100%;max-width:980px;">
+
+    <!-- Header -->
+    <div class="section-label reveal">Product architecture</div>
+    <h1 class="main-heading reveal">Make longevity care practical, credible, and accessible.</h1>
+    <p class="mission-text reveal">The mission is to give motivated adults a clearer, more direct path to preventive medicine — by combining medical guidance, carefully selected therapies, and personal health data into one coordinated experience.</p>
+
+    <!-- Diagram -->
+    <div class="diagram reveal" style="margin-top:clamp(0.9rem,2vh,1.6rem);">
+
+      <!-- TOP ROW -->
+      <div class="top-row">
+
+        <!-- Clinical -->
+        <div class="card-clinical">
+          <div class="badge">1</div>
+          <div class="card-title">Trusted Clinical Layer</div>
+          <div class="card-body">Doctors focused on prevention, metabolic health, hormones, and long-term performance. Unrushed, recurring physician relationships that translate data into decisions.</div>
+        </div>
+
+        <!-- Medication -->
+        <div class="card-medication">
+          <div class="badge">2</div>
+          <div class="card-title">Medication Layer</div>
+          <div class="card-body">A narrow, relevant online dispensary — not a general pharmacy. Enables the clinical layer without making medications the brand or headline.</div>
+        </div>
+
+      </div><!-- /top-row -->
+
+      <!-- Connectors -->
+      <div class="connectors">
+        <div class="connector"></div>
+        <div class="connector"></div>
+      </div>
+
+      <!-- DATA LAYER — full width -->
+      <div class="card-data">
+        <div class="spans-label">Foundation layer</div>
+
+        <div class="data-inner">
+          <!-- Left: badge + title + body -->
+          <div>
+            <div class="data-badge">3</div>
+            <div class="data-title">Data Layer</div>
+            <div class="data-body">A personal portal that <strong style="color:#fff;">underlies and connects</strong> both the clinical and medication layers — turning raw inputs into a longitudinal picture of health that improves every interaction.</div>
+          </div>
+          <!-- Right: feature pills -->
+          <div style="padding-top:0.2rem;">
+            <div class="data-body" style="margin-bottom:0.55rem;">Powers the clinical layer with context and the medication layer with adherence signals:</div>
+            <div class="data-features">
+              <span class="data-pill">Lab trends</span>
+              <span class="data-pill">Wearable signals</span>
+              <span class="data-pill">Biomarker history</span>
+              <span class="data-pill">Education modules</span>
+              <span class="data-pill">Behaviour change tools</span>
+              <span class="data-pill">Symptom tracking</span>
+              <span class="data-pill">Medication adherence</span>
+              <span class="data-pill">Longitudinal dashboard</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /card-data -->
+
+    </div><!-- /diagram -->
+
+    <p class="footer-note reveal">The Data Layer is the retention engine — it gives the Clinical Layer richer context for every visit, and the Medication Layer meaningful outcomes data over time.</p>
+
+  </div>
+</div>
+
+<script>
+/* Staggered reveal on load */
+document.querySelectorAll('.reveal').forEach((el,i)=>{
+  setTimeout(()=>{
+    el.style.transition='opacity 0.45s ease, transform 0.45s ease';
+    el.style.opacity='1';
+    el.style.transform='translateY(0)';
+  }, 120 + i * 90);
+});
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
