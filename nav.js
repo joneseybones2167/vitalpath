@@ -5,6 +5,7 @@
     { label: 'Programs', href: 'programs.html' },
     { label: 'Competitive', href: 'competitive.html' },
     { label: 'Architecture', href: 'architecture.html' },
+    { label: 'Patient Flow', href: 'flow.html' },
   ];
 
   function getCurrentPage() {

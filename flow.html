@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Culmina Health — Patient Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nav.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--surface);color:var(--dark-deep);font-family:var(--font-body);}
+
+/* ── Hero ── */
+.flow-hero{
+  background:linear-gradient(140deg,#0D3D3D 0%,#13384A 60%,#0B4A47 100%);
+  padding:clamp(3.5rem,7vw,5.5rem) clamp(1.5rem,6vw,8rem) clamp(2rem,4vw,3.5rem);
+  position:relative;overflow:hidden;
+}
+.flow-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 65% 50%,rgba(29,168,160,0.16) 0%,transparent 70%);pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.blob-1{width:420px;height:420px;top:-100px;right:-60px;background:#1DA8A0;opacity:0.09;animation:floatA 15s ease-in-out infinite;}
+.blob-2{width:250px;height:250px;bottom:-70px;left:-50px;background:#5EC4BD;opacity:0.07;animation:floatB 19s ease-in-out infinite;}
+@keyframes floatA{0%,100%{transform:translate(0,0);}50%{transform:translate(-30px,22px);}}
+@keyframes floatB{0%,100%{transform:translate(0,0);}50%{transform:translate(22px,-18px);}}
+.hero-eyebrow{font-size:0.72rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#5EC4BD;margin-bottom:0.8rem;}
+.hero-title{font-family:var(--font-display);font-weight:900;font-size:clamp(2rem,4vw,3.2rem);color:#fff;line-height:1.1;margin-bottom:0.9rem;max-width:600px;}
+.hero-title em{font-style:italic;color:#5EC4BD;}
+.hero-sub{font-size:clamp(0.88rem,1.2vw,1rem);color:#B2D8D5;line-height:1.7;max-width:540px;}
+.hint-pill{display:inline-flex;align-items:center;gap:0.45rem;margin-top:1.2rem;background:rgba(29,168,160,0.15);border:1px solid rgba(94,196,189,0.3);color:#5EC4BD;font-size:0.75rem;font-weight:600;padding:0.35rem 0.85rem;border-radius:20px;}
+.hint-pill::before{content:'';width:6px;height:6px;background:#1DA8A0;border-radius:50%;}
+
+/* ── Main layout ── */
+.flow-body{
+  display:grid;
+  grid-template-columns:1fr 360px;
+  gap:0;
+  min-height:calc(100vh - 68px);
+}
+@media(max-width:900px){.flow-body{grid-template-columns:1fr;}}
+
+/* ── Diagram panel ── */
+.diagram-panel{
+  padding:clamp(1.5rem,3vw,3rem) clamp(1rem,2.5vw,2.5rem);
+  background:var(--surface);
+  border-right:1px solid #D8EDEA;
+  overflow-x:auto;
+}
+
+/* Legend */
+.legend{
+  display:flex;flex-wrap:wrap;gap:0.75rem 1.25rem;
+  margin-bottom:1.5rem;
+  padding:0.75rem 1rem;
+  background:#fff;border:1px solid #D8EDEA;border-radius:10px;
+}
+.legend-item{display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:#637381;font-weight:600;}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+.legend-dot.patient{background:#888780;}
+.legend-dot.clinical{background:#534AB7;}
+.legend-dot.program{background:#0F6E56;}
+.legend-dot.pharmacy{background:#185FA5;}
+.legend-dot.portal{background:#BA7517;}
+
+/* ── SVG nodes: click styles ── */
+.flow-node{cursor:pointer;}
+.flow-node rect,.flow-node polygon{transition:filter 0.18s,stroke-width 0.18s;}
+.flow-node:hover rect,.flow-node:hover polygon{filter:brightness(0.93);}
+.flow-node.active rect,.flow-node.active polygon{stroke-width:2px !important;filter:brightness(0.88);}
+
+/* ── Detail panel ── */
+.detail-panel{
+  background:#fff;
+  border-left:1px solid #D8EDEA;
+  display:flex;flex-direction:column;
+  position:sticky;top:68px;
+  height:calc(100vh - 68px);
+  overflow-y:auto;
+}
+.detail-empty{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:2rem;text-align:center;
+  color:#9CAAB5;
+}
+.detail-empty-icon{
+  width:52px;height:52px;border-radius:50%;
+  background:#F5FAFA;border:1.5px solid #D8EDEA;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;margin-bottom:1rem;
+}
+.detail-empty p{font-size:0.85rem;line-height:1.6;max-width:220px;}
+
+.detail-content{display:none;flex-direction:column;height:100%;}
+.detail-content.visible{display:flex;}
+
+.detail-header{
+  padding:1.5rem 1.5rem 1rem;
+  border-bottom:1px solid #E8F4F2;
+  flex-shrink:0;
+}
+.detail-track-badge{
+  display:inline-flex;align-items:center;gap:0.35rem;
+  font-size:0.67rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  padding:0.18rem 0.6rem;border-radius:20px;margin-bottom:0.6rem;
+}
+.detail-track-badge.patient{background:#F1EFE8;color:#5F5E5A;}
+.detail-track-badge.clinical{background:#EEEDFE;color:#3C3489;}
+.detail-track-badge.program{background:#E1F5EE;color:#085041;}
+.detail-track-badge.pharmacy{background:#E6F1FB;color:#0C447C;}
+.detail-track-badge.portal{background:#FAEEDA;color:#633806;}
+.detail-track-badge.decision{background:#FBEAF0;color:#72243E;}
+
+.detail-title{
+  font-family:var(--font-display);font-weight:700;
+  font-size:1.15rem;color:var(--dark-deep);line-height:1.25;
+  margin-bottom:0.3rem;
+}
+.detail-subtitle{font-size:0.8rem;color:#637381;}
+
+.detail-body{padding:1.25rem 1.5rem;flex:1;overflow-y:auto;}
+
+.detail-section{margin-bottom:1.25rem;}
+.detail-section:last-child{margin-bottom:0;}
+.detail-section-label{
+  font-size:0.67rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:#1DA8A0;margin-bottom:0.5rem;
+}
+.detail-section p{font-size:0.84rem;color:#2D5A6A;line-height:1.65;}
+
+.detail-items{display:flex;flex-direction:column;gap:0.45rem;margin-top:0.1rem;}
+.detail-item{
+  display:flex;gap:0.6rem;align-items:flex-start;
+  background:#F5FAFA;border:1px solid #D8EDEA;border-radius:8px;
+  padding:0.6rem 0.8rem;
+}
+.detail-item-dot{width:6px;height:6px;min-width:6px;background:#1DA8A0;border-radius:50%;margin-top:0.38rem;}
+.detail-item-text{font-size:0.81rem;color:#2D5A6A;line-height:1.5;}
+.detail-item-text strong{color:var(--dark-deep);}
+
+.detail-highlight{
+  background:#E2F4F1;border:1px solid #B8DDD9;border-radius:9px;
+  padding:0.75rem 0.9rem;margin-top:0.75rem;
+}
+.detail-highlight p{font-size:0.8rem;color:#2D5A6A;line-height:1.55;}
+.detail-highlight strong{color:#0D8A83;}
+
+.close-btn{
+  display:flex;align-items:center;gap:0.4rem;
+  font-size:0.75rem;font-weight:600;color:#637381;
+  background:none;border:none;cursor:pointer;
+  padding:0.75rem 1.5rem;border-top:1px solid #E8F4F2;
+  transition:color 0.2s;flex-shrink:0;
+  text-align:left;
+}
+.close-btn:hover{color:#1DA8A0;}
+.close-btn::before{content:'←';font-size:0.85rem;}
+
+/* Mobile detail panel */
+@media(max-width:900px){
+  .detail-panel{position:fixed;bottom:0;left:0;right:0;top:auto;height:60vh;border-left:none;border-top:2px solid #1DA8A0;z-index:200;transform:translateY(100%);transition:transform 0.3s ease;}
+  .detail-panel.open{transform:translateY(0);}
+  .flow-body{grid-template-columns:1fr;}
+}
+
+/* Footer */
+.site-footer{background:var(--dark-deep);color:#7ABFBA;padding:1.5rem clamp(1.5rem,6vw,8rem);font-size:0.78rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;}
+</style>
+</head>
+<body>
+<div id="top-stripe"></div>
+<header id="site-header">
+  <a href="index.html" class="site-wordmark"><span class="wm-dot"></span>Culmina Health</a>
+  <nav id="site-nav"></nav>
+</header>
+
+<main class="page-body">
+
+  <!-- Hero -->
+  <section class="flow-hero">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="hero-eyebrow">Architecture &amp; Patient Flow</div>
+    <h1 class="hero-title">From first click to <em>ongoing care.</em></h1>
+    <p class="hero-sub">How a member moves through VitalPath — from booking and intake triage through clinical tracks, pharmacy routing, and the data portal loop that powers long-term optimization.</p>
+    <div class="hint-pill">Click any step to explore what happens there</div>
+  </section>
+
+  <!-- Flow + Detail layout -->
+  <div class="flow-body">
+
+    <!-- Diagram -->
+    <div class="diagram-panel">
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot patient"></div>Patient touchpoint</div>
+        <div class="legend-item"><div class="legend-dot clinical"></div>Clinical / staff</div>
+        <div class="legend-item"><div class="legend-dot program"></div>Program track</div>
+        <div class="legend-item"><div class="legend-dot pharmacy"></div>Pharmacy</div>
+        <div class="legend-item"><div class="legend-dot portal"></div>Data portal</div>
+      </div>
+
+      <svg id="flowchart" width="100%" viewBox="0 0 640 1320" role="img" style="max-width:640px;display:block;margin:0 auto;">
+        <title>VitalPath patient and clinical architecture flow</title>
+        <desc>Flowchart showing patient journey from booking through intake triage, two clinical tracks, pharmacy routing, and the data portal feedback loop.</desc>
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- ── ENTRY ── -->
+        <!-- Book intake -->
+        <g id="node-book" class="flow-node" data-node="book" onclick="showDetail('book')">
+          <rect x="200" y="20" width="240" height="56" rx="9" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#2C2C2A" x="320" y="42" text-anchor="middle" dominant-baseline="central">Book an intake</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#5F5E5A" x="320" y="59" text-anchor="middle" dominant-baseline="central">Create account · social login</text>
+        </g>
+        <line x1="320" y1="76" x2="320" y2="100" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+
+        <!-- Intake form -->
+        <g id="node-form" class="flow-node" data-node="form" onclick="showDetail('form')">
+          <rect x="200" y="100" width="240" height="56" rx="9" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#2C2C2A" x="320" y="122" text-anchor="middle" dominant-baseline="central">Intake form</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#5F5E5A" x="320" y="139" text-anchor="middle" dominant-baseline="central">Goals · health history · track choice</text>
+        </g>
+        <line x1="320" y1="156" x2="320" y2="180" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+
+        <!-- ── INTAKE CALL ── -->
+        <g id="node-intake" class="flow-node" data-node="intake" onclick="showDetail('intake')">
+          <rect x="180" y="180" width="280" height="56" rx="9" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#26215C" x="320" y="202" text-anchor="middle" dominant-baseline="central">Intake call with staff</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#534AB7" x="320" y="219" text-anchor="middle" dominant-baseline="central">Discuss needs · capture notes</text>
+        </g>
+        <line x1="320" y1="236" x2="320" y2="268" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+
+        <!-- ── DECISION DIAMOND ── -->
+        <g id="node-decision" class="flow-node" data-node="decision" onclick="showDetail('decision')">
+          <polygon points="320,268 404,310 320,352 236,310" fill="#FBEAF0" stroke="#ED93B1" stroke-width="0.9"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#4B1528" x="320" y="305" text-anchor="middle" dominant-baseline="central">Track?</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#993556" x="320" y="322" text-anchor="middle" dominant-baseline="central">MSP or Program</text>
+        </g>
+        <!-- Left branch label -->
+        <text font-family="'DM Sans',sans-serif" font-size="11" fill="#5F5E5A" x="160" y="306" text-anchor="middle">MSP visit</text>
+        <!-- Right branch label -->
+        <text font-family="'DM Sans',sans-serif" font-size="11" fill="#5F5E5A" x="480" y="306" text-anchor="middle">Program</text>
+        <!-- Left arrow -->
+        <path d="M236 310 L130 310 L130 388" fill="none" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+        <!-- Right arrow -->
+        <path d="M404 310 L510 310 L510 388" fill="none" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+
+        <!-- ── TRACK BOXES ── -->
+        <!-- MSP visit -->
+        <g id="node-msp" class="flow-node" data-node="msp" onclick="showDetail('msp')">
+          <rect x="55" y="388" width="150" height="56" rx="9" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#2C2C2A" x="130" y="410" text-anchor="middle" dominant-baseline="central">MSP visit</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#5F5E5A" x="130" y="427" text-anchor="middle" dominant-baseline="central">Standard covered care</text>
+        </g>
+        <!-- Program intake -->
+        <g id="node-program" class="flow-node" data-node="program" onclick="showDetail('program')">
+          <rect x="435" y="388" width="150" height="56" rx="9" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#04342C" x="510" y="410" text-anchor="middle" dominant-baseline="central">Program intake</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#0F6E56" x="510" y="427" text-anchor="middle" dominant-baseline="central">Initial MD session</text>
+        </g>
+
+        <!-- ── PHYSICIAN STEPS ── -->
+        <line x1="130" y1="444" x2="130" y2="472" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+        <g id="node-consult" class="flow-node" data-node="consult" onclick="showDetail('consult')">
+          <rect x="55" y="472" width="150" height="56" rx="9" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#26215C" x="130" y="494" text-anchor="middle" dominant-baseline="central">Physician consult</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#534AB7" x="130" y="511" text-anchor="middle" dominant-baseline="central">Assess · treat · prescribe</text>
+        </g>
+
+        <line x1="510" y1="444" x2="510" y2="472" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+        <g id="node-careplan" class="flow-node" data-node="careplan" onclick="showDetail('careplan')">
+          <rect x="435" y="472" width="150" height="56" rx="9" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#04342C" x="510" y="494" text-anchor="middle" dominant-baseline="central">Care plan created</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#0F6E56" x="510" y="511" text-anchor="middle" dominant-baseline="central">Goals · labs · monitoring</text>
+        </g>
+
+        <!-- ── PHARMACY ROW ── -->
+        <line x1="130" y1="528" x2="130" y2="556" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+        <!-- MSP branches -->
+        <path d="M130 570 L72 570 L72 614" fill="none" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+        <text font-family="'DM Sans',sans-serif" font-size="11" fill="#5F5E5A" x="72" y="596" text-anchor="middle">General</text>
+        <path d="M130 570 L188 570 L188 614" fill="none" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+        <text font-family="'DM Sans',sans-serif" font-size="11" fill="#5F5E5A" x="188" y="596" text-anchor="middle">Focused</text>
+        <line x1="130" y1="556" x2="130" y2="572" stroke="#B4B2A9" stroke-width="1.2"/>
+
+        <g id="node-genpharma" class="flow-node" data-node="genpharma" onclick="showDetail('genpharma')">
+          <rect x="32" y="614" width="80" height="52" rx="9" fill="#E6F1FB" stroke="#85B7EB" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="12" font-weight="600" fill="#042C53" x="72" y="633" text-anchor="middle" dominant-baseline="central">General</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#185FA5" x="72" y="650" text-anchor="middle" dominant-baseline="central">pharmacy</text>
+        </g>
+        <g id="node-focuspharma-msp" class="flow-node" data-node="focuspharma" onclick="showDetail('focuspharma')">
+          <rect x="148" y="614" width="80" height="52" rx="9" fill="#E6F1FB" stroke="#85B7EB" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="12" font-weight="600" fill="#042C53" x="188" y="633" text-anchor="middle" dominant-baseline="central">Focused</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#185FA5" x="188" y="650" text-anchor="middle" dominant-baseline="central">pharmacy</text>
+        </g>
+
+        <!-- Program pharmacy -->
+        <line x1="510" y1="528" x2="510" y2="556" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+        <text font-family="'DM Sans',sans-serif" font-size="11" fill="#5F5E5A" x="510" y="578" text-anchor="middle">Program Rx</text>
+        <g id="node-progpharma" class="flow-node" data-node="progpharma" onclick="showDetail('progpharma')">
+          <rect x="430" y="586" width="160" height="52" rx="9" fill="#E6F1FB" stroke="#85B7EB" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#042C53" x="510" y="606" text-anchor="middle" dominant-baseline="central">Focused pharmacy</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#185FA5" x="510" y="623" text-anchor="middle" dominant-baseline="central">GLP-1 · HRT · longevity Rx</text>
+        </g>
+
+        <!-- MSP track end divider -->
+        <line x1="20" y1="688" x2="310" y2="688" stroke="#D8EDEA" stroke-width="0.8" stroke-dasharray="4 4"/>
+        <text font-family="'DM Sans',sans-serif" font-size="10" fill="#9CAAB5" x="165" y="700" text-anchor="middle">MSP track complete</text>
+
+        <!-- ── DATA PORTAL (program only) ── -->
+        <line x1="510" y1="638" x2="510" y2="728" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+
+        <!-- Portal container -->
+        <rect x="28" y="714" width="584" height="326" rx="12" fill="none" stroke="#D8EDEA" stroke-width="0.8" stroke-dasharray="5 4"/>
+        <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="600" fill="#9CAAB5" x="320" y="730" text-anchor="middle" letter-spacing="0.05em">DATA &amp; EDUCATION PORTAL — PROGRAM MEMBERS ONLY</text>
+
+        <!-- Portal hub -->
+        <g id="node-portal" class="flow-node" data-node="portal" onclick="showDetail('portal')">
+          <rect x="210" y="742" width="220" height="56" rx="9" fill="#FAEEDA" stroke="#FAC775" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#412402" x="320" y="763" text-anchor="middle" dominant-baseline="central">Member data hub</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#854F0B" x="320" y="780" text-anchor="middle" dominant-baseline="central">Dashboard · trends · education</text>
+        </g>
+
+        <!-- Lab results input -->
+        <g id="node-labs" class="flow-node" data-node="labs" onclick="showDetail('labs')">
+          <rect x="44" y="828" width="130" height="50" rx="9" fill="#FAEEDA" stroke="#FAC775" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="12" font-weight="600" fill="#412402" x="109" y="847" text-anchor="middle" dominant-baseline="central">Lab results</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#854F0B" x="109" y="863" text-anchor="middle" dominant-baseline="central">At-home · clinic</text>
+        </g>
+        <path d="M174 853 L208 798" fill="none" stroke="#FAC775" stroke-width="1.2" marker-end="url(#arr)"/>
+
+        <!-- Wearable data input -->
+        <g id="node-wearables" class="flow-node" data-node="wearables" onclick="showDetail('wearables')">
+          <rect x="44" y="900" width="130" height="50" rx="9" fill="#FAEEDA" stroke="#FAC775" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="12" font-weight="600" fill="#412402" x="109" y="919" text-anchor="middle" dominant-baseline="central">Wearable data</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#854F0B" x="109" y="935" text-anchor="middle" dominant-baseline="central">Oura · Apple · CGM</text>
+        </g>
+        <path d="M174 925 L208 810" fill="none" stroke="#FAC775" stroke-width="1.2" marker-end="url(#arr)"/>
+
+        <!-- Physician review -->
+        <g id="node-mdreview" class="flow-node" data-node="mdreview" onclick="showDetail('mdreview')">
+          <rect x="466" y="828" width="130" height="50" rx="9" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="12" font-weight="600" fill="#26215C" x="531" y="847" text-anchor="middle" dominant-baseline="central">Physician review</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#534AB7" x="531" y="863" text-anchor="middle" dominant-baseline="central">Member permission</text>
+        </g>
+        <path d="M430 798 L468 840" fill="none" stroke="#AFA9EC" stroke-width="1.2" marker-end="url(#arr)"/>
+
+        <!-- Data loop dashed line -->
+        <line x1="320" y1="798" x2="320" y2="974" stroke="#D8EDEA" stroke-width="1" stroke-dasharray="4 3"/>
+        <text font-family="'DM Sans',sans-serif" font-size="10" fill="#9CAAB5" x="333" y="940" dominant-baseline="central">data loop</text>
+
+        <!-- ── ONGOING VISITS ── -->
+        <line x1="320" y1="974" x2="320" y2="988" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+        <g id="node-ongoing" class="flow-node" data-node="ongoing" onclick="showDetail('ongoing')">
+          <rect x="190" y="988" width="260" height="56" rx="9" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#04342C" x="320" y="1010" text-anchor="middle" dominant-baseline="central">Ongoing program visits</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#0F6E56" x="320" y="1027" text-anchor="middle" dominant-baseline="central">Review · adjust · refine plan</text>
+        </g>
+
+        <!-- Loop back from ongoing to portal hub (right side) -->
+        <path d="M450 1016 L600 1016 L600 770 L432 770" fill="none" stroke="#D8EDEA" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+        <text font-family="'DM Sans',sans-serif" font-size="10" fill="#9CAAB5" x="611" y="894" text-anchor="middle" transform="rotate(90,611,894)">continuous loop</text>
+
+        <!-- ── RENEWAL ── -->
+        <line x1="320" y1="1044" x2="320" y2="1078" stroke="#B4B2A9" stroke-width="1.2" marker-end="url(#arr)"/>
+        <g id="node-renewal" class="flow-node" data-node="renewal" onclick="showDetail('renewal')">
+          <rect x="190" y="1078" width="260" height="56" rx="9" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.8"/>
+          <text font-family="'DM Sans',sans-serif" font-size="13" font-weight="600" fill="#04342C" x="320" y="1100" text-anchor="middle" dominant-baseline="central">Annual renewal</text>
+          <text font-family="'DM Sans',sans-serif" font-size="11" fill="#0F6E56" x="320" y="1117" text-anchor="middle" dominant-baseline="central">Continue · upgrade · reassess</text>
+        </g>
+
+        <!-- Renewal loop back left to portal -->
+        <path d="M190 1106 L36 1106 L36 880 L42 880" fill="none" stroke="#D8EDEA" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+
+        <!-- Renewal Rx refill loop right -->
+        <path d="M450 1106 L510 1106 L510 640" fill="none" stroke="#D8EDEA" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+        <text font-family="'DM Sans',sans-serif" font-size="10" fill="#9CAAB5" x="524" y="1040" text-anchor="middle" transform="rotate(90,524,1040)">Rx refill loop</text>
+
+        <!-- Section labels left margin -->
+        <text font-family="'DM Sans',sans-serif" font-size="10" fill="#9CAAB5" x="14" y="54" text-anchor="middle" transform="rotate(-90,14,54)">Entry</text>
+        <text font-family="'DM Sans',sans-serif" font-size="10" fill="#9CAAB5" x="14" y="208" text-anchor="middle" transform="rotate(-90,14,208)">Intake</text>
+        <text font-family="'DM Sans',sans-serif" font-size="10" fill="#9CAAB5" x="14" y="416" text-anchor="middle" transform="rotate(-90,14,416)">Triage</text>
+        <text font-family="'DM Sans',sans-serif" font-size="10" fill="#9CAAB5" x="14" y="622" text-anchor="middle" transform="rotate(-90,14,622)">Pharmacy</text>
+        <text font-family="'DM Sans',sans-serif" font-size="10" fill="#9CAAB5" x="14" y="876" text-anchor="middle" transform="rotate(-90,14,876)">Portal</text>
+        <text font-family="'DM Sans',sans-serif" font-size="10" fill="#9CAAB5" x="14" y="1048" text-anchor="middle" transform="rotate(-90,14,1048)">Ongoing</text>
+      </svg>
+    </div><!-- /diagram-panel -->
+
+    <!-- Detail panel -->
+    <div class="detail-panel" id="detailPanel">
+      <div class="detail-empty" id="detailEmpty">
+        <div class="detail-empty-icon">↗</div>
+        <p>Click any step in the diagram to see what happens there and why it's designed that way.</p>
+      </div>
+      <div class="detail-content" id="detailContent">
+        <div class="detail-header">
+          <div class="detail-track-badge" id="detailBadge"></div>
+          <div class="detail-title" id="detailTitle"></div>
+          <div class="detail-subtitle" id="detailSubtitle"></div>
+        </div>
+        <div class="detail-body" id="detailBody"></div>
+        <button class="close-btn" onclick="closeDetail()">Back to diagram</button>
+      </div>
+    </div>
+
+  </div><!-- /flow-body -->
+
+</main>
+
+<footer class="site-footer">
+  <span>© 2026 Culmina Health. Confidential &amp; proprietary.</span>
+  <span>Internal overview document — not for distribution.</span>
+</footer>
+
+<script src="nav.js"></script>
+<script>
+const NODES = {
+  book: {
+    badge:'patient', badgeLabel:'Patient touchpoint',
+    title:'Book an intake',
+    subtitle:'First contact with VitalPath',
+    sections:[
+      {label:'What happens here', body:'The patient discovers VitalPath and books their intake appointment online. Account creation is required so their records persist — but friction is kept minimal through social login (Google, Apple).'},
+      {label:'Account creation', items:[
+        {t:'Social login', b:'Google and Apple sign-in reduce drop-off at this stage. No need to create and remember a new password.'},
+        {t:'Email fallback', b:'Standard email/password account creation is available for members who prefer it.'},
+        {t:'Persistent identity', b:'The account is the thread that connects the intake form, notes, appointments, and eventually the data portal.'}
+      ]},
+      {label:'Design intent', highlight:'The booking step is intentionally low-commitment. A member can create an account and book without declaring a program or paying anything — that decision comes later.'}
+    ]
+  },
+  form: {
+    badge:'patient', badgeLabel:'Patient touchpoint',
+    title:'Intake form',
+    subtitle:'Gathering context before the call',
+    sections:[
+      {label:'What the form collects', body:'A structured pre-call questionnaire that gives the intake staff enough context to have a useful conversation rather than starting from scratch.'},
+      {label:'Form sections', items:[
+        {t:'Health goals', b:'What is the member hoping to improve — weight, energy, hormones, cardiovascular health, longevity, or something else?'},
+        {t:'Health history', b:'Relevant conditions, current medications, previous diagnoses, family history of key conditions.'},
+        {t:'Track preference', b:'The form presents both tracks clearly: MSP-covered primary care (no cost, no program) vs. a structured annual program (paid, more comprehensive). Members select their interest — not a final commitment.'},
+        {t:'Wearable / lab data', b:'Optional: do they already track with a device? Have they had recent bloodwork? This primes the intake call.'}
+      ]},
+      {label:'Design intent', highlight:'The track choice on this form is informational — it routes the intake call, not the clinical decision. The physician ultimately confirms what\'s appropriate.'}
+    ]
+  },
+  intake: {
+    badge:'clinical', badgeLabel:'Clinical / staff',
+    title:'Intake call with staff',
+    subtitle:'Human triage before physician time',
+    sections:[
+      {label:'What happens here', body:'A trained intake coordinator calls the member within a defined window after form submission. This is a non-clinical conversation — its purpose is to understand the member\'s situation in their own words, confirm fit, and set up the right next step.'},
+      {label:'What the intake coordinator does', items:[
+        {t:'Reviews the form', b:'The call starts with the form data in front of them — no repeating everything from scratch.'},
+        {t:'Listens and probes', b:'Open questions about goals, frustrations with existing care, timeline, and expectations.'},
+        {t:'Takes structured notes', b:'Notes are captured in a format the physician can review before the first appointment.'},
+        {t:'Routes to the right track', b:'Based on the conversation, the coordinator confirms MSP transactional or routes toward program intake. If it\'s unclear, they flag for physician review.'},
+        {t:'Books the follow-up', b:'Schedules the next appointment — either an MSP visit or the initial program session with a doctor.'}
+      ]},
+      {label:'Why this step exists', highlight:'Physician time is the most expensive resource in the model. The intake call protects it — ensuring every doctor appointment starts with a pre-warmed, well-qualified member rather than a cold intake.'}
+    ]
+  },
+  decision: {
+    badge:'decision', badgeLabel:'Decision point',
+    title:'Track selection',
+    subtitle:'MSP transactional vs. annual program',
+    sections:[
+      {label:'The two paths', body:'Based on the intake form and call, every member routes to one of two clinical tracks. The tracks are not permanently exclusive — an MSP member can move to a program later.'},
+      {label:'MSP transactional track', items:[
+        {t:'No commitment required', b:'Single visits, standard provincial billing (MSP in BC). The member pays nothing beyond any standard co-pays.'},
+        {t:'Appropriate for', b:'Members who want a consultation, a referral, or a specific question answered — but aren\'t ready for a program commitment.'},
+        {t:'Trust building function', b:'The MSP track is how many program members start. The first visit builds confidence; the program conversation happens naturally over time.'}
+      ]},
+      {label:'Annual program track', items:[
+        {t:'Structured annual commitment', b:'A paid program covering onboarding, labs, physician time, and the data portal. See Programs page for pricing.'},
+        {t:'Appropriate for', b:'Members with clear optimization goals — weight, hormones, metabolic health, longevity — who want a physician relationship, not just access.'},
+        {t:'First step is an MD intake', b:'Not a standard appointment — a detailed initial session to build the care plan from scratch.'}
+      ]}
+    ]
+  },
+  msp: {
+    badge:'patient', badgeLabel:'MSP track',
+    title:'MSP visit',
+    subtitle:'Standard covered primary care',
+    sections:[
+      {label:'What this is', body:'A physician consultation covered by the provincial health plan (MSP in BC). Standard virtual primary care — no program fee, no annual commitment. The member presents their issue and the physician assesses and treats within the scope of a covered visit.'},
+      {label:'What it covers', items:[
+        {t:'Acute and preventive concerns', b:'Anything a standard GP visit would address — symptoms, medications, referrals, lab orders, screening.'},
+        {t:'Longevity-aware framing', b:'Even MSP visits at VitalPath are conducted by physicians oriented toward prevention and healthspan — the clinical lens is different even if the billing is standard.'},
+        {t:'Transition to program', b:'If the physician identifies a member who would benefit from a structured program, they can recommend it during the visit. The member\'s intake notes and health history are already on file.'}
+      ]},
+      {label:'Design intent', highlight:'The MSP track isn\'t a loss leader — it\'s an acquisition and trust mechanism. The member experiences the quality of the clinical relationship before committing to a program.'}
+    ]
+  },
+  program: {
+    badge:'program', badgeLabel:'Program track',
+    title:'Program intake session',
+    subtitle:'First appointment with the program physician',
+    sections:[
+      {label:'What this is', body:'A longer-than-standard initial appointment with the member\'s assigned program physician. Not a quick consult — a dedicated session to establish the full clinical picture and build the care plan.'},
+      {label:'What the physician does', items:[
+        {t:'Reviews intake notes', b:'The coordinator\'s call notes and form data are already in the record. The physician starts with context.'},
+        {t:'Full history review', b:'Medications, conditions, family history, lifestyle, and goals — all captured in detail.'},
+        {t:'Baseline lab order', b:'Orders the initial lab panel appropriate for the program (e.g. comprehensive metabolic, hormone panel, inflammatory markers).'},
+        {t:'Establishes the care plan', b:'Documents goals, interventions to try, biomarkers to track, and a review schedule.'}
+      ]},
+      {label:'Why this matters', highlight:'The quality of this first session determines the quality of everything that follows. The care plan built here becomes the anchor for every follow-up visit and every data review in the portal.'}
+    ]
+  },
+  consult: {
+    badge:'clinical', badgeLabel:'Clinical',
+    title:'Physician consult',
+    subtitle:'Assessment, treatment, and prescribing (MSP track)',
+    sections:[
+      {label:'What happens here', body:'The treating physician conducts the visit, assesses the presenting issue, and determines the appropriate course of action — which may include treatment, prescription, referral, or further testing.'},
+      {label:'Possible outcomes', items:[
+        {t:'Prescription issued', b:'If medication is indicated, the physician prescribes. The member is routed to the appropriate pharmacy — general or focused depending on the prescription type.'},
+        {t:'Lab order', b:'Blood work, imaging, or other diagnostics may be ordered. Results come back to the physician.'},
+        {t:'Referral', b:'For issues outside the scope of the VitalPath model, the physician refers to the appropriate specialist.'},
+        {t:'Program recommendation', b:'If the physician identifies an optimization opportunity, they may recommend the member consider a program at this point.'}
+      ]}
+    ]
+  },
+  careplan: {
+    badge:'program', badgeLabel:'Program track',
+    title:'Care plan created',
+    subtitle:'The foundation of the program relationship',
+    sections:[
+      {label:'What the care plan contains', body:'A documented plan that the member and physician both hold — not a static document but a living record that updates with every follow-up and lab result.'},
+      {label:'Care plan components', items:[
+        {t:'Health goals', b:'The specific, measurable outcomes the member is working toward — weight target, biomarker ranges, symptom reduction, performance metrics.'},
+        {t:'Lab panel schedule', b:'Which tests, at what intervals. Most programs include two full panels per year; hormone and GLP-1 programs may have more frequent monitoring.'},
+        {t:'Treatment protocols', b:'Medications, supplements, lifestyle interventions, and the rationale for each.'},
+        {t:'Wearable data targets', b:'If the member uses a wearable, what signals to watch — HRV, sleep scores, resting heart rate trends.'},
+        {t:'Review schedule', b:'When follow-up visits occur and what gets reviewed at each one.'}
+      ]},
+      {label:'Design intent', highlight:'The care plan is what makes this a program, not a subscription to physician access. The plan is the product — the physician is the person who builds and maintains it.'}
+    ]
+  },
+  genpharma: {
+    badge:'pharmacy', badgeLabel:'Pharmacy',
+    title:'General pharmacy',
+    subtitle:'Standard prescription routing for MSP visits',
+    sections:[
+      {label:'What this is', body:'For prescriptions issued during MSP transactional visits that don\'t require the focused in-house pharmacy, the member fills at any standard retail or online pharmacy of their choice.'},
+      {label:'When this applies', items:[
+        {t:'Standard medications', b:'Common antibiotics, standard cardiovascular medications, blood pressure drugs, and other non-specialty prescriptions.'},
+        {t:'Member preference', b:'Some members have an existing pharmacy relationship or drug plan that covers their medication — routing to a general pharmacy respects that.'},
+        {t:'Non-longevity prescriptions', b:'If the visit addresses something outside the longevity thesis, it routes to a general pharmacy rather than positioning it within the program brand.'}
+      ]}
+    ]
+  },
+  focuspharma: {
+    badge:'pharmacy', badgeLabel:'Pharmacy',
+    title:'Focused pharmacy',
+    subtitle:'In-house, curated medication channel',
+    sections:[
+      {label:'What this is', body:'VitalPath\'s own focused online dispensary — a narrow, curated set of medications directly relevant to the care model. Not a general pharmacy; it carries only what fits the longevity and preventive thesis.'},
+      {label:'What it stocks', items:[
+        {t:'GLP-1 medications', b:'Semaglutide, tirzepatide, and related metabolic agents for weight management programs.'},
+        {t:'Hormone therapies', b:'Testosterone, estrogen, progesterone, thyroid support — the therapies central to the Hormone Optimization program.'},
+        {t:'Longevity-adjacent prescriptions', b:'Metformin, rapamycin (where appropriate), and other evidence-informed longevity medications.'}
+      ]},
+      {label:'Design intent', highlight:'The pharmacy is a support function, not the brand. It exists to reduce friction between the prescription and fulfillment — not to make medication the headline of VitalPath.'}
+    ]
+  },
+  progpharma: {
+    badge:'pharmacy', badgeLabel:'Pharmacy',
+    title:'Focused pharmacy (program)',
+    subtitle:'Integrated prescription fulfillment for program members',
+    sections:[
+      {label:'What this is', body:'Same focused pharmacy, but operating within the program workflow. Prescriptions flow directly from the physician\'s care plan to fulfillment — no separate trip to a pharmacy, no gap between prescription and delivery.'},
+      {label:'How it\'s integrated', items:[
+        {t:'Direct from care plan', b:'When the physician prescribes within a program, the prescription routes directly to the pharmacy without the member having to do anything extra.'},
+        {t:'Refill coordination', b:'The pharmacy tracks refill schedules and flags when a member is due for a refill or when monitoring labs should precede re-prescription.'},
+        {t:'Transparent pricing', b:'Medication costs are a separate line item — the program fee and drug cost are always disclosed independently. GLP-1 drugs especially can cost $2,400–$5,000+ per year out-of-pocket and this is communicated upfront.'}
+      ]},
+      {label:'Monitoring integration', highlight:'The focused pharmacy isn\'t just fulfillment — it\'s part of the clinical loop. Refills are tied to lab review schedules, so a hormone refill triggers a check on whether labs are current before dispensing.'}
+    ]
+  },
+  portal: {
+    badge:'portal', badgeLabel:'Data portal',
+    title:'Member data hub',
+    subtitle:'The retention engine — program members only',
+    sections:[
+      {label:'What this is', body:'A personal health operating system available to program members. Not a static report — a live dashboard that pulls in wearable signals, lab results, and program notes into a single longitudinal view.'},
+      {label:'Portal components', items:[
+        {t:'Longitudinal dashboard', b:'Biomarker trends over time — not just current values but trajectories. Is LDL trending down? Is HRV improving? Is body weight tracking to goal?'},
+        {t:'Lab result history', b:'Every test result stored, labeled, and visualized. The member sees their own trends without needing to interpret raw lab reports.'},
+        {t:'Wearable integration', b:'Oura, Apple Health, CGM data streams are pulled in and overlaid with lab data and clinical notes.'},
+        {t:'Education modules', b:'Condition-specific content that explains what the member\'s biomarkers mean, why they matter, and what affects them.'},
+        {t:'Medication adherence tracking', b:'For program medications, the portal tracks adherence and flags missed doses to the care team.'}
+      ]},
+      {label:'Why this is the retention engine', highlight:'By renewal time, a member has a year of longitudinal data that exists nowhere else. Leaving VitalPath means losing that continuity. The portal creates switching costs that are genuinely in the member\'s interest.'}
+    ]
+  },
+  labs: {
+    badge:'portal', badgeLabel:'Data input',
+    title:'Lab results',
+    subtitle:'Clinical and at-home testing fed into the portal',
+    sections:[
+      {label:'What gets ingested', body:'Lab results from multiple sources flow into the portal automatically or via upload — creating a single longitudinal record regardless of where the test was done.'},
+      {label:'Data sources', items:[
+        {t:'Clinic-ordered labs', b:'Results from LifeLabs, DynaLife, or hospital labs ordered by the VitalPath physician flow in automatically where integrations exist.'},
+        {t:'At-home testing kits', b:'SiPhox Health ships to Canada and returns results digitally. Tasso device collections (Health Canada licensed) can be mailed to compatible labs.'},
+        {t:'Member-uploaded results', b:'Members can photograph or upload PDF lab reports from any source. AI-powered OCR extracts biomarker values, reference ranges, and dates.'},
+        {t:'Third-party labs', b:'Results from private lab services the member has used independently can be imported to enrich the longitudinal record.'}
+      ]}
+    ]
+  },
+  wearables: {
+    badge:'portal', badgeLabel:'Data input',
+    title:'Wearable data',
+    subtitle:'Continuous signals from devices the member already uses',
+    sections:[
+      {label:'What gets ingested', body:'Real-time and historical data from wearable devices flows into the portal via Apple HealthKit, Google Health Connect, or direct device APIs — normalized into a single data schema.'},
+      {label:'Supported devices', items:[
+        {t:'Oura Ring', b:'Sleep stages, HRV, resting heart rate, body temperature trends, readiness scores, respiratory rate.'},
+        {t:'Apple Watch', b:'Via HealthKit: heart rate, ECG, blood oxygen, sleep stages, workout data, activity rings.'},
+        {t:'CGM (continuous glucose monitor)', b:'FreeStyle Libre 3 Plus and Dexcom G7 available in Canada with prescription. Glucose trends overlaid with meal timing, sleep, and HRV data.'},
+        {t:'Other devices', b:'Whoop, Garmin, Samsung Galaxy Watch via unified API layer (Terra API recommended) — normalizes 150+ data sources into a single schema.'}
+      ]},
+      {label:'Why this matters', highlight:'Wearable data turns point-in-time lab results into a continuous story. A slightly elevated CRP makes more sense when the physician can see the member\'s sleep has been poor and resting heart rate elevated for three weeks.'}
+    ]
+  },
+  mdreview: {
+    badge:'clinical', badgeLabel:'Clinical',
+    title:'Physician data review',
+    subtitle:'Access to member portal data with explicit permission',
+    sections:[
+      {label:'How this works', body:'The member\'s physician can access their portal data — but only with the member\'s explicit permission. The consent model is built into the portal: the member controls what the physician can see and can revoke at any time.'},
+      {label:'What the physician sees', items:[
+        {t:'Lab trend view', b:'A timeline of all lab results the member has shared — the same longitudinal view the member sees, with clinical annotation capability.'},
+        {t:'Wearable signal summary', b:'Aggregated trends rather than raw data dumps: average HRV over the past 90 days, sleep quality trends, activity levels.'},
+        {t:'Correlation flags', b:'The portal surfaces notable correlations — e.g. "HRV dropped significantly in the week before the most recent CRP spike" — for the physician to interpret.'},
+        {t:'Medication adherence', b:'For program prescriptions, the physician can see adherence signals before the follow-up visit.'}
+      ]},
+      {label:'Privacy design', highlight:'Explicit permission is not a formality — it\'s a design principle. Members who understand they control their data are more likely to share it fully, which improves clinical decision quality for everyone.'}
+    ]
+  },
+  ongoing: {
+    badge:'program', badgeLabel:'Program track',
+    title:'Ongoing program visits',
+    subtitle:'The core of the recurring membership relationship',
+    sections:[
+      {label:'What these visits are', body:'Regular follow-up appointments — 2 to 3 per year for most programs — where the physician and member review progress, interpret data, and adjust the care plan.'},
+      {label:'What gets reviewed', items:[
+        {t:'Lab trends', b:'Did the intervention work? Is LDL down? Has testosterone reached target range? Is fasting glucose improving?'},
+        {t:'Wearable signals', b:'Long-term trends in HRV, sleep quality, activity levels, and glucose patterns.'},
+        {t:'Symptom and subjective reporting', b:'How does the member feel? Energy, libido, mood, cognitive clarity — qualitative data that complements the biomarkers.'},
+        {t:'Protocol adjustments', b:'Dose changes, new interventions to try, things to stop. The care plan is updated in real time during the visit.'}
+      ]},
+      {label:'The data feedback loop', highlight:'The visit is better because of the portal, and the portal is more useful because of the visit. The physician adds clinical interpretation to the data; the member adds context the data can\'t capture. Each cycle makes the next one more valuable.'}
+    ]
+  },
+  renewal: {
+    badge:'program', badgeLabel:'Program track',
+    title:'Annual renewal',
+    subtitle:'Continue, upgrade, or reassess — an active decision, not an auto-renew',
+    sections:[
+      {label:'How renewal works', body:'At the end of each annual cycle, the member and physician do a dedicated renewal assessment — reviewing what changed, what worked, and whether the program scope still fits. Renewal is an intentional moment, not a passive subscription rollover.'},
+      {label:'Three renewal paths', items:[
+        {t:'Continue', b:'Same program, updated care plan. Labs, goals, and protocols get refreshed based on the past year\'s data. The physician adjusts based on actual trend data — not just a new intake.'},
+        {t:'Upgrade', b:'Move to a higher-tier program or stack programs — e.g. adding Hormone Optimization to a Cardio Metabolic Reset, or stepping up to the Full Longevity 360 bundle.'},
+        {t:'Reassess', b:'If goals have changed significantly, the member can switch programs, step down to the transactional MSP track, or pause while keeping portal access to their historical data.'}
+      ]},
+      {label:'The retention mechanic', highlight:'By renewal time, a member has a full year of longitudinal data that doesn\'t exist anywhere else — biomarker trends, physician notes, wearable history. The portal creates switching costs that are genuinely in the member\'s interest. Leaving means losing that continuity and the physician relationship built around it.'},
+      {label:'A design gap worth noting', body:'The model doesn\'t yet specify what happens to data if a member doesn\'t renew. A read-only portal tier for lapsed members — no physician access, just their own historical data — could reduce churn by keeping the door open rather than making departure feel final.'}
+    ]
+  }
+};
+
+let activeNode = null;
+
+function showDetail(id) {
+  const data = NODES[id];
+  if (!data) return;
+
+  // Update active state on SVG nodes
+  document.querySelectorAll('.flow-node').forEach(n => n.classList.remove('active'));
+  const el = document.getElementById('node-' + id) || document.querySelector(`[data-node="${id}"]`);
+  if (el) el.classList.add('active');
+  // Also handle duplicate node IDs (focuspharma-msp)
+  document.querySelectorAll(`[data-node="${id}"]`).forEach(n => n.classList.add('active'));
+
+  activeNode = id;
+  document.getElementById('detailEmpty').style.display = 'none';
+  const content = document.getElementById('detailContent');
+  content.classList.add('visible');
+
+  // Badge
+  const badge = document.getElementById('detailBadge');
+  badge.className = 'detail-track-badge ' + data.badge;
+  badge.textContent = data.badgeLabel;
+
+  document.getElementById('detailTitle').textContent = data.title;
+  document.getElementById('detailSubtitle').textContent = data.subtitle;
+
+  // Build body
+  const body = document.getElementById('detailBody');
+  body.innerHTML = '';
+
+  data.sections.forEach(sec => {
+    const section = document.createElement('div');
+    section.className = 'detail-section';
+
+    const label = document.createElement('div');
+    label.className = 'detail-section-label';
+    label.textContent = sec.label;
+    section.appendChild(label);
+
+    if (sec.body) {
+      const p = document.createElement('p');
+      p.textContent = sec.body;
+      section.appendChild(p);
+    }
+
+    if (sec.items) {
+      const items = document.createElement('div');
+      items.className = 'detail-items';
+      sec.items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'detail-item';
+        div.innerHTML = `<div class="detail-item-dot"></div><div class="detail-item-text"><strong>${item.t}</strong> ${item.b}</div>`;
+        items.appendChild(div);
+      });
+      section.appendChild(items);
+    }
+
+    if (sec.highlight) {
+      const hl = document.createElement('div');
+      hl.className = 'detail-highlight';
+      hl.innerHTML = `<p>${sec.highlight}</p>`;
+      section.appendChild(hl);
+    }
+
+    body.appendChild(section);
+  });
+
+  // Mobile: open panel
+  document.getElementById('detailPanel').classList.add('open');
+
+  // Scroll panel to top
+  body.scrollTop = 0;
+}
+
+function closeDetail() {
+  document.querySelectorAll('.flow-node').forEach(n => n.classList.remove('active'));
+  document.getElementById('detailEmpty').style.display = '';
+  document.getElementById('detailContent').classList.remove('visible');
+  document.getElementById('detailPanel').classList.remove('open');
+  activeNode = null;
+}
+</script>
+</body>
+</html>
