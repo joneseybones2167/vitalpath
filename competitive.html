@@ -3,234 +3,509 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="slides-format" content="viewport">
-<title>Culmina Health — Competitive Landscape</title>
+<title>VitalPath — Competitive Landscape</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="nav.css">
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<style type="text/tailwindcss">
-@theme {
-  --color-bg: #EEF6F5;
-  --color-bg-deep: #E2F0EE;
-  --color-bg-dark: #0D3D3D;
-  --color-bg-dark-deep: #092C2C;
-  --color-surface: #FFFFFF;
-  --color-text: #13384A;
-  --color-text-secondary: #2D5A6A;
-  --color-text-muted: #637381;
-  --color-accent-1: #1DA8A0;
-  --color-accent-2: #0D8A83;
-  --color-accent-3: #5EC4BD;
-  --color-mint: #E2F4F1;
-  --color-mint-border: #B8DDD9;
-  --color-glass-bg: rgba(255,255,255,0.85);
-  --color-glass-border: rgba(29,168,160,0.18);
-  --color-vignette: rgba(0,0,0,0.04);
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
-}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
+/* ─────────────────────────────────────────
+   RESET & BASE
+───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
-  --color-bg: #EEF6F5;
-  --color-text: #13384A;
-  --color-bg-dark: #0D3D3D;
-  --color-accent-1: #1DA8A0;
-  --glow-color-rgb: 29,168,160;
+  --teal:       #1DA8A0;
+  --teal-deep:  #0D8A83;
+  --teal-mid:   #5EC4BD;
+  --teal-pale:  #7ABFBA;
+  --navy:       #13384A;
+  --navy-mid:   #2D5A6A;
+  --dark-bg:    #0A2533;
+  --dark-bg2:   #0F2E3D;
+  --border-lt:  #C8E6E2;
+  --text-body:  #2D5A6A;
+  --text-muted: #637381;
+  --mint-bg:    #E2F4F1;
+  --mint-bd:    #B8DDD9;
+  --white:      #FFFFFF;
+  --page-max:   1100px;
+  --section-gap: 4rem;
 }
-*,*::before,*::after{box-sizing:border-box;}
-html,body{margin:0;overflow:hidden;height:100vh;width:100vw;}
-body{font-family:'DM Sans',system-ui,sans-serif;color:var(--color-text);background:var(--color-bg);}
-.deck{width:100vw;height:100vh;position:relative;padding-top:68px;}
-.slide{position:absolute;top:68px;left:0;width:100%;height:calc(100% - 68px);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:scale(0.97);transition:opacity 0.6s ease,transform 0.6s ease;pointer-events:none;overflow:hidden;}
-.slide.active{opacity:1;transform:scale(1);pointer-events:all;}
-.slide>.content{position:relative;z-index:2;width:100%;max-width:1160px;padding:clamp(1.5rem,3.5vw,3.5rem);}
-.nav-controls{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:100;background:rgba(255,255,255,0.12);backdrop-filter:blur(12px);padding:9px 22px;border-radius:40px;border:1px solid rgba(29,168,160,0.25);}
-.nav-btn{width:36px;height:36px;border:none;background:rgba(29,168,160,0.12);color:#1DA8A0;border-radius:50%;font-size:1.15rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
-.nav-btn:hover{background:rgba(29,168,160,0.25);}
-.slide-dots{display:flex;gap:7px;}
-.dot{width:9px;height:9px;border-radius:50%;background:rgba(29,168,160,0.22);cursor:pointer;transition:background 0.25s,transform 0.25s;}
-.dot.active{background:#1DA8A0;transform:scale(1.35);}
-.slide-counter{font-size:0.78rem;color:#637381;min-width:38px;text-align:center;font-family:'DM Sans',sans-serif;}
-.reveal{opacity:0;transform:translateY(18px);}
 
-/* Teal top stripe — hidden, nav.css provides the global one */
-.top-stripe{display:none;}
-/* dark slide overrides */
-.slide-dark .section-label{color:#5EC4BD;}
-/* Section label */
-.section-label{font-family:'DM Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1DA8A0;margin-bottom:0.55rem;}
+html { scroll-behavior: smooth; }
 
-/* Light slide styles */
-.slide-light{background:#EEF6F5;}
-.slide-light .slide-heading{color:#13384A;font-family:'Playfair Display',Georgia,serif;}
-.slide-light .body-text{color:#2D5A6A;}
-.slide-light .muted{color:#637381;}
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: var(--navy);
+  background: #FAFCFC;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-/* Dark slide styles */
-.slide-dark{background:#0D3D3D;}
-/* .slide-dark .top-stripe — removed, global nav stripe handles this */
-.slide-dark .section-label{color:#5EC4BD;}
-.slide-dark .slide-heading{color:#FFFFFF;font-family:'Playfair Display',Georgia,serif;}
-.slide-dark .body-text{color:#B2D8D5;}
-.slide-dark .muted{color:#7ABFBA;}
+/* ─────────────────────────────────────────
+   NAV
+───────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 37, 51, 0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(29,168,160,0.2);
+  padding: 0 1.5rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-header .brand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+.site-header .brand span { color: var(--teal); }
+#site-nav { display: flex; gap: 0.25rem; align-items: center; }
+.nav-link {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  transition: color 0.18s, background 0.18s;
+}
+.nav-link:hover { color: #fff; background: rgba(255,255,255,0.07); }
+.nav-link.active { color: var(--teal); background: rgba(29,168,160,0.12); }
 
-/* White card (light slides) */
-.white-card{background:#FFFFFF;border:1px solid #C8E6E2;border-radius:14px;padding:1.5rem 1.75rem;}
-/* Mint card (light slides) */
-.mint-card{background:#E2F4F1;border:1px solid #B8DDD9;border-radius:12px;padding:1.1rem 1.4rem;}
-/* Dark card */
-.dark-card{background:rgba(255,255,255,0.07);border:1px solid rgba(29,168,160,0.25);border-radius:12px;padding:1.1rem 1.4rem;}
+/* ─────────────────────────────────────────
+   LAYOUT WRAPPERS
+───────────────────────────────────────── */
+.page-section {
+  padding: 4rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.page-section.dark {
+  background: var(--dark-bg);
+  color: #fff;
+}
+.page-section.light {
+  background: #fff;
+}
+.page-section.tinted {
+  background: #F0F8F7;
+}
 
-/* Numbered badge */
-.badge{width:38px;height:38px;min-width:38px;background:#1DA8A0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;color:#fff;font-family:'DM Sans',sans-serif;}
+.inner {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
 
-/* Feature table */
-.feat-table{width:100%;border-collapse:collapse;font-size:0.82rem;font-family:'DM Sans',sans-serif;}
-.feat-table th{background:#1DA8A0;color:#fff;padding:0.55rem 0.7rem;font-weight:600;font-size:0.75rem;letter-spacing:0.04em;text-align:center;}
-.feat-table th:first-child{text-align:left;}
-.feat-table td{padding:0.5rem 0.7rem;border-bottom:1px solid #C8E6E2;text-align:center;vertical-align:middle;}
-.feat-table td:first-child{text-align:left;font-weight:600;color:#13384A;}
-.feat-table tr:nth-child(even) td{background:#F5FAFA;}
-.feat-table .yes{color:#1DA8A0;font-size:1rem;}
-.feat-table .no{color:#CFD8DC;font-size:1rem;}
-.feat-table .partial{color:#E68A3A;font-size:0.8rem;font-weight:600;}
-.feat-table .vp{background:#E2F4F1 !important;font-weight:700;color:#0D8A83;}
+/* Decorative blob */
+.blob-deco {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 1;
+}
 
-/* Horizontal bar */
-.hbar-track{height:7px;background:#E2F4F1;border-radius:6px;overflow:hidden;}
-.hbar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#1DA8A0,#5EC4BD);transition:width 1s cubic-bezier(0.16,1,0.3,1);}
+/* ─────────────────────────────────────────
+   HERO
+───────────────────────────────────────── */
+.hero {
+  background: var(--dark-bg);
+  min-height: 52vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 1.5rem 4rem;
+}
+.hero .top-stripe {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  letter-spacing: -0.03em;
+  color: #fff;
+  line-height: 1.05;
+}
+.hero .subtitle {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--teal);
+  margin-top: 0.6rem;
+}
+.hero .divider-line {
+  width: 200px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  margin: 1.6rem auto;
+}
+.hero .meta {
+  font-size: 0.88rem;
+  color: var(--teal-pale);
+  letter-spacing: 0.05em;
+}
 
-/* Gradient mesh blobs */
-@keyframes float-slow{0%{transform:translate(0,0) scale(1);}33%{transform:translate(40px,-30px) scale(1.1);}66%{transform:translate(-30px,20px) scale(0.92);}100%{transform:translate(0,0) scale(1);}}
-@keyframes float-drift{0%{transform:translate(0,0) scale(1) rotate(0deg);}50%{transform:translate(-40px,-40px) scale(1.12) rotate(3deg);}100%{transform:translate(0,0) scale(1) rotate(0deg);}}
-.gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
-.blob{position:absolute;border-radius:50%;filter:blur(70px);}
-.blob:nth-child(1){animation:float-slow 12s ease-in-out infinite;}
-.blob:nth-child(2){animation:float-drift 16s ease-in-out infinite;}
-.blob:nth-child(3){animation:float-slow 20s ease-in-out infinite reverse;}
-.slide::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.04) 100%);}
+/* ─────────────────────────────────────────
+   SECTION LABELS & HEADINGS
+───────────────────────────────────────── */
+.section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.5rem;
+}
+.dark .section-label { color: var(--teal-mid); }
 
-/* Competitor profile card */
-.comp-card{background:#FFFFFF;border:1px solid #C8E6E2;border-radius:14px;padding:1.25rem 1.4rem;transition:transform 0.25s,box-shadow 0.25s;}
-.comp-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(29,168,160,0.12);}
-.comp-card .comp-name{font-family:'Playfair Display',serif;font-weight:700;font-size:1.05rem;color:#13384A;margin-bottom:0.2rem;}
-.comp-card .comp-tag{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1DA8A0;margin-bottom:0.5rem;}
-.comp-card .comp-body{font-size:0.82rem;color:#2D5A6A;line-height:1.5;}
+.section-heading {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+  line-height: 1.15;
+  margin-bottom: 0.4rem;
+}
+.dark .section-heading { color: #fff; }
 
-/* US card (dark-teal card on dark bg) */
-.us-card{background:rgba(29,168,160,0.1);border:1px solid rgba(29,168,160,0.3);border-radius:14px;padding:1.25rem 1.5rem;transition:transform 0.25s;}
-.us-card:hover{transform:translateY(-3px);}
-.us-card .us-name{font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:#FFFFFF;margin-bottom:0.2rem;}
-.us-card .us-tag{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5EC4BD;margin-bottom:0.55rem;}
-.us-card .us-body{font-size:0.83rem;color:#B2D8D5;line-height:1.5;}
-.us-card .us-lesson{font-size:0.78rem;color:#7ABFBA;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid rgba(29,168,160,0.2);}
-.us-card .us-lesson strong{color:#5EC4BD;}
+.section-sub {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 640px;
+  margin-bottom: 2rem;
+}
+.dark .section-sub { color: #B2D8D5; }
 
-/* Differentiator card */
-.diff-card{border-left:4px solid #1DA8A0;background:#FFFFFF;border-radius:0 12px 12px 0;padding:0.85rem 1.2rem;transition:transform 0.2s;}
-.diff-card:hover{transform:translateX(4px);}
-.diff-card .diff-title{font-weight:700;font-size:0.92rem;color:#13384A;margin-bottom:0.25rem;}
-.diff-card .diff-body{font-size:0.8rem;color:#2D5A6A;line-height:1.45;}
+/* ─────────────────────────────────────────
+   CARD VARIANTS
+───────────────────────────────────────── */
+.white-card {
+  background: #fff;
+  border: 1px solid var(--border-lt);
+  border-radius: 14px;
+  padding: 1.5rem 1.75rem;
+}
+.mint-card {
+  background: var(--mint-bg);
+  border: 1px solid var(--mint-bd);
+  border-radius: 12px;
+  padding: 1.1rem 1.4rem;
+}
+.dark-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(29,168,160,0.25);
+  border-radius: 12px;
+  padding: 1.1rem 1.4rem;
+}
+.comp-card {
+  background: #fff;
+  border: 1px solid var(--border-lt);
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+.comp-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(29,168,160,0.11); }
+.comp-card .comp-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: 0.2rem; }
+.comp-card .comp-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.5rem; }
+.comp-card .comp-body { font-size: 0.82rem; color: var(--navy-mid); line-height: 1.55; }
 
-/* Tag pills */
-.pill{display:inline-block;font-size:0.68rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:20px;}
-.pill-teal{background:#E2F4F1;color:#0D8A83;}
-.pill-dark{background:rgba(29,168,160,0.18);color:#5EC4BD;}
+.us-card {
+  background: rgba(29,168,160,0.1);
+  border: 1px solid rgba(29,168,160,0.3);
+  border-radius: 14px;
+  padding: 1.4rem 1.5rem;
+  transition: transform 0.22s;
+}
+.us-card:hover { transform: translateY(-3px); }
+.us-card .us-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.1rem; color: #fff; margin-bottom: 0.2rem; }
+.us-card .us-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal-mid); margin-bottom: 0.55rem; }
+.us-card .us-body { font-size: 0.83rem; color: #B2D8D5; line-height: 1.55; }
+.us-card .us-lesson { font-size: 0.78rem; color: var(--teal-pale); margin-top: 0.65rem; padding-top: 0.65rem; border-top: 1px solid rgba(29,168,160,0.2); }
+.us-card .us-lesson strong { color: var(--teal-mid); }
 
-/* Mouse spotlight */
-.mouse-spotlight{position:fixed;inset:0;z-index:99;pointer-events:none;}
+.diff-card {
+  border-left: 4px solid var(--teal);
+  background: #fff;
+  border-radius: 0 12px 12px 0;
+  padding: 0.9rem 1.2rem;
+}
+.diff-card .diff-title { font-weight: 700; font-size: 0.9rem; color: var(--navy); margin-bottom: 0.25rem; }
+.diff-card .diff-body { font-size: 0.81rem; color: var(--text-body); line-height: 1.55; }
 
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.2s!important;}}
+.numbered-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.badge {
+  width: 38px; height: 38px; min-width: 38px;
+  background: var(--teal);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1rem; color: #fff;
+}
+
+/* ─────────────────────────────────────────
+   TWO-COLUMN GRIDS (responsive)
+───────────────────────────────────────── */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.grid-2-asym {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 1.4rem;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .grid-2, .grid-2-asym { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .grid-3 { grid-template-columns: 1fr; }
+}
+
+/* ─────────────────────────────────────────
+   TABLES — MOBILE-FRIENDLY APPROACH
+───────────────────────────────────────── */
+
+/* Wrapper scrolls horizontally on small screens */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 12px;
+  border: 1px solid var(--border-lt);
+  box-shadow: 0 2px 12px rgba(29,168,160,0.06);
+}
+.table-scroll::-webkit-scrollbar { height: 5px; }
+.table-scroll::-webkit-scrollbar-thumb { background: var(--teal-mid); border-radius: 3px; }
+
+.feat-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+  font-family: 'DM Sans', sans-serif;
+  background: #fff;
+  min-width: 700px; /* forces scroll on small screens */
+}
+.feat-table thead tr {
+  background: var(--teal);
+}
+.feat-table th {
+  color: #fff;
+  padding: 0.65rem 0.7rem;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+  white-space: nowrap;
+}
+.feat-table th:first-child { text-align: left; min-width: 150px; }
+.feat-table th.vp-col { background: var(--teal-deep) !important; }
+
+.feat-table td {
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid #E8F4F2;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.feat-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+  color: var(--navy);
+  white-space: normal; /* allow feature label to wrap */
+  min-width: 150px;
+  max-width: 200px;
+}
+.feat-table tr:last-child td { border-bottom: none; }
+.feat-table tr:nth-child(even) td { background: #F5FAFA; }
+.feat-table tr:nth-child(even) .vp-cell { background: #d4eeea !important; }
+.feat-table .yes { color: var(--teal); font-size: 1rem; }
+.feat-table .no  { color: #CFD8DC; font-size: 1rem; }
+.feat-table .partial { color: #E68A3A; font-size: 0.78rem; font-weight: 700; }
+.feat-table .vp-cell { background: #E2F4F1 !important; font-weight: 700; color: var(--teal-deep); }
+
+/* Scroll hint shown on mobile */
+.table-hint {
+  display: none;
+  font-size: 0.72rem;
+  color: var(--teal);
+  text-align: center;
+  margin-top: 0.4rem;
+  opacity: 0.75;
+}
+@media (max-width: 760px) {
+  .table-hint { display: block; }
+}
+
+/* Table legend */
+.table-legend {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  margin-top: 0.6rem;
+}
+.table-legend strong { color: var(--teal-deep); }
+
+/* ─────────────────────────────────────────
+   STAT CALLOUTS
+───────────────────────────────────────── */
+.stat-callout {
+  text-align: center;
+  padding: 1rem 0.5rem;
+}
+.stat-callout .stat-val {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--teal);
+  line-height: 1.1;
+}
+.stat-callout .stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* ─────────────────────────────────────────
+   INSIGHT BOX
+───────────────────────────────────────── */
+.insight-box {
+  background: rgba(29,168,160,0.1);
+  border: 1px solid rgba(29,168,160,0.25);
+  border-radius: 10px;
+  padding: 0.85rem 1.2rem;
+  font-size: 0.83rem;
+  color: #B2D8D5;
+  margin-top: 1.2rem;
+}
+.insight-box strong { color: var(--teal-mid); }
+
+/* ─────────────────────────────────────────
+   SCROLL REVEAL
+───────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────
+   SECTION DIVIDER
+───────────────────────────────────────── */
+.section-stripe {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE PADDING
+───────────────────────────────────────── */
+@media (max-width: 600px) {
+  .page-section { padding: 3rem 1.1rem; }
+  .hero { padding: 4rem 1.1rem 3rem; }
+  .white-card, .mint-card { padding: 1.1rem 1.2rem; }
+}
 </style>
 </head>
 <body>
-<div id="top-stripe"></div>
-<header id="site-header">
-  <a href="index.html" class="site-wordmark">
-    <span class="wm-dot"></span>Culmina Health
-  </a>
+
+<!-- ─────────────────────── HEADER ──────────────────────── -->
+<header class="site-header">
+  <div class="brand">Vital<span>Path</span></div>
   <nav id="site-nav"></nav>
 </header>
-<div class="mouse-spotlight" id="spotlight"></div>
-<div class="deck">
 
-<!-- ═══════════════════════════════════════════════════
-     SLIDE 1 — TITLE (dark)
-═══════════════════════════════════════════════════ -->
-<div class="slide slide-dark active" data-slide="1">
+<!-- ─────────────────────── HERO ──────────────────────── -->
+<section class="hero page-section dark">
   <div class="top-stripe"></div>
-  <div class="gradient-mesh">
-    <div class="blob" style="width:500px;height:500px;top:-120px;right:-100px;background:#1DA8A0;opacity:0.13;"></div>
-    <div class="blob" style="width:320px;height:320px;bottom:-80px;left:-80px;background:#5EC4BD;opacity:0.10;"></div>
-    <div class="blob" style="width:220px;height:220px;top:40%;left:20%;background:#0D8A83;opacity:0.08;"></div>
+  <div class="blob-deco" style="width:500px;height:500px;top:-150px;right:-120px;background:#1DA8A0;opacity:0.08;"></div>
+  <div class="blob-deco" style="width:320px;height:320px;bottom:-80px;left:-60px;background:#5EC4BD;opacity:0.07;"></div>
+  <div class="inner" style="text-align:center;">
+    <h1 class="reveal">VitalPath</h1>
+    <p class="subtitle reveal">Competitive Landscape</p>
+    <div class="divider-line reveal"></div>
+    <p class="meta reveal">Canadian Market Focus &nbsp;·&nbsp; Canadian Competitors &nbsp;·&nbsp; US Reference Models</p>
+    <p class="reveal" style="font-size:0.85rem;color:#4A8A85;margin-top:0.4rem;">Strategic differentiation for the health-literate professional</p>
   </div>
-  <canvas id="titleCanvas" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
-  <div class="content text-center" style="z-index:2;">
-    <div class="reveal" style="font-size:3.5rem;margin-bottom:0.6rem;">✦</div>
-    <h1 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5.5vw,4.2rem);font-weight:900;color:#fff;letter-spacing:-0.02em;margin:0 0 0.5rem;">VitalPath</h1>
-    <p class="reveal" style="font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.1rem,2.2vw,1.5rem);color:#1DA8A0;margin:0 0 1.5rem;">Competitive Landscape</p>
-    <div class="reveal" style="width:220px;height:2px;background:linear-gradient(90deg,transparent,#1DA8A0,transparent);margin:0 auto 1.8rem;"></div>
-    <p class="reveal" style="font-size:0.9rem;color:#7ABFBA;letter-spacing:0.06em;margin:0 0 0.5rem;">Canadian Market Focus &nbsp;·&nbsp; Canadian Competitors &nbsp;·&nbsp; US Reference Models</p>
-    <p class="reveal" style="font-size:0.85rem;color:#4A8A85;">Strategic differentiation for the health-literate professional</p>
-  </div>
-</div>
+</section>
 
-<!-- ═══════════════════════════════════════════════════
-     SLIDE 2 — MARKET FRAMING (light)
-═══════════════════════════════════════════════════ -->
-<div class="slide slide-light" data-slide="2">
-  <div class="top-stripe"></div>
-  <div class="gradient-mesh">
-    <div class="blob" style="width:350px;height:350px;top:-80px;right:-60px;background:#1DA8A0;opacity:0.07;"></div>
-    <div class="blob" style="width:250px;height:250px;bottom:-60px;left:-40px;background:#5EC4BD;opacity:0.06;"></div>
-  </div>
-  <div class="content">
+<div class="section-stripe"></div>
+
+<!-- ─────────────────────── MARKET FRAMING ──────────────────────── -->
+<section class="page-section light">
+  <div class="blob-deco" style="width:350px;height:350px;top:-80px;right:-80px;background:#1DA8A0;opacity:0.05;"></div>
+  <div class="inner">
     <div class="section-label reveal">Market framing</div>
-    <h2 class="slide-heading reveal" style="font-size:clamp(1.9rem,3.8vw,2.8rem);font-weight:900;line-height:1.15;margin:0 0 0.3rem;max-width:700px;">The gap is integration, not access.</h2>
-    <p class="reveal muted" style="font-size:2.3rem;font-style:italic;margin:0 0 1.3rem;">(but it's also access)</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;">
+    <h2 class="section-heading reveal">The gap is integration, not access.</h2>
+    <p class="reveal" style="font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.2rem,2.5vw,1.8rem);color:var(--text-muted);margin:0.1rem 0 1.8rem;">(but it's also access)</p>
+
+    <div class="grid-2" style="margin-bottom:1.4rem;">
       <div class="white-card reveal">
         <p class="section-label" style="margin-bottom:0.4rem;">The opportunity</p>
-        <p class="body-text" style="font-size:0.88rem;line-height:1.6;margin:0;">Canada's telehealth market is crowded at the edges — convenience prescriptions on one end, expensive concierge clinics on the other. The middle is empty: a <strong>virtual-first, longitudinal membership</strong> built for health-literate professionals who want interpretation, not just access. <strong>Many Canadians also lack access to effective longevity treatments entirely</strong> — excluded by cost or availability, and underserved by public systems like MSP that have yet to incorporate these emerging tools.</p>
+        <p style="font-size:0.88rem;line-height:1.65;color:var(--text-body);">Canada's telehealth market is crowded at the edges — convenience prescriptions on one end, expensive concierge clinics on the other. The middle is empty: a <strong>virtual-first, longitudinal membership</strong> built for health-literate professionals who want interpretation, not just access. <strong>Many Canadians also lack access to effective longevity treatments entirely</strong> — excluded by cost or availability, and underserved by public systems like MSP that have yet to incorporate these emerging tools.</p>
       </div>
       <div class="white-card reveal">
         <p class="section-label" style="margin-bottom:0.4rem;">The target member</p>
-        <p class="body-text" style="font-size:0.88rem;line-height:1.6;margin:0;">A <strong>35–55 year old knowledge worker</strong> who is aware that better, more proactive approaches to health exist — technically savvy, outcome-oriented, and motivated to address longevity before problems arise. They may already use wearables, follow longevity content, or engage private lab services. What they need is a trusted clinical partner to translate that curiosity into a real, personalized plan.</p>
+        <p style="font-size:0.88rem;line-height:1.65;color:var(--text-body);">A <strong>35–55 year old knowledge worker</strong> who is aware that better, more proactive approaches to health exist — technically savvy, outcome-oriented, and motivated to address longevity before problems arise. They may already use wearables, follow longevity content, or engage private lab services. What they need is a trusted clinical partner to translate that curiosity into a real, personalized plan.</p>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.2rem;">
-      <div class="mint-card reveal" style="text-align:center;">
-        <div style="font-size:1.6rem;font-weight:900;color:#1DA8A0;font-family:'Playfair Display',serif;">More than Rx</div>
-        <div class="muted" style="font-size:0.78rem;margin-top:0.3rem;">Not a prescription funnel</div>
-      </div>
-      <div class="mint-card reveal" style="text-align:center;">
-        <div style="font-size:1.6rem;font-weight:900;color:#1DA8A0;font-family:'Playfair Display',serif;">More accessible</div>
-        <div class="muted" style="font-size:0.78rem;margin-top:0.3rem;">Than $500/month concierge</div>
-      </div>
-      <div class="mint-card reveal" style="text-align:center;">
-        <div style="font-size:1.6rem;font-weight:900;color:#1DA8A0;font-family:'Playfair Display',serif;">More Canadian</div>
-        <div class="muted" style="font-size:0.78rem;margin-top:0.3rem;">Than imported US wellness brands</div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- ═══════════════════════════════════════════════════
-     SLIDE 3 — CANADIAN COMPETITOR OVERVIEW (light)
-═══════════════════════════════════════════════════ -->
-<div class="slide slide-light" data-slide="3">
-  <div class="top-stripe"></div>
-  <div class="gradient-mesh">
-    <div class="blob" style="width:300px;height:300px;top:-60px;right:-50px;background:#1DA8A0;opacity:0.07;"></div>
-    <div class="blob" style="width:200px;height:200px;bottom:-50px;left:-30px;background:#5EC4BD;opacity:0.06;"></div>
+    <div class="grid-3">
+      <div class="mint-card reveal stat-callout">
+        <div class="stat-val">More than Rx</div>
+        <div class="stat-label">Not a prescription funnel</div>
+      </div>
+      <div class="mint-card reveal stat-callout">
+        <div class="stat-val">More accessible</div>
+        <div class="stat-label">Than $500/month concierge</div>
+      </div>
+      <div class="mint-card reveal stat-callout">
+        <div class="stat-val">More Canadian</div>
+        <div class="stat-label">Than imported US wellness brands</div>
+      </div>
+    </div>
   </div>
-  <div class="content">
+</section>
+
+<div class="section-stripe"></div>
+
+<!-- ─────────────────────── CANADIAN COMPETITORS ──────────────────────── -->
+<section class="page-section tinted">
+  <div class="blob-deco" style="width:300px;height:300px;top:-60px;right:-60px;background:#1DA8A0;opacity:0.05;"></div>
+  <div class="inner">
     <div class="section-label reveal">Canadian competitors</div>
-    <h2 class="slide-heading reveal" style="font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:900;margin:0 0 1.1rem;">Seven players to know</h2>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.85rem;">
+    <h2 class="section-heading reveal">Seven players to know</h2>
+    <p class="section-sub reveal">The competitive set validates demand — but none have built the integrated platform VitalPath is building.</p>
+
+    <div class="grid-3" style="margin-bottom:0.9rem;">
       <div class="comp-card reveal">
         <div class="comp-name">Felix Health</div>
         <div class="comp-tag">Scaled telehealth + longevity</div>
@@ -239,30 +514,31 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:var(--color-text);backgrou
       <div class="comp-card reveal">
         <div class="comp-name">Science &amp; Humans</div>
         <div class="comp-tag">Hormone optimization</div>
-        <div class="comp-body">Validates demand for digital hormone care in Canada. Strong in midlife optimization, HRT, and physician-guided protocols. Narrow category — doesn't extend naturally to broader preventive membership.</div>
+        <div class="comp-body">Validates demand for digital hormone care in Canada. Strong in midlife optimization, HRT, and physician-guided protocols. Narrow positioning limits cross-gender and whole-person expansion.</div>
       </div>
       <div class="comp-card reveal">
         <div class="comp-name">WeightSimple</div>
-        <div class="comp-tag">Metabolic / GLP-1</div>
-        <div class="comp-body">Stronger clinical end of Canadian weight telehealth. Structured beyond a pure prescription funnel. Constrained to weight management — not a platform for longevity, wearables, or cognitive performance.</div>
+        <div class="comp-tag">GLP-1 weight management</div>
+        <div class="comp-body">A focused, effective GLP-1 access platform with clinical oversight. Narrow by design — metabolic health only. Risk is future expansion from prescriptions into preventive programs. VitalPath can win on local specificity first.</div>
       </div>
       <div class="comp-card reveal">
-        <div class="comp-name">Maple</div>
-        <div class="comp-tag">General virtual care</div>
-        <div class="comp-body">Best-known general telehealth brand in Canada. Wide access and consumer trust. Competes on access rather than optimization depth — no longitudinal biomarker strategy or education layer.</div>
+        <div class="comp-name">Maple Health</div>
+        <div class="comp-tag">General telehealth on-demand</div>
+        <div class="comp-body">Canada's leading on-demand telehealth platform. Broad access, fast visits, wide adoption. Episodic by design — no longitudinal relationship, no biomarker program, no membership structure. A gateway, not a destination.</div>
       </div>
       <div class="comp-card reveal">
         <div class="comp-name">Phoenix</div>
-        <div class="comp-tag">Men's health DTC</div>
-        <div class="comp-body">Effective stigma-reducing DTC model for men's testosterone and ED categories. Constrained by gender focus — doesn't extend to the cross-gender proactive health professional market.</div>
+        <div class="comp-tag">Men's health &amp; performance</div>
+        <div class="comp-body">Men's-only hormone, ED, and hair platform with a clean DTC brand. Single-gender positioning is the core limit — no pathway to whole-person, cross-gender longevity care.</div>
       </div>
       <div class="comp-card reveal">
-        <div class="comp-name">Hims &amp; Hers Canada</div>
-        <div class="comp-tag">DTC expansion risk</div>
-        <div class="comp-body">Scaled US brand entering Canada via broad DTC acquisition and medication-led categories. Risk is future expansion from prescriptions into preventive programs. VitalPath can win on local specificity first.</div>
+        <div class="comp-name">Hims/Hers Canada</div>
+        <div class="comp-tag">US brand, Canadian expansion</div>
+        <div class="comp-body">Well-funded US brand now operating in Canada. Consumer-grade UX and broad drug access. Risk is future expansion from prescriptions into preventive programs. VitalPath can win on local specificity first.</div>
       </div>
     </div>
-    <div class="comp-card reveal" style="margin-top:0.85rem;display:flex;gap:1.2rem;align-items:flex-start;">
+
+    <div class="comp-card reveal" style="display:flex;gap:1.2rem;align-items:flex-start;">
       <div style="flex:1;">
         <div class="comp-name">Precision Longevity</div>
         <div class="comp-tag">Premium physician-led longevity clinic</div>
@@ -270,24 +546,22 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:var(--color-text);backgrou
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ═══════════════════════════════════════════════════
-     SLIDE 4 — CANADIAN FEATURE COMPARISON TABLE (light)
-═══════════════════════════════════════════════════ -->
-<div class="slide slide-light" data-slide="4">
-  <div class="top-stripe"></div>
-  <div class="gradient-mesh">
-    <div class="blob" style="width:280px;height:280px;top:-50px;right:-40px;background:#1DA8A0;opacity:0.06;"></div>
-  </div>
-  <div class="content">
+<div class="section-stripe"></div>
+
+<!-- ─────────────────────── CANADIAN FEATURE TABLE ──────────────────────── -->
+<section class="page-section light">
+  <div class="inner">
     <div class="section-label reveal">Feature comparison</div>
-    <h2 class="slide-heading reveal" style="font-size:clamp(1.5rem,2.8vw,2rem);font-weight:900;margin:0 0 1rem;">Canadian competitors vs. VitalPath</h2>
-    <div class="reveal" style="overflow:auto;">
+    <h2 class="section-heading reveal">Canadian competitors vs. VitalPath</h2>
+    <p class="section-sub reveal">A side-by-side of ten capabilities that define the longevity telehealth category.</p>
+
+    <div class="table-scroll reveal">
       <table class="feat-table">
         <thead>
           <tr>
-            <th style="min-width:160px;">Feature</th>
+            <th>Feature</th>
             <th>Felix</th>
             <th>Sci &amp; Humans</th>
             <th>WeightSimple</th>
@@ -295,85 +569,88 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:var(--color-text);backgrou
             <th>Phoenix</th>
             <th>Hims/Hers CA</th>
             <th>Precision Longevity</th>
-            <th class="vp" style="background:#0D8A83!important;">VitalPath</th>
+            <th class="vp-col">VitalPath</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Canadian-built &amp; operated</td>
             <td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td>
-            <td class="yes vp">✓</td>
+            <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
             <td>Longitudinal biomarker tracking</td>
             <td class="partial">Partial</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td>
-            <td class="yes vp">✓</td>
+            <td class="yes vp-cell">✓</td>
+          </tr>
+          <tr>
+            <td>Longevity-focused care model</td>
+            <td class="partial">Partial</td><td class="yes">✓</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td><td class="partial">Partial</td><td class="yes">✓</td>
+            <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
             <td>Recurring physician relationship</td>
             <td class="partial">Episodic</td><td class="yes">✓</td><td class="partial">Partial</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td>
-            <td class="yes vp">✓</td>
+            <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
             <td>Integrated pharmacy layer</td>
             <td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td>
-            <td class="yes vp">✓</td>
+            <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
             <td>Wearable &amp; data integration</td>
             <td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td>
-            <td class="yes vp">✓</td>
+            <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
             <td>Structured member education</td>
             <td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td>
-            <td class="yes vp">✓</td>
+            <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
             <td>Lab interpretation &amp; trend review</td>
             <td class="partial">New</td><td class="partial">Partial</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td>
-            <td class="yes vp">✓</td>
+            <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
             <td>Cross-gender, whole-person model</td>
             <td class="yes">✓</td><td class="partial">Partial</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td>
-            <td class="yes vp">✓</td>
+            <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
             <td>Membership / subscription model</td>
-            <td class="partial">Partial</td><td class="yes">✓</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td><td class="partial">Partial</td><td class="yes">✓</td>
-            <td class="yes vp">✓</td>
+            <td class="partial">Partial</td><td class="yes">✓</td><td class="partial">Partial</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td>
+            <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
             <td>Accessible price point (&lt;$200/mo)</td>
             <td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td>
-            <td class="yes vp">✓</td>
+            <td class="yes vp-cell">✓</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="reveal" style="margin-top:0.75rem;font-size:0.74rem;color:#637381;">✓ = Yes &nbsp; ✗ = No &nbsp; Partial = Limited or in progress &nbsp;|&nbsp; <strong style="color:#0D8A83;">VitalPath</strong> is the only platform designed to integrate all ten dimensions.</div>
+    <p class="table-hint">← Scroll to see all columns →</p>
+    <p class="table-legend reveal">✓ = Yes &nbsp;·&nbsp; ✗ = No &nbsp;·&nbsp; Partial = Limited or in progress &nbsp;|&nbsp; <strong>VitalPath</strong> is the only platform designed to integrate all eleven dimensions.</p>
   </div>
-</div>
+</section>
 
-<!-- ═══════════════════════════════════════════════════
-     SLIDE 5 — US REFERENCE MODELS (dark)
-═══════════════════════════════════════════════════ -->
-<div class="slide slide-dark" data-slide="5">
-  <div class="top-stripe"></div>
-  <div class="gradient-mesh">
-    <div class="blob" style="width:400px;height:400px;top:-100px;right:-80px;background:#1DA8A0;opacity:0.12;"></div>
-    <div class="blob" style="width:280px;height:280px;bottom:-70px;left:-50px;background:#5EC4BD;opacity:0.09;"></div>
-    <div class="blob" style="width:180px;height:180px;top:45%;left:30%;background:#0D8A83;opacity:0.07;"></div>
-  </div>
-  <div class="content">
+<div class="section-stripe"></div>
+
+<!-- ─────────────────────── US REFERENCE MODELS ──────────────────────── -->
+<section class="page-section dark">
+  <div class="blob-deco" style="width:440px;height:440px;top:-100px;right:-100px;background:#1DA8A0;opacity:0.1;"></div>
+  <div class="blob-deco" style="width:280px;height:280px;bottom:-70px;left:-60px;background:#5EC4BD;opacity:0.08;"></div>
+  <div class="inner">
     <div class="section-label reveal">US reference models</div>
-    <h2 class="slide-heading reveal" style="font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;margin:0 0 0.35rem;">Two US companies show what's possible — and why Canada needs its own version.</h2>
-    <p class="body-text reveal" style="font-size:0.87rem;margin:0 0 1.2rem;">Neither operates in Canada. Both validate that health-literate consumers will pay recurring fees for exactly what VitalPath is building.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;">
+    <h2 class="section-heading reveal">Two US companies show what's possible — and why Canada needs its own version.</h2>
+    <p class="section-sub reveal">Neither operates in Canada. Both validate that health-literate consumers will pay recurring fees for exactly what VitalPath is building.</p>
+
+    <div class="grid-2" style="margin-bottom:1.2rem;">
       <div class="us-card reveal">
-        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
-          <div style="width:42px;height:42px;border-radius:10px;background:rgba(29,168,160,0.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">🔬</div>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.65rem;">
+          <div style="width:42px;height:42px;border-radius:10px;background:rgba(29,168,160,0.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">🔬</div>
           <div>
             <div class="us-name">Function Health</div>
             <div class="us-tag">Data-first membership &nbsp;·&nbsp; $499/year</div>
@@ -383,8 +660,8 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:var(--color-text);backgrou
         <div class="us-lesson"><strong>Key lesson for VitalPath:</strong> Lead with data, trending, and clinician interpretation. The emotional hook is confidence and control — not medication access. Optional services layer on top once trust is built.</div>
       </div>
       <div class="us-card reveal">
-        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
-          <div style="width:42px;height:42px;border-radius:10px;background:rgba(29,168,160,0.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">🤝</div>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.65rem;">
+          <div style="width:42px;height:42px;border-radius:10px;background:rgba(29,168,160,0.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">🤝</div>
           <div>
             <div class="us-name">Parsley Health</div>
             <div class="us-tag">Relationship-based care &nbsp;·&nbsp; 12-mo membership</div>
@@ -394,25 +671,23 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:var(--color-text);backgrou
         <div class="us-lesson"><strong>Key lesson for VitalPath:</strong> Structure education and support as product, not goodwill. Long visits are a differentiator. Recurring care works best when it combines interpretation, accountability, and coordination.</div>
       </div>
     </div>
-    <div class="reveal" style="margin-top:1rem;background:rgba(29,168,160,0.1);border:1px solid rgba(29,168,160,0.25);border-radius:10px;padding:0.75rem 1.1rem;font-size:0.82rem;color:#B2D8D5;">
-      <strong style="color:#5EC4BD;">Together, they map VitalPath's strategic spectrum:</strong> Function = data &amp; testing at the centre. Parsley = wrap those insights into ongoing, relationship-driven care. Canada needs both halves in one local platform.
+
+    <div class="insight-box reveal">
+      <strong>Together, they map VitalPath's strategic spectrum:</strong> Function = data &amp; testing at the centre. Parsley = wrap those insights into ongoing, relationship-driven care. Canada needs both halves in one local platform.
     </div>
   </div>
-</div>
+</section>
 
-<!-- ═══════════════════════════════════════════════════
-     SLIDE 6 — VITALPATH DIFFERENTIATORS (light)
-═══════════════════════════════════════════════════ -->
-<div class="slide slide-light" data-slide="6">
-  <div class="top-stripe"></div>
-  <div class="gradient-mesh">
-    <div class="blob" style="width:300px;height:300px;top:-60px;right:-40px;background:#1DA8A0;opacity:0.07;"></div>
-    <div class="blob" style="width:200px;height:200px;bottom:-50px;left:-30px;background:#5EC4BD;opacity:0.05;"></div>
-  </div>
-  <div class="content">
+<div class="section-stripe"></div>
+
+<!-- ─────────────────────── DIFFERENTIATORS ──────────────────────── -->
+<section class="page-section tinted">
+  <div class="inner">
     <div class="section-label reveal">VitalPath differentiation</div>
-    <h2 class="slide-heading reveal" style="font-size:clamp(1.7rem,3.2vw,2.3rem);font-weight:900;margin:0 0 1.1rem;">Six reasons VitalPath wins where others don't</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
+    <h2 class="section-heading reveal">Six reasons VitalPath wins where others don't</h2>
+    <p class="section-sub reveal">Each differentiator is structural — not just a feature that can be cloned quickly.</p>
+
+    <div class="grid-2" style="gap:0.85rem;">
       <div class="diff-card reveal">
         <div class="diff-title">1. A sharper customer thesis</div>
         <div class="diff-body">Designed for proactive, health-literate professionals who want better <em>interpretation</em>, not just better access. This creates clarity across branding, features, content, and pricing that generalist platforms can't match.</div>
@@ -439,66 +714,61 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:var(--color-text);backgrou
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ═══════════════════════════════════════════════════
-     SLIDE 7 — THREE LAYERS (light, reference design style)
-═══════════════════════════════════════════════════ -->
-<div class="slide slide-light" data-slide="7">
-  <div class="top-stripe"></div>
-  <div class="gradient-mesh">
-    <div class="blob" style="width:300px;height:300px;top:-50px;right:-40px;background:#1DA8A0;opacity:0.07;"></div>
-  </div>
-  <div class="content">
+<div class="section-stripe"></div>
+
+<!-- ─────────────────────── THREE LAYERS ──────────────────────── -->
+<section class="page-section light">
+  <div class="blob-deco" style="width:300px;height:300px;top:-60px;right:-50px;background:#1DA8A0;opacity:0.05;"></div>
+  <div class="inner">
     <div class="section-label reveal">Product architecture</div>
-    <h2 class="slide-heading reveal" style="font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;margin:0 0 0.3rem;max-width:680px;">Three reinforcing layers — none of which competitors combine.</h2>
-    <p class="body-text reveal" style="font-size:0.88rem;margin:0 0 1.2rem;max-width:600px;">Broad enough to matter, specific enough to differentiate from general telehealth, hormone niches, weight funnels, and high-end concierge clinics.</p>
-    <div style="display:grid;grid-template-columns:1fr 1.15fr;gap:1.4rem;align-items:start;">
-      <div class="white-card reveal" style="padding:1.5rem 1.75rem;">
-        <p style="font-size:0.88rem;color:#2D5A6A;line-height:1.65;margin:0;">The product architecture is defined by three layers that reinforce each other. A member can enter through labs, move into clinical care, use the portal for data continuity, access interpretation, attend educational content, and manage prescriptions in a connected workflow — all inside one membership.</p>
+    <h2 class="section-heading reveal">Three reinforcing layers — none of which competitors combine.</h2>
+    <p class="section-sub reveal">Broad enough to matter, specific enough to differentiate from general telehealth, hormone niches, weight funnels, and high-end concierge clinics.</p>
+
+    <div class="grid-2-asym">
+      <div class="white-card reveal">
+        <p style="font-size:0.88rem;color:var(--text-body);line-height:1.65;margin:0;">The product architecture is defined by three layers that reinforce each other. A member can enter through labs, move into clinical care, use the portal for data continuity, access interpretation, attend educational content, and manage prescriptions in a connected workflow — all inside one membership.</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.85rem;">
-        <div class="mint-card reveal" style="display:flex;align-items:center;gap:0.9rem;">
+        <div class="mint-card reveal numbered-item">
           <div class="badge">1</div>
           <div>
-            <div style="font-weight:700;font-size:0.95rem;color:#13384A;">Trusted Clinical Layer</div>
-            <div style="font-size:0.8rem;color:#637381;margin-top:0.15rem;">Physicians focused on prevention, metabolic health, hormones, and long-term performance — with unrushed, recurring visits as a core differentiator.</div>
+            <div style="font-weight:700;font-size:0.95rem;color:var(--navy);">Trusted Clinical Layer</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.15rem;">Physicians focused on prevention, metabolic health, hormones, and long-term performance — with unrushed, recurring visits as a core differentiator.</div>
           </div>
         </div>
-        <div class="mint-card reveal" style="display:flex;align-items:center;gap:0.9rem;">
+        <div class="mint-card reveal numbered-item">
           <div class="badge">2</div>
           <div>
-            <div style="font-weight:700;font-size:0.95rem;color:#13384A;">Medication Layer</div>
-            <div style="font-size:0.8rem;color:#637381;margin-top:0.15rem;">A narrow, relevant dispensary for therapies aligned with the care model — not a general pharmacy. Enables the clinical layer without making medications the brand.</div>
+            <div style="font-weight:700;font-size:0.95rem;color:var(--navy);">Medication Layer</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.15rem;">A narrow, relevant dispensary for therapies aligned with the care model — not a general pharmacy. Enables the clinical layer without making medications the brand.</div>
           </div>
         </div>
-        <div class="mint-card reveal" style="display:flex;align-items:center;gap:0.9rem;">
+        <div class="mint-card reveal numbered-item">
           <div class="badge">3</div>
           <div>
-            <div style="font-weight:700;font-size:0.95rem;color:#13384A;">Data &amp; Education Layer</div>
-            <div style="font-size:0.8rem;color:#637381;margin-top:0.15rem;">A personal portal for lab trends, wearable signals, biomarker education, and behaviour change tools. The retention engine — and the feature no Canadian competitor has built.</div>
+            <div style="font-weight:700;font-size:0.95rem;color:var(--navy);">Data &amp; Education Layer</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.15rem;">A personal portal for lab trends, wearable signals, biomarker education, and behaviour change tools. The retention engine — and the feature no Canadian competitor has built.</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ═══════════════════════════════════════════════════
-     SLIDE 8 — STRATEGIC IMPLICATIONS (dark)
-═══════════════════════════════════════════════════ -->
-<div class="slide slide-dark" data-slide="8">
-  <div class="top-stripe"></div>
-  <div class="gradient-mesh">
-    <div class="blob" style="width:400px;height:400px;top:-100px;right:-70px;background:#1DA8A0;opacity:0.11;"></div>
-    <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-50px;background:#5EC4BD;opacity:0.08;"></div>
-  </div>
-  <canvas id="closeCanvas" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
-  <div class="content">
+<div class="section-stripe"></div>
+
+<!-- ─────────────────────── STRATEGIC IMPLICATIONS ──────────────────────── -->
+<section class="page-section dark">
+  <div class="blob-deco" style="width:400px;height:400px;top:-100px;right:-80px;background:#1DA8A0;opacity:0.1;"></div>
+  <div class="blob-deco" style="width:260px;height:260px;bottom:-70px;left:-60px;background:#5EC4BD;opacity:0.07;"></div>
+  <div class="inner">
     <div class="section-label reveal">Strategic implications</div>
-    <h2 class="slide-heading reveal" style="font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;margin:0 0 1.1rem;max-width:740px;">The competitive gap isn't features — it's the coherent whole.</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-      <div style="display:flex;flex-direction:column;gap:0.8rem;">
+    <h2 class="section-heading reveal" style="max-width:720px;">The competitive gap isn't features — it's the coherent whole.</h2>
+
+    <div class="grid-2" style="margin-top:1.6rem;">
+      <div style="display:flex;flex-direction:column;gap:0.85rem;">
         <div class="dark-card reveal">
           <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Position as a membership, not a clinic</div>
           <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">Frame the product as a virtual-first longevity and preventive-health membership for professionals who want to understand, track, and improve over time.</div>
@@ -512,7 +782,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:var(--color-text);backgrou
           <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">Hims/Hers is already in Canada. Function and Parsley could follow. VitalPath's window is to establish Canadian credibility, workflows, and relationships before the category gets crowded from the south.</div>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:0.8rem;">
+      <div style="display:flex;flex-direction:column;gap:0.85rem;">
         <div class="dark-card reveal">
           <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Build the data portal as the retention engine</div>
           <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">Function Health proves that the dashboard — not the visit — keeps members subscribed. Invest in the data and education layer as seriously as the clinical one.</div>
@@ -523,99 +793,81 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:var(--color-text);backgrou
         </div>
         <div class="dark-card reveal">
           <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Bottom line</div>
-          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">The strongest opportunity is to become the <em style="color:#5EC4BD;">trusted proactive-health platform</em> for health-literate Canadians — not another prescription company. No one in Canada has built that yet.</div>
+          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">The strongest opportunity is to become the <em style="color:var(--teal-mid);">trusted proactive-health platform</em> for health-literate Canadians — not another prescription company. No one in Canada has built that yet.</div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-</div><!-- end .deck -->
-
-<div class="nav-controls">
-  <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
-  <div class="slide-dots" id="dots"></div>
-  <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
-  <span class="slide-counter" id="counter">1 / 8</span>
-</div>
+<!-- ─────────────────────── FOOTER STRIPE ──────────────────────── -->
+<div class="section-stripe"></div>
+<footer style="background:var(--dark-bg);padding:1.5rem;text-align:center;font-size:0.75rem;color:#4A8A85;">
+  VitalPath &nbsp;·&nbsp; Competitive Landscape &nbsp;·&nbsp; Confidential
+</footer>
 
 <script>
-/* === DECK NAVIGATION === */
-let current=1;
-const total=document.querySelectorAll('.slide').length;
-const dotsContainer=document.getElementById('dots');
-const counter=document.getElementById('counter');
-for(let i=1;i<=total;i++){const dot=document.createElement('div');dot.className='dot'+(i===1?' active':'');dot.onclick=()=>goToSlide(i);dotsContainer.appendChild(dot);}
-function goToSlide(n){
-  const prev=document.querySelector('.slide.active');
-  const next=document.querySelector(`.slide[data-slide="${n}"]`);
-  if(prev)prev.classList.remove('active');
-  if(next){next.classList.add('active');animateSlide(next);}
-  current=n;updateNav();
-}
-function changeSlide(dir){let n=current+dir;if(n<1)n=total;if(n>total)n=1;goToSlide(n);}
-function updateNav(){document.querySelectorAll('.dot').forEach((d,i)=>{d.classList.toggle('active',i+1===current);});counter.textContent=current+' / '+total;}
-document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'){e.preventDefault();changeSlide(-1);}});
-let touchStartX=0;
-document.addEventListener('touchstart',(e)=>{touchStartX=e.touches[0].clientX;});
-document.addEventListener('touchend',(e)=>{const diff=touchStartX-e.changedTouches[0].clientX;if(Math.abs(diff)>50)changeSlide(diff>0?1:-1);});
-
-/* === REVEAL ANIMATIONS === */
-function animateSlide(slide){
-  slide.querySelectorAll('.reveal').forEach((el,i)=>{
-    el.style.transition='none';el.style.opacity='0';el.style.transform='translateY(18px)';
-    el.offsetHeight;
-    const delay=i*0.07;
-    el.style.transition=`opacity 0.4s ease ${delay}s,transform 0.4s ease ${delay}s`;
-    el.style.opacity='1';el.style.transform='translateY(0)';
-  });
-  /* animate bar fills */
-  slide.querySelectorAll('.hbar-fill:not(.fill-init)').forEach((bar,i)=>{
-    bar.classList.add('fill-init');bar.style.width='0%';bar.style.transition=`width 0.7s ease ${i*0.1}s`;
-    bar.offsetHeight;bar.style.width=bar.dataset.width+'%';
-  });
-}
-
-/* === PARTICLE CANVAS === */
-function initParticles(canvas){
-  if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  function resize(){canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;}
-  resize();
-  const count=35;let mx=-1000,my=-1000;
-  const particles=Array.from({length:count},()=>({
-    x:Math.random()*canvas.width,y:Math.random()*canvas.height,
-    vx:(Math.random()-0.5)*0.25,vy:(Math.random()-0.5)*0.25,
-    size:Math.random()*2+0.6,alpha:Math.random()*0.25+0.08
-  }));
-  canvas.addEventListener('mousemove',(e)=>{const r=canvas.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;});
-  canvas.addEventListener('mouseleave',()=>{mx=-1000;my=-1000;});
-  (function animate(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{
-      const dx=p.x-mx,dy=p.y-my,dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<100){const f=(100-dist)/100*1.5;p.vx+=(dx/dist)*f*0.08;p.vy+=(dy/dist)*f*0.08;}
-      p.vx*=0.98;p.vy*=0.98;p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;
-      if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-      ctx.fillStyle=`rgba(29,168,160,${p.alpha})`;ctx.fill();
+/* ── Shared navigation ── */
+(function () {
+  const pages = [
+    { label: 'Home', href: 'index.html' },
+    { label: 'Programs', href: 'programs.html' },
+    { label: 'Competitive', href: 'competitive.html' },
+    { label: 'Architecture', href: 'architecture.html' },
+    { label: 'Patient Flow', href: 'flow.html' },
+  ];
+  function getCurrentPage() {
+    return window.location.pathname.split('/').pop() || 'index.html';
+  }
+  function buildNav() {
+    const current = getCurrentPage();
+    const nav = document.getElementById('site-nav');
+    if (!nav) return;
+    pages.forEach(p => {
+      const a = document.createElement('a');
+      a.href = p.href;
+      a.textContent = p.label;
+      a.className = (current === p.href || (current === '' && p.href === 'index.html'))
+        ? 'nav-link active' : 'nav-link';
+      nav.appendChild(a);
     });
-    requestAnimationFrame(animate);
-  })();
-}
-initParticles(document.getElementById('titleCanvas'));
-initParticles(document.getElementById('closeCanvas'));
+  }
+  document.addEventListener('DOMContentLoaded', buildNav);
+})();
 
-/* === MOUSE SPOTLIGHT === */
-document.addEventListener('mousemove',(e)=>{
-  const s=document.getElementById('spotlight');
-  if(s)s.style.background=`radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px,rgba(29,168,160,0.05),transparent 40%)`;
+/* ── Scroll reveal ── */
+(function () {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = parseFloat(el.dataset.delay || 0);
+        setTimeout(() => el.classList.add('visible'), delay * 1000);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  // Stagger siblings within the same parent
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    // Find sibling index for stagger
+    const siblings = Array.from(el.parentElement.querySelectorAll(':scope > .reveal'));
+    const sibIdx = siblings.indexOf(el);
+    if (sibIdx >= 0) el.dataset.delay = (sibIdx * 0.08).toFixed(2);
+    observer.observe(el);
+  });
+})();
+
+/* ── Mouse spotlight on dark sections ── */
+document.addEventListener('mousemove', (e) => {
+  document.querySelectorAll('.page-section.dark').forEach(s => {
+    const r = s.getBoundingClientRect();
+    if (e.clientY >= r.top && e.clientY <= r.bottom) {
+      s.style.setProperty('--spotlight-x', (e.clientX - r.left) + 'px');
+      s.style.setProperty('--spotlight-y', (e.clientY - r.top) + 'px');
+    }
+  });
 });
-
-/* Initial animate */
-try{animateSlide(document.querySelector('.slide.active'));}catch(e){}
 </script>
-<script src="nav.js"></script>
 </body>
 </html>
