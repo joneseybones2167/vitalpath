@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Culmina Health — Programs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nav.css">
+<style>
+body { margin: 0; background: var(--surface); color: var(--dark-deep); font-family: var(--font-body); }
+
+/* ── Hero ── */
+.prog-hero {
+  background: linear-gradient(140deg, #0D3D3D 0%, #0B4A47 55%, #13384A 100%);
+  padding: clamp(4rem, 8vw, 6.5rem) clamp(1.5rem, 6vw, 8rem) clamp(2.5rem, 5vw, 4rem);
+  position: relative; overflow: hidden;
+}
+.prog-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 55% at 65% 50%, rgba(29,168,160,0.16) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-blob { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; }
+.blob-1 { width: 480px; height: 480px; top: -140px; right: -100px; background: #1DA8A0; opacity: 0.1; animation: floatA 14s ease-in-out infinite; }
+.blob-2 { width: 260px; height: 260px; bottom: -80px; left: -60px; background: #5EC4BD; opacity: 0.07; animation: floatB 19s ease-in-out infinite; }
+@keyframes floatA { 0%,100%{transform:translate(0,0);}50%{transform:translate(-35px,25px);} }
+@keyframes floatB { 0%,100%{transform:translate(0,0);}50%{transform:translate(25px,-20px);} }
+
+.hero-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #5EC4BD; margin-bottom: 0.9rem; }
+.hero-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.2rem, 4.5vw, 3.8rem); color: #fff; line-height: 1.1; margin-bottom: 1.1rem; max-width: 700px; }
+.hero-title em { font-style: italic; color: #5EC4BD; }
+.hero-sub { font-size: clamp(0.9rem, 1.3vw, 1.05rem); color: #B2D8D5; line-height: 1.7; max-width: 580px; margin-bottom: 0; }
+
+/* ── Pricing philosophy banner ── */
+.philosophy-band {
+  background: #fff; border-bottom: 1px solid #D8EDEA;
+  padding: clamp(2rem, 3.5vw, 3rem) clamp(1.5rem, 6vw, 8rem);
+}
+.phil-inner {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; max-width: 1060px;
+  align-items: start;
+}
+@media (max-width: 720px) { .phil-inner { grid-template-columns: 1fr; } }
+.phil-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.5rem; }
+.phil-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.5rem, 2.5vw, 2rem); color: var(--dark-deep); line-height: 1.2; margin-bottom: 0; }
+.phil-body { font-size: 0.88rem; color: #2D5A6A; line-height: 1.7; }
+.phil-note { background: #E2F4F1; border: 1px solid #B8DDD9; border-radius: 10px; padding: 0.85rem 1.1rem; font-size: 0.82rem; color: #2D5A6A; line-height: 1.55; margin-top: 1rem; }
+.phil-note strong { color: var(--dark-deep); }
+
+/* ── Section layout ── */
+.section { padding: clamp(3rem, 5vw, 5rem) clamp(1.5rem, 6vw, 8rem); }
+.section-alt { background: #fff; }
+.section-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.5rem; }
+.section-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.6rem, 2.8vw, 2.2rem); color: var(--dark-deep); line-height: 1.15; margin-bottom: 0.5rem; }
+.section-sub { font-size: 0.9rem; color: #637381; line-height: 1.6; max-width: 660px; margin-bottom: 2.5rem; }
+
+/* ── Program cards grid ── */
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+  max-width: 1100px;
+}
+@media (max-width: 960px) { .programs-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .programs-grid { grid-template-columns: 1fr; } }
+
+.prog-card {
+  background: #fff;
+  border: 1.5px solid #C8E6E2;
+  border-radius: 18px;
+  padding: 1.75rem 1.6rem;
+  position: relative;
+  display: flex; flex-direction: column;
+  transition: box-shadow 0.3s, transform 0.3s;
+  overflow: hidden;
+}
+.prog-card:hover { box-shadow: 0 10px 32px rgba(29,168,160,0.14); transform: translateY(-4px); }
+.prog-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--teal), #5EC4BD);
+  border-radius: 18px 18px 0 0;
+}
+
+/* Featured / bundle card */
+.prog-card.featured {
+  background: linear-gradient(155deg, #0D3D3D 0%, #0B4A47 60%, #0D3D3D 100%);
+  border-color: rgba(29,168,160,0.4);
+  grid-column: 1 / -1;
+}
+.prog-card.featured::before { background: linear-gradient(90deg, #1DA8A0, #5EC4BD, #1DA8A0); }
+
+.prog-icon {
+  width: 44px; height: 44px;
+  background: #E2F4F1; border: 1.5px solid #B8DDD9;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+.prog-card.featured .prog-icon { background: rgba(29,168,160,0.2); border-color: rgba(29,168,160,0.4); }
+
+.prog-name {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 1.1rem; color: var(--dark-deep); margin-bottom: 0.35rem;
+}
+.prog-card.featured .prog-name { color: #fff; font-size: 1.25rem; }
+
+.prog-tagline {
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 0.75rem;
+}
+.prog-card.featured .prog-tagline { color: #5EC4BD; }
+
+.prog-desc {
+  font-size: 0.84rem; color: #2D5A6A; line-height: 1.6;
+  margin-bottom: 1.25rem; flex: 1;
+}
+.prog-card.featured .prog-desc { color: #B2D8D5; }
+
+/* Price block */
+.prog-price-block {
+  border-top: 1px solid #D8EDEA;
+  padding-top: 1rem;
+  margin-top: auto;
+}
+.prog-card.featured .prog-price-block { border-color: rgba(29,168,160,0.25); }
+
+.price-label { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9CAAB5; margin-bottom: 0.25rem; }
+.prog-card.featured .price-label { color: rgba(94,196,189,0.7); }
+
+.price-value {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: 1.5rem; color: var(--dark-deep); line-height: 1.1;
+  margin-bottom: 0.2rem;
+}
+.prog-card.featured .price-value { color: #fff; font-size: 1.7rem; }
+
+.price-period { font-size: 0.78rem; color: #637381; }
+.prog-card.featured .price-period { color: #7ABFBA; }
+
+.price-note {
+  font-size: 0.76rem; color: #637381; margin-top: 0.5rem; line-height: 1.45;
+  background: #F5FAFA; border-radius: 7px; padding: 0.45rem 0.65rem;
+  border: 1px solid #E2EEF0;
+}
+.prog-card.featured .price-note { background: rgba(255,255,255,0.07); border-color: rgba(29,168,160,0.2); color: #7ABFBA; }
+
+/* Bundle tags (featured card) */
+.bundle-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.bundle-tag { background: rgba(29,168,160,0.18); border: 1px solid rgba(29,168,160,0.3); color: #5EC4BD; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.65rem; border-radius: 20px; }
+
+/* ── What's included ── */
+.inclusions-section { background: var(--surface); }
+.inclusions-inner { max-width: 1100px; }
+.inclusions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+@media (max-width: 760px) { .inclusions-grid { grid-template-columns: 1fr; } }
+
+.inclusion-card {
+  background: #fff; border: 1.5px solid #C8E6E2; border-radius: 14px;
+  padding: 1.35rem 1.4rem;
+  display: flex; gap: 1rem; align-items: flex-start;
+  transition: box-shadow 0.2s;
+}
+.inclusion-card:hover { box-shadow: 0 4px 18px rgba(29,168,160,0.1); }
+.incl-icon {
+  width: 38px; height: 38px; min-width: 38px;
+  background: #E2F4F1; border: 1px solid #B8DDD9;
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.incl-title { font-weight: 700; font-size: 0.9rem; color: var(--dark-deep); margin-bottom: 0.25rem; }
+.incl-body { font-size: 0.8rem; color: #637381; line-height: 1.5; }
+
+/* ── Pricing note / disclaimer ── */
+.pricing-note-band {
+  background: #fff; border-top: 1px solid #D8EDEA;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 6vw, 8rem);
+}
+.pricing-note-inner {
+  max-width: 900px;
+  background: #F5FAFA; border: 1.5px solid #C8E6E2; border-radius: 14px;
+  padding: 1.5rem 1.75rem;
+  display: flex; gap: 1.25rem; align-items: flex-start;
+}
+.note-icon {
+  width: 36px; height: 36px; min-width: 36px;
+  background: #E2F4F1; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.note-title { font-weight: 700; font-size: 0.9rem; color: var(--dark-deep); margin-bottom: 0.3rem; }
+.note-body { font-size: 0.82rem; color: #2D5A6A; line-height: 1.6; }
+
+/* ── CTA strip ── */
+.cta-strip {
+  background: linear-gradient(135deg, #0D3D3D 0%, #0B4A47 50%, #0D3D3D 100%);
+  padding: clamp(2.5rem, 4.5vw, 4rem) clamp(1.5rem, 6vw, 8rem);
+  position: relative; overflow: hidden;
+}
+.cta-strip::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 55% 60% at 50% 50%, rgba(29,168,160,0.13) 0%, transparent 70%); pointer-events: none; }
+.cta-inner { position: relative; max-width: 700px; }
+.cta-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #5EC4BD; margin-bottom: 0.6rem; }
+.cta-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.6rem, 3vw, 2.4rem); color: #fff; line-height: 1.15; margin-bottom: 0.8rem; }
+.cta-body { font-size: 0.9rem; color: #B2D8D5; line-height: 1.65; }
+
+/* ── Footer ── */
+.site-footer { background: var(--dark-deep); color: #7ABFBA; padding: 1.5rem clamp(1.5rem, 6vw, 8rem); font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+.site-footer a { color: var(--teal-light); text-decoration: none; }
+
+/* ── Reveal ── */
+.reveal { opacity: 0; transform: translateY(18px); }
+.revealed { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease; }
+</style>
+</head>
+<body>
+<div id="top-stripe"></div>
+<header id="site-header">
+  <a href="index.html" class="site-wordmark"><span class="wm-dot"></span>Culmina Health</a>
+  <nav id="site-nav"></nav>
+</header>
+
+<main class="page-body">
+
+  <!-- ══ HERO ══ -->
+  <section class="prog-hero">
+    <div class="hero-blob blob-1"></div>
+    <div class="hero-blob blob-2"></div>
+    <div class="hero-eyebrow reveal">Optimization Programs</div>
+    <h1 class="hero-title reveal">Health optimization built around <em>meaningful commitment.</em></h1>
+    <p class="hero-sub reveal">Annual programs designed for motivated adults who want sustained change — not one-off visits. Each program combines physician oversight, lab panels, and the data portal into a single coordinated membership.</p>
+  </section>
+
+  <!-- ══ PHILOSOPHY BAND ══ -->
+  <div class="philosophy-band">
+    <div class="phil-inner">
+      <div class="reveal">
+        <div class="phil-eyebrow">Pricing Philosophy</div>
+        <div class="phil-title">Annual commitment. Meaningful change.</div>
+      </div>
+      <div class="reveal">
+        <p class="phil-body">Program fees are annual and cover onboarding, core lab panels, clinician time, program management, and ongoing monitoring. Medication costs — particularly GLP-1 therapies — are typically a separate line item passed through at cost, so the program fee reflects the care relationship, not the drug.</p>
+        <div class="phil-note"><strong>Transparent pricing:</strong> All fees shown are in CAD and reflect the program membership only. Labs and medications may vary by case and are disclosed upfront at intake. Think of these as "starting at" prices — your physician will confirm total costs at your initial visit.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PROGRAMS GRID ══ -->
+  <section class="section">
+    <div class="section-eyebrow reveal">Annual Programs</div>
+    <h2 class="section-title reveal">Six programs. One clinical engine.</h2>
+    <p class="section-sub reveal">Each program is structured around your specific health goals. Medication costs are separated so you always know what you're paying for and why.</p>
+
+    <div class="programs-grid">
+
+      <!-- Cardio Metabolic -->
+      <div class="prog-card reveal">
+        <div class="prog-icon">🫀</div>
+        <div class="prog-name">Cardio Metabolic Reset</div>
+        <div class="prog-tagline">Metabolic &amp; Cardiovascular Health</div>
+        <div class="prog-desc">A structured annual reset for members dealing with metabolic dysfunction, elevated cardiovascular risk, insulin resistance, or poor lipid profiles. Combines physician-guided protocols with longitudinal lab tracking to shift key markers and build lasting metabolic resilience.</div>
+        <div class="prog-price-block">
+          <div class="price-label">Annual program fee</div>
+          <div class="price-value">$1,800 – $2,200</div>
+          <div class="price-period">CAD / year · program only</div>
+          <div class="price-note">Most medications in this program are standard and often covered by benefits. Some targeted supplements are out-of-pocket.</div>
+        </div>
+      </div>
+
+      <!-- Hormone Optimization -->
+      <div class="prog-card reveal">
+        <div class="prog-icon">⚗️</div>
+        <div class="prog-name">Hormone Optimization</div>
+        <div class="prog-tagline">HRT · Testosterone · Thyroid</div>
+        <div class="prog-desc">For members experiencing hormone-related fatigue, mood changes, loss of muscle mass, or libido changes. Provides comprehensive hormone panel testing, physician-prescribed therapy protocols, and regular follow-up monitoring to optimize levels safely over time.</div>
+        <div class="prog-price-block">
+          <div class="price-label">Annual program fee</div>
+          <div class="price-value">$2,400 – $3,000</div>
+          <div class="price-period">CAD / year · program only</div>
+          <div class="price-note">Hormone therapies are billed separately via the pharmacy. Program fee covers consultations, monitoring visits, and lab panels.</div>
+        </div>
+      </div>
+
+      <!-- Weight Loss / GLP-1 -->
+      <div class="prog-card reveal">
+        <div class="prog-icon">⚖️</div>
+        <div class="prog-name">Weight Loss / GLP-1</div>
+        <div class="prog-tagline">Metabolic Weight Management</div>
+        <div class="prog-desc">Physician-supervised weight management with access to GLP-1 medications where appropriate. Combines eligibility screening, dose titration, metabolic monitoring, and behaviour change coaching to maximize outcomes and safety throughout the program.</div>
+        <div class="prog-price-block">
+          <div class="price-label">Annual program fee</div>
+          <div class="price-value">$2,000 – $2,800</div>
+          <div class="price-period">CAD / year · program only</div>
+          <div class="price-note">GLP-1 medications (Ozempic, Wegovy, etc.) are a separate line item — typically $2,400–$5,000+ per year out-of-pocket. This is disclosed clearly at intake.</div>
+        </div>
+      </div>
+
+      <!-- Sleep, Energy & Recovery -->
+      <div class="prog-card reveal">
+        <div class="prog-icon">🌙</div>
+        <div class="prog-name">Sleep, Energy &amp; Recovery</div>
+        <div class="prog-tagline">Recovery · Fatigue · Sleep Quality</div>
+        <div class="prog-desc">For members struggling with persistent fatigue, disrupted sleep, low energy, or poor recovery from training and stress. Targets the underlying physiological causes through lab work, sleep analysis, and evidence-based interventions rather than symptom management.</div>
+        <div class="prog-price-block">
+          <div class="price-label">Annual program fee</div>
+          <div class="price-value">$1,800 – $2,400</div>
+          <div class="price-period">CAD / year · program only</div>
+          <div class="price-note">Focus on labs, consultations, and sleep/recovery protocols. Legal supplements and standard medications only — no peptide sales in v1.</div>
+        </div>
+      </div>
+
+      <!-- Immunity & Resilience -->
+      <div class="prog-card reveal">
+        <div class="prog-icon">🛡️</div>
+        <div class="prog-name">Immunity &amp; Resilience</div>
+        <div class="prog-tagline">Immune Health · Stress · Resilience</div>
+        <div class="prog-desc">Designed for members who get sick frequently, feel chronically run-down, or want to strengthen immune function and stress resilience ahead of aging. Addresses nutritional gaps, inflammatory markers, and lifestyle factors through a structured physician-led protocol.</div>
+        <div class="prog-price-block">
+          <div class="price-label">Annual program fee</div>
+          <div class="price-value">$1,800 – $2,400</div>
+          <div class="price-period">CAD / year · program only</div>
+          <div class="price-note">Focus on labs, consultations, and evidence-based immune support protocols. Legal medications and supplements only — no peptide sales in v1.</div>
+        </div>
+      </div>
+
+      <!-- Performance & Longevity -->
+      <div class="prog-card reveal">
+        <div class="prog-icon">🏔️</div>
+        <div class="prog-name">Performance &amp; Longevity</div>
+        <div class="prog-tagline">Athletic Performance · Healthspan</div>
+        <div class="prog-desc">For high performers and health-optimizers who want to extend their peak years, improve VO2 max, and reduce biological aging markers. Combines advanced biomarker panels, genetic risk assessment, wearable data review, and physician-guided interventions into a long-horizon optimization program.</div>
+        <div class="prog-price-block">
+          <div class="price-label">Annual program fee</div>
+          <div class="price-value">$1,800 – $2,400</div>
+          <div class="price-period">CAD / year · program only</div>
+          <div class="price-note">Comprehensive labs, wearable data integration, and performance-focused protocol management included.</div>
+        </div>
+      </div>
+
+      <!-- Bundle: Full Longevity 360 -->
+      <div class="prog-card featured reveal">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem;">
+          <div class="prog-icon">✦</div>
+          <div>
+            <div class="prog-name">Full Longevity 360</div>
+            <div class="prog-tagline">Premium Bundle · Coming Soon</div>
+          </div>
+        </div>
+        <div class="bundle-tags">
+          <span class="bundle-tag">Metabolic Reset</span>
+          <span class="bundle-tag">Hormone Optimization</span>
+          <span class="bundle-tag">Sleep &amp; Recovery</span>
+        </div>
+        <div class="prog-desc">The comprehensive annual membership for members who want everything working together. Combines the Cardio Metabolic Reset, Hormone Optimization, and Sleep &amp; Recovery programs into one unified care plan with a single physician relationship, coordinated protocols, and a single integrated data view. Available once demand for program stacking is established.</div>
+        <div class="prog-price-block">
+          <div class="price-label">Annual bundle fee</div>
+          <div class="price-value">$3,500 – $4,500</div>
+          <div class="price-period">CAD / year · program only · medications separate</div>
+          <div class="price-note">Comparable Canadian and BC longevity programs price comprehensive annual packages between $2,800 and $6,000+ depending on depth and inclusions. This bundle is positioned at accessible premium — meaningful value without concierge pricing.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ WHAT'S INCLUDED ══ -->
+  <section class="section section-alt inclusions-section">
+    <div class="section-eyebrow reveal">Standard Inclusions</div>
+    <h2 class="section-title reveal">What every program includes.</h2>
+    <p class="section-sub reveal">Across all programs, the membership delivers the same core access — a real physician relationship, real lab data, and a real plan. Here's what that looks like in practice.</p>
+    <div class="inclusions-inner">
+      <div class="inclusions-grid">
+        <div class="inclusion-card reveal">
+          <div class="incl-icon">🩺</div>
+          <div>
+            <div class="incl-title">Detailed Onboarding Visit</div>
+            <div class="incl-body">One comprehensive intake visit to review history, goals, baseline labs, and wearable data. Sets the foundation for your personalized care plan.</div>
+          </div>
+        </div>
+        <div class="inclusion-card reveal">
+          <div class="incl-icon">📅</div>
+          <div>
+            <div class="incl-title">2–3 Follow-Up Visits / Year</div>
+            <div class="incl-body">Regular physician check-ins to review progress, adjust protocols, and ensure the plan stays calibrated to how you're actually responding.</div>
+          </div>
+        </div>
+        <div class="inclusion-card reveal">
+          <div class="incl-icon">🧪</div>
+          <div>
+            <div class="incl-title">2 Full Lab Panels / Year</div>
+            <div class="incl-body">Comprehensive biomarker panels twice annually (more frequent for GLP-1 and hormone programs). Results reviewed by your physician with trend analysis.</div>
+          </div>
+        </div>
+        <div class="inclusion-card reveal">
+          <div class="incl-icon">💬</div>
+          <div>
+            <div class="incl-title">Async Messaging with SLA</div>
+            <div class="incl-body">Direct messaging access to your care team with a defined response time commitment. For questions that don't need a visit but do need a real answer.</div>
+          </div>
+        </div>
+        <div class="inclusion-card reveal">
+          <div class="incl-icon">⚙️</div>
+          <div>
+            <div class="incl-title">Protocol Management</div>
+            <div class="incl-body">Ongoing program oversight, dose adjustments, and protocol updates throughout the year as your data evolves and your goals shift.</div>
+          </div>
+        </div>
+        <div class="inclusion-card reveal">
+          <div class="incl-icon">📊</div>
+          <div>
+            <div class="incl-title">Data &amp; Education Portal</div>
+            <div class="incl-body">Full access to the Culmina data portal: wearable integration, lab trend tracking, biomarker education, and your longitudinal health dashboard.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PRICING NOTE ══ -->
+  <div class="pricing-note-band">
+    <div class="pricing-note-inner reveal">
+      <div class="note-icon">ℹ️</div>
+      <div>
+        <div class="note-title">A note on medication costs</div>
+        <div class="note-body">Program fees are structured to cover the care relationship — physician time, lab panels, monitoring, and portal access. Medication costs are always separated and disclosed upfront. For GLP-1 programs especially, drug costs (often $2,400–$5,000+ per year out-of-pocket) can exceed the program fee itself. We believe in transparent pricing: you'll always know what the program costs and what the medication costs before you commit.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CTA STRIP ══ -->
+  <section class="cta-strip">
+    <div class="cta-inner">
+      <div class="cta-eyebrow reveal">Ready to start?</div>
+      <h2 class="cta-title reveal">A physician who actually has time for you.</h2>
+      <p class="cta-body reveal">Every program starts with a detailed onboarding visit — not a rushed intake form. Your physician reviews your history, goals, and baseline data before recommending a program. If a program isn't the right fit, a transactional visit is always available with no commitment required.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <span>© 2026 Culmina Health. Confidential &amp; proprietary.</span>
+  <span>Internal overview document — not for distribution.</span>
+</footer>
+
+<script src="nav.js"></script>
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const siblings = Array.from(el.parentElement.querySelectorAll('.reveal:not(.revealed)'));
+      const idx = siblings.indexOf(el);
+      setTimeout(() => { el.classList.add('revealed'); observer.unobserve(el); }, idx * 80);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

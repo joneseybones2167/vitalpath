@@ -2,6 +2,7 @@
 (function () {
   const pages = [
     { label: 'Home', href: 'index.html' },
+    { label: 'Programs', href: 'programs.html' },
     { label: 'Competitive', href: 'competitive.html' },
     { label: 'Architecture', href: 'architecture.html' },
   ];

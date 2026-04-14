@@ -6,342 +6,143 @@
 <title>Culmina Health — Overview</title>
 <link rel="stylesheet" href="nav.css">
 <style>
-/* ─── Page-level reset & vars ─── */
 body { margin: 0; background: var(--surface); color: var(--dark-deep); font-family: var(--font-body); }
 
-/* ─── Hero ─── */
 .hero {
   background: linear-gradient(140deg, #0D3D3D 0%, #13384A 60%, #0B4A47 100%);
   color: #fff;
   padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 6vw, 8rem) clamp(3rem, 6vw, 5rem);
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
 .hero::before {
-  content: '';
-  position: absolute; inset: 0;
+  content: ''; position: absolute; inset: 0;
   background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(29,168,160,0.18) 0%, transparent 70%);
   pointer-events: none;
 }
-.hero-blob {
-  position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
-}
+.hero-blob { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
 .hero-blob-1 { width: 500px; height: 500px; top: -120px; right: -80px; background: #1DA8A0; opacity: 0.09; animation: floatA 16s ease-in-out infinite; }
 .hero-blob-2 { width: 300px; height: 300px; bottom: -80px; left: -60px; background: #5EC4BD; opacity: 0.06; animation: floatB 20s ease-in-out infinite; }
 @keyframes floatA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-40px,30px); } }
 @keyframes floatB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(30px,-25px); } }
 
-.hero-eyebrow {
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--teal-light); margin-bottom: 1rem;
-}
-.hero-title {
-  font-family: var(--font-display); font-weight: 900;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
-  line-height: 1.1; margin-bottom: 1.4rem;
-  max-width: 720px;
-}
+.hero-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 1rem; }
+.hero-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.4rem, 5vw, 4.2rem); line-height: 1.1; margin-bottom: 1.4rem; max-width: 720px; }
 .hero-title em { font-style: italic; color: var(--teal-light); }
-.hero-sub {
-  font-size: clamp(0.95rem, 1.4vw, 1.1rem); color: #B2D8D5; line-height: 1.65;
-  max-width: 560px; margin-bottom: 2.5rem;
-}
-.hero-pills {
-  display: flex; flex-wrap: wrap; gap: 0.6rem;
-}
-.hero-pill {
-  background: rgba(29,168,160,0.18); border: 1px solid rgba(94,196,189,0.35);
-  color: #5EC4BD; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em;
-  padding: 0.4rem 0.9rem; border-radius: 20px;
-}
+.hero-sub { font-size: clamp(0.95rem, 1.4vw, 1.1rem); color: #B2D8D5; line-height: 1.65; max-width: 560px; margin-bottom: 2.5rem; }
+.hero-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.hero-pill { background: rgba(29,168,160,0.18); border: 1px solid rgba(94,196,189,0.35); color: #5EC4BD; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; padding: 0.4rem 0.9rem; border-radius: 20px; }
 
-/* ─── Section wrapper ─── */
-.section {
-  padding: clamp(3rem, 5vw, 5rem) clamp(1.5rem, 6vw, 8rem);
-}
+.section { padding: clamp(3rem, 5vw, 5rem) clamp(1.5rem, 6vw, 8rem); }
 .section-alt { background: #fff; }
+.section-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.55rem; }
+.section-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.7rem, 3vw, 2.4rem); color: var(--dark-deep); line-height: 1.15; margin-bottom: 1rem; }
+.section-lead { font-size: clamp(0.88rem, 1.2vw, 1rem); color: #2D5A6A; line-height: 1.7; max-width: 680px; margin-bottom: 2.5rem; }
 
-.section-eyebrow {
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--teal); margin-bottom: 0.55rem;
-}
-.section-title {
-  font-family: var(--font-display); font-weight: 900;
-  font-size: clamp(1.7rem, 3vw, 2.4rem);
-  color: var(--dark-deep); line-height: 1.15; margin-bottom: 1rem;
-}
-.section-lead {
-  font-size: clamp(0.88rem, 1.2vw, 1rem); color: #2D5A6A; line-height: 1.7;
-  max-width: 680px; margin-bottom: 2.5rem;
-}
-
-/* ─── Three-pillar cards ─── */
-.pillars {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
-  max-width: 1100px;
-}
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1100px; }
 @media (max-width: 860px) { .pillars { grid-template-columns: 1fr; } }
 
-.pillar-card {
-  background: #fff; border: 1.5px solid #C8E6E2; border-radius: 16px;
-  padding: 2rem 1.75rem; position: relative;
-  transition: box-shadow 0.25s, transform 0.25s;
-}
+.pillar-card { background: #fff; border: 1.5px solid #C8E6E2; border-radius: 16px; padding: 2rem 1.75rem; position: relative; transition: box-shadow 0.25s, transform 0.25s; }
 .pillar-card:hover { box-shadow: 0 8px 28px rgba(29,168,160,0.14); transform: translateY(-3px); }
-
-.pillar-num {
-  width: 38px; height: 38px;
-  background: var(--teal); border-radius: 9px;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 0.95rem; color: #fff;
-  margin-bottom: 1rem;
-}
-.pillar-title {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: 1.15rem; color: var(--dark-deep); margin-bottom: 0.6rem;
-}
+.pillar-num { width: 38px; height: 38px; background: var(--teal); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; color: #fff; margin-bottom: 1rem; }
+.pillar-title { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--dark-deep); margin-bottom: 0.6rem; }
 .pillar-body { font-size: 0.87rem; color: #2D5A6A; line-height: 1.6; }
 .pillar-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
-.pillar-tag {
-  background: #E2F4F1; border: 1px solid #B8DDD9; color: #0D8A83;
-  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em;
-  padding: 0.2rem 0.6rem; border-radius: 12px;
-}
+.pillar-tag { background: #E2F4F1; border: 1px solid #B8DDD9; color: #0D8A83; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em; padding: 0.2rem 0.6rem; border-radius: 12px; }
 
-/* ─── Audience section ─── */
-.audience-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 960px;
-}
+.track-badge { display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(29,168,160,0.1); border: 1px solid rgba(29,168,160,0.25); color: #0D8A83; font-size: 0.67rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.18rem 0.55rem; border-radius: 20px; margin-bottom: 0.4rem; }
+.track-badge::before { content: ''; width: 5px; height: 5px; background: #1DA8A0; border-radius: 50%; }
+
+.audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 960px; }
 @media (max-width: 700px) { .audience-grid { grid-template-columns: 1fr; } }
-
-.aud-card {
-  background: #fff; border: 1.5px solid #C8E6E2; border-radius: 14px;
-  padding: 1.5rem 1.75rem;
-}
-.aud-card-label {
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--teal); margin-bottom: 0.6rem;
-}
-.aud-card-title {
-  font-family: var(--font-display); font-weight: 700; font-size: 1.05rem;
-  color: var(--dark-deep); margin-bottom: 0.55rem;
-}
+.aud-card { background: #fff; border: 1.5px solid #C8E6E2; border-radius: 14px; padding: 1.5rem 1.75rem; }
+.aud-card-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.6rem; }
+.aud-card-title { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: var(--dark-deep); margin-bottom: 0.55rem; }
 .aud-card-body { font-size: 0.85rem; color: #2D5A6A; line-height: 1.65; }
 
-/* ─── Needs list ─── */
 .needs-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem; max-width: 760px; }
-.needs-list li {
-  display: flex; align-items: flex-start; gap: 0.85rem;
-  background: #fff; border: 1px solid #C8E6E2; border-radius: 12px;
-  padding: 1rem 1.25rem;
-}
-.needs-icon {
-  width: 28px; height: 28px; min-width: 28px;
-  background: #E2F4F1; border-radius: 7px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.75rem; color: var(--teal); font-weight: 700;
-}
+.needs-list li { display: flex; align-items: flex-start; gap: 0.85rem; background: #fff; border: 1px solid #C8E6E2; border-radius: 12px; padding: 1rem 1.25rem; }
+.needs-icon { width: 28px; height: 28px; min-width: 28px; background: #E2F4F1; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--teal); font-weight: 700; }
 .needs-text { font-size: 0.87rem; color: #2D5A6A; line-height: 1.55; }
 .needs-text strong { color: var(--dark-deep); display: block; margin-bottom: 0.2rem; font-size: 0.9rem; }
 
-/* ─── Flywheel ─── */
-.flywheel-section {
-  background: linear-gradient(135deg, #0D3D3D 0%, #0B4A47 50%, #0D3D3D 100%);
-  position: relative; overflow: hidden;
-}
-.flywheel-section::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(29,168,160,0.14) 0%, transparent 70%);
-  pointer-events: none;
-}
+.flywheel-section { background: linear-gradient(135deg, #0D3D3D 0%, #0B4A47 50%, #0D3D3D 100%); position: relative; overflow: hidden; }
+.flywheel-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(29,168,160,0.14) 0%, transparent 70%); pointer-events: none; }
 .flywheel-section .section-title { color: #fff; }
 .flywheel-section .section-lead { color: #B2D8D5; }
 .flywheel-section .section-eyebrow { color: var(--teal-light); }
-
-.flywheel-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; max-width: 900px;
-}
+.flywheel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; max-width: 900px; }
 @media (max-width: 760px) { .flywheel-grid { grid-template-columns: 1fr; } }
-
-.fw-card {
-  background: rgba(255,255,255,0.07); border: 1px solid rgba(29,168,160,0.25);
-  border-radius: 14px; padding: 1.5rem 1.4rem;
-  transition: background 0.25s;
-}
+.fw-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(29,168,160,0.25); border-radius: 14px; padding: 1.5rem 1.4rem; transition: background 0.25s; }
 .fw-card:hover { background: rgba(29,168,160,0.1); }
-.fw-step {
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--teal-light); margin-bottom: 0.5rem;
-}
+.fw-step { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 0.5rem; }
 .fw-title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: #fff; margin-bottom: 0.45rem; }
 .fw-body { font-size: 0.83rem; color: #B2D8D5; line-height: 1.55; }
 
-/* ─── Pillar deep-dives ─── */
 .deep-section { max-width: 1100px; }
-
-.deep-block {
-  display: grid; grid-template-columns: 280px 1fr; gap: 3rem; align-items: start;
-  padding: 2.5rem 0; border-bottom: 1px solid #D8EDEA;
-}
+.deep-block { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid #D8EDEA; }
 .deep-block:last-child { border-bottom: none; }
 @media (max-width: 760px) { .deep-block { grid-template-columns: 1fr; gap: 1.2rem; } }
-
-.deep-num {
-  font-family: var(--font-display); font-size: 4rem; font-weight: 900;
-  color: #D8EDEA; line-height: 1; margin-bottom: 0.3rem;
-}
-.deep-label {
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal);
-}
+.deep-num { font-family: var(--font-display); font-size: 4rem; font-weight: 900; color: #D8EDEA; line-height: 1; margin-bottom: 0.3rem; }
+.deep-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); }
 .deep-title { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--dark-deep); margin-top: 0.3rem; }
-
-.deep-right {}
 .deep-body { font-size: 0.88rem; color: #2D5A6A; line-height: 1.7; margin-bottom: 1.2rem; }
-
 .deep-items { display: flex; flex-direction: column; gap: 0.6rem; }
-.deep-item {
-  display: flex; gap: 0.75rem; align-items: flex-start;
-  background: #F5FAFA; border: 1px solid #D8EDEA; border-radius: 10px;
-  padding: 0.75rem 1rem;
-}
-.deep-dot {
-  width: 7px; height: 7px; min-width: 7px; background: var(--teal);
-  border-radius: 50%; margin-top: 0.38rem;
-}
+.deep-item { display: flex; gap: 0.75rem; align-items: flex-start; background: #F5FAFA; border: 1px solid #D8EDEA; border-radius: 10px; padding: 0.75rem 1rem; }
+.deep-dot { width: 7px; height: 7px; min-width: 7px; background: var(--teal); border-radius: 50%; margin-top: 0.38rem; }
 .deep-item-text { font-size: 0.84rem; color: #2D5A6A; line-height: 1.5; }
 .deep-item-text strong { color: var(--dark-deep); }
 
-/* ─── Care model steps ─── */
+.track-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 1.2rem; }
+@media (max-width: 600px) { .track-grid { grid-template-columns: 1fr; } }
+.track-card { border-radius: 12px; padding: 1rem 1.15rem; }
+.track-card.transactional { background: #F5FAFA; border: 1.5px solid #D8EDEA; }
+.track-card.optimization { background: #E2F4F1; border: 1.5px solid #B8DDD9; }
+.track-card-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.3rem; }
+.track-card-title { font-weight: 700; font-size: 0.9rem; color: var(--dark-deep); margin-bottom: 0.35rem; }
+.track-card-body { font-size: 0.8rem; color: #2D5A6A; line-height: 1.5; }
+
 .care-steps { display: flex; gap: 1rem; margin-top: 1rem; }
-.care-step {
-  flex: 1; background: #fff; border: 1.5px solid #C8E6E2; border-radius: 12px;
-  padding: 1rem 1.1rem; text-align: center;
-}
-.care-step-num {
-  width: 30px; height: 30px; background: var(--teal); border-radius: 7px;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 0.85rem; color: #fff;
-  margin: 0 auto 0.5rem;
-}
+.care-step { flex: 1; background: #fff; border: 1.5px solid #C8E6E2; border-radius: 12px; padding: 1rem 1.1rem; text-align: center; }
+.care-step-num { width: 30px; height: 30px; background: var(--teal); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: #fff; margin: 0 auto 0.5rem; }
 .care-step-label { font-size: 0.82rem; font-weight: 700; color: var(--dark-deep); margin-bottom: 0.3rem; }
 .care-step-body { font-size: 0.78rem; color: #637381; line-height: 1.45; }
 
-/* ─── Portal feature chips ─── */
 .portal-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
-.portal-chip {
-  background: #E2F4F1; border: 1px solid #B8DDD9; color: #0D8A83;
-  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
-  padding: 0.3rem 0.75rem; border-radius: 16px;
-}
+.portal-chip { background: #E2F4F1; border: 1px solid #B8DDD9; color: #0D8A83; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; padding: 0.3rem 0.75rem; border-radius: 16px; }
 
-/* ─── Closing frame ─── */
-.closing {
-  background: var(--dark); color: #fff;
-  padding: clamp(3rem, 5vw, 5rem) clamp(1.5rem, 6vw, 8rem);
-  position: relative; overflow: hidden;
-}
-.closing::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse 70% 60% at 30% 50%, rgba(29,168,160,0.14) 0%, transparent 70%);
-  pointer-events: none;
-}
-.closing-title {
-  font-family: var(--font-display); font-weight: 900;
-  font-size: clamp(1.8rem, 3.5vw, 3rem); color: #fff;
-  line-height: 1.1; margin-bottom: 1rem; max-width: 700px;
-}
+.closing { background: var(--dark); color: #fff; padding: clamp(3rem, 5vw, 5rem) clamp(1.5rem, 6vw, 8rem); position: relative; overflow: hidden; }
+.closing::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 30% 50%, rgba(29,168,160,0.14) 0%, transparent 70%); pointer-events: none; }
+.closing-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.8rem, 3.5vw, 3rem); color: #fff; line-height: 1.1; margin-bottom: 1rem; max-width: 700px; }
 .closing-lead { font-size: 0.95rem; color: #B2D8D5; line-height: 1.65; max-width: 600px; margin-bottom: 2.5rem; }
-
 .closing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; max-width: 860px; }
 @media (max-width: 700px) { .closing-grid { grid-template-columns: 1fr; } }
-
-.closing-card {
-  background: rgba(255,255,255,0.07); border: 1px solid rgba(29,168,160,0.25);
-  border-radius: 14px; padding: 1.4rem 1.5rem;
-}
-.closing-card-label {
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--teal-light); margin-bottom: 0.45rem;
-}
+.closing-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(29,168,160,0.25); border-radius: 14px; padding: 1.4rem 1.5rem; }
+.closing-card-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 0.45rem; }
 .closing-card-title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: #fff; margin-bottom: 0.4rem; }
 .closing-card-body { font-size: 0.82rem; color: #B2D8D5; line-height: 1.55; }
 
-/* ─── Appendix ─── */
-.appendix {
-  background: #fff; border-top: 2px solid #E2F4F1;
-  padding: clamp(2rem, 4vw, 4rem) clamp(1.5rem, 6vw, 8rem);
-}
-.appendix-inner {
-  background: #F5FAFA; border: 1.5px solid #C8E6E2; border-radius: 16px;
-  padding: 2rem 2.25rem; max-width: 900px;
-}
-.appendix-eyebrow {
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--teal); margin-bottom: 0.5rem;
-}
-.appendix-title {
-  font-family: var(--font-display); font-weight: 700; font-size: 1.2rem;
-  color: var(--dark-deep); margin-bottom: 0.7rem;
-}
-.appendix-body { font-size: 0.85rem; color: #2D5A6A; line-height: 1.65; margin-bottom: 1.25rem; }
-.appendix-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-@media (max-width: 700px) { .appendix-grid { grid-template-columns: 1fr; } }
-.appendix-item { background: #fff; border: 1px solid #C8E6E2; border-radius: 11px; padding: 1rem 1.1rem; }
-.appendix-item-num {
-  width: 26px; height: 26px; background: var(--teal); border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.78rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;
-}
-.appendix-item-title { font-size: 0.87rem; font-weight: 700; color: var(--dark-deep); margin-bottom: 0.3rem; }
-.appendix-item-body { font-size: 0.8rem; color: #637381; line-height: 1.5; }
-
-.disclaimer {
-  margin-top: 1.2rem; padding: 0.9rem 1.1rem;
-  background: #FFF8F0; border: 1px solid #FDDDB0; border-radius: 9px;
-  font-size: 0.78rem; color: #8A6A3A; line-height: 1.55;
-}
-
-/* ─── Footer ─── */
-.site-footer {
-  background: var(--dark-deep); color: #7ABFBA;
-  padding: 1.5rem clamp(1.5rem, 6vw, 8rem);
-  font-size: 0.78rem; display: flex;
-  align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 0.75rem;
-}
+.site-footer { background: var(--dark-deep); color: #7ABFBA; padding: 1.5rem clamp(1.5rem, 6vw, 8rem); font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
 .site-footer a { color: var(--teal-light); text-decoration: none; }
 
-/* ─── Reveal animation ─── */
 .reveal { opacity: 0; transform: translateY(18px); }
 .revealed { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease; }
 </style>
 </head>
 <body>
-
-<!-- Top stripe + Nav -->
 <div id="top-stripe"></div>
 <header id="site-header">
-  <a href="index.html" class="site-wordmark">
-    <span class="wm-dot"></span>Culmina Health
-  </a>
+  <a href="index.html" class="site-wordmark"><span class="wm-dot"></span>Culmina Health</a>
   <nav id="site-nav"></nav>
 </header>
 
 <main class="page-body">
 
-  <!-- ═══ HERO ═══ -->
   <section class="hero">
     <div class="hero-blob hero-blob-1"></div>
     <div class="hero-blob hero-blob-2"></div>
     <div class="hero-eyebrow reveal">Mission &amp; Core Pillars</div>
-    <h1 class="hero-title reveal">
-      Making longevity care<br><em>practical, credible,</em><br>and accessible.
-    </h1>
-    <p class="hero-sub reveal">
-      Expert telehealth · Focused pharmacy · Longevity data portal.<br>
-      One coordinated platform for motivated adults who want a more direct path to preventive medicine.
-    </p>
+    <h1 class="hero-title reveal">Making longevity care<br><em>practical, credible,</em><br>and accessible.</h1>
+    <p class="hero-sub reveal">Expert telehealth · Focused pharmacy · Longevity data portal.<br>One coordinated platform for motivated adults who want a more direct path to preventive medicine.</p>
     <div class="hero-pills reveal">
       <span class="hero-pill">Telehealth</span>
       <span class="hero-pill">Focused Pharmacy</span>
@@ -351,18 +152,19 @@ body { margin: 0; background: var(--surface); color: var(--dark-deep); font-fami
     </div>
   </section>
 
-  <!-- ═══ THREE PILLARS ═══ -->
   <section class="section">
     <div class="section-eyebrow reveal">Business Architecture</div>
     <h2 class="section-title reveal">Three pillars, one integrated experience.</h2>
-    <p class="section-lead reveal">
-      The mission is to give motivated adults a clearer, more direct path to preventive medicine — by combining medical guidance, carefully selected therapies, and personal health data into one coordinated experience.
-    </p>
+    <p class="section-lead reveal">The mission is to give motivated adults a clearer, more direct path to preventive medicine — by combining medical guidance, carefully selected therapies, and personal health data into one coordinated experience.</p>
     <div class="pillars">
       <div class="pillar-card reveal">
         <div class="pillar-num">1</div>
         <div class="pillar-title">Longevity Telehealth</div>
-        <div class="pillar-body">Physician-led virtual care focused on prevention, metabolic optimization, hormones, cardiovascular risk, sleep, recovery, and long-term healthspan strategy.</div>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem;">
+          <span class="track-badge">Transactional Track</span>
+          <span class="track-badge">Optimization Program</span>
+        </div>
+        <div class="pillar-body">Two tracks, one clinical engine. A transactional track offers MSP-covered primary care visits — no commitment, no program. An annual Optimization Program delivers recurring physician relationships built around metabolic health, hormones, cardiovascular risk, and long-term healthspan strategy. The first track builds trust and accessibility; the second builds the membership relationship that drives retention and outcomes.</div>
         <div class="pillar-tags">
           <span class="pillar-tag">Metabolic Health</span>
           <span class="pillar-tag">Hormones</span>
@@ -394,13 +196,10 @@ body { margin: 0; background: var(--surface); color: var(--dark-deep); font-fami
     </div>
   </section>
 
-  <!-- ═══ TARGET AUDIENCE ═══ -->
   <section class="section section-alt">
     <div class="section-eyebrow reveal">Target Audience</div>
     <h2 class="section-title reveal">Persona, behaviors &amp; frustrations.</h2>
-    <p class="section-lead reveal">
-      35–55 knowledge workers who want to take a proactive approach to their health. Data-oriented, highly engaged in learning, and motivated by prevention — they want modern care that combines education, biomarker visibility, and better context than traditional healthcare usually provides.
-    </p>
+    <p class="section-lead reveal">35–55 knowledge workers who want to take a proactive approach to their health. Data-oriented, highly engaged in learning, and motivated by prevention — they want modern care that combines education, biomarker visibility, and better context than traditional healthcare usually provides.</p>
     <div class="audience-grid">
       <div class="aud-card reveal">
         <div class="aud-card-label">Mindset</div>
@@ -415,77 +214,53 @@ body { margin: 0; background: var(--surface); color: var(--dark-deep); font-fami
     </div>
   </section>
 
-  <!-- ═══ PRIMARY NEEDS ═══ -->
   <section class="section">
     <div class="section-eyebrow reveal">Why They Convert</div>
     <h2 class="section-title reveal">Primary needs &amp; willingness to pay.</h2>
-    <p class="section-lead reveal">
-      They do not want to replace doctors. They want a more informed relationship with healthcare, where modern data leads to clear action and physician access is still available when it matters.
-    </p>
+    <p class="section-lead reveal">They do not want to replace doctors. They want a more informed relationship with healthcare, where modern data leads to clear action and physician access is still available when it matters.</p>
     <ul class="needs-list">
-      <li class="reveal">
-        <div class="needs-icon">→</div>
-        <div class="needs-text"><strong>Education-first care</strong>Explains what new health data means and what action is worth taking.</div>
-      </li>
-      <li class="reveal">
-        <div class="needs-icon">→</div>
-        <div class="needs-text"><strong>Progressive doctors</strong>Physicians who monitor current trends, protocols, diagnostics, and emerging health technology.</div>
-      </li>
-      <li class="reveal">
-        <div class="needs-icon">→</div>
-        <div class="needs-text"><strong>Bridge from self-tracking to medicine</strong>So insights translate into prescriptions or treatment when appropriate.</div>
-      </li>
-      <li class="reveal">
-        <div class="needs-icon">→</div>
-        <div class="needs-text"><strong>Longitudinal monitoring</strong>Watches patterns over time instead of reacting only when something is wrong.</div>
-      </li>
+      <li class="reveal"><div class="needs-icon">→</div><div class="needs-text"><strong>Education-first care</strong>Explains what new health data means and what action is worth taking.</div></li>
+      <li class="reveal"><div class="needs-icon">→</div><div class="needs-text"><strong>Progressive doctors</strong>Physicians who monitor current trends, protocols, diagnostics, and emerging health technology.</div></li>
+      <li class="reveal"><div class="needs-icon">→</div><div class="needs-text"><strong>Bridge from self-tracking to medicine</strong>So insights translate into prescriptions or treatment when appropriate.</div></li>
+      <li class="reveal"><div class="needs-icon">→</div><div class="needs-text"><strong>Longitudinal monitoring</strong>Watches patterns over time instead of reacting only when something is wrong.</div></li>
     </ul>
-    <p style="margin-top:1.5rem;font-size:0.92rem;color:#2D5A6A;max-width:680px;line-height:1.65;" class="reveal">
-      <strong style="color:var(--dark-deep);">This audience is willing to pay</strong> for a service that makes advanced health information understandable, keeps pace with innovation, and gives them confidence that someone is actively monitoring the bigger picture.
-    </p>
+    <p style="margin-top:1.5rem;font-size:0.92rem;color:#2D5A6A;max-width:680px;line-height:1.65;" class="reveal"><strong style="color:var(--dark-deep);">This audience is willing to pay</strong> for a service that makes advanced health information understandable, keeps pace with innovation, and gives them confidence that someone is actively monitoring the bigger picture.</p>
   </section>
 
-  <!-- ═══ DEEP DIVES ═══ -->
   <section class="section section-alt">
     <div class="section-eyebrow reveal">The Three Pillars</div>
     <h2 class="section-title reveal">How each pillar works.</h2>
     <div class="deep-section">
 
-      <!-- Pillar 1 -->
       <div class="deep-block">
         <div class="reveal">
           <div class="deep-num">01</div>
           <div class="deep-label">Pillar One</div>
-          <div class="deep-title">Telehealth with longevity-focused doctors</div>
+          <div class="deep-title">Two tracks, one clinical engine</div>
         </div>
         <div class="deep-right reveal">
-          <p class="deep-body">This is the medical engine of the company: ongoing physician relationships built around prevention, personalized plans, regular follow-up, and practical interventions that fit everyday life. Members get continuity, context, and advice that goes beyond acute sick-care visits.</p>
-          <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--teal);margin-bottom:0.75rem;">What it covers</p>
-          <div class="deep-items" style="margin-bottom:1.25rem;">
-            <div class="deep-item"><div class="deep-dot"></div><div class="deep-item-text">Metabolic health · hormones · sleep · cardiovascular markers · weight · performance · early risk detection</div></div>
+          <p class="deep-body">Longevity Telehealth operates on two distinct tracks designed for different member relationships — both anchored in the same physician-led, prevention-first model.</p>
+          <div class="track-grid">
+            <div class="track-card transactional">
+              <div class="track-card-label">Transactional Track</div>
+              <div class="track-card-title">MSP-Covered Primary Care</div>
+              <div class="track-card-body">No commitment, no program. Accessible virtual visits for members who want quality longevity-aware primary care without signing up for a full program. Builds trust and lowers the barrier to entry.</div>
+            </div>
+            <div class="track-card optimization">
+              <div class="track-card-label">Optimization Program</div>
+              <div class="track-card-title">Annual Membership</div>
+              <div class="track-card-body">A structured annual program with recurring physician relationships built around metabolic health, hormones, cardiovascular risk, and long-term healthspan strategy. The relationship that drives retention and outcomes.</div>
+            </div>
           </div>
-          <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--teal);margin-bottom:0.75rem;">Core care model</p>
+          <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--teal);margin-bottom:0.75rem;">Core care model (Optimization Program)</p>
           <div class="care-steps">
-            <div class="care-step">
-              <div class="care-step-num">1</div>
-              <div class="care-step-label">Assessment</div>
-              <div class="care-step-body">Intake, history, symptoms, goals, labs, and baseline wearable patterns</div>
-            </div>
-            <div class="care-step">
-              <div class="care-step-num">2</div>
-              <div class="care-step-label">Plan</div>
-              <div class="care-step-body">Personalized care plan with screening, treatment, coaching priorities, and biomarkers to watch</div>
-            </div>
-            <div class="care-step">
-              <div class="care-step-num">3</div>
-              <div class="care-step-label">Ongoing Management</div>
-              <div class="care-step-body">Dose adjustments, repeat testing, progress reviews, and long-term optimization</div>
-            </div>
+            <div class="care-step"><div class="care-step-num">1</div><div class="care-step-label">Assessment</div><div class="care-step-body">Intake, history, symptoms, goals, labs, and baseline wearable patterns</div></div>
+            <div class="care-step"><div class="care-step-num">2</div><div class="care-step-label">Plan</div><div class="care-step-body">Personalized care plan with screening, treatment, coaching priorities, and biomarkers to watch</div></div>
+            <div class="care-step"><div class="care-step-num">3</div><div class="care-step-label">Ongoing Management</div><div class="care-step-body">Dose adjustments, repeat testing, progress reviews, and long-term optimization</div></div>
           </div>
         </div>
       </div>
 
-      <!-- Pillar 2 -->
       <div class="deep-block">
         <div class="reveal">
           <div class="deep-num">02</div>
@@ -504,7 +279,6 @@ body { margin: 0; background: var(--surface); color: var(--dark-deep); font-fami
         </div>
       </div>
 
-      <!-- Pillar 3 -->
       <div class="deep-block">
         <div class="reveal">
           <div class="deep-num">03</div>
@@ -534,42 +308,26 @@ body { margin: 0; background: var(--surface); color: var(--dark-deep); font-fami
     </div>
   </section>
 
-  <!-- ═══ FLYWHEEL ═══ -->
   <section class="section flywheel-section">
     <div class="section-eyebrow reveal">How the Pieces Connect</div>
     <h2 class="section-title reveal">The Flywheel</h2>
-    <p class="section-lead reveal">
-      Together, the three pillars create a stronger recurring-membership business: the clinic generates trust, the pharmacy adds convenience and monetization, and the data portal increases engagement, retention, and perceived value per member.
-    </p>
+    <p class="section-lead reveal">Together, the three pillars create a stronger recurring-membership business: the clinic generates trust, the pharmacy adds convenience and monetization, and the data portal increases engagement, retention, and perceived value per member.</p>
     <div class="flywheel-grid">
-      <div class="fw-card reveal">
-        <div class="fw-step">Step 1</div>
-        <div class="fw-title">Doctors Create the Plan</div>
-        <div class="fw-body">Clinical guidance defines the goals, treatment pathways, and monitoring schedule.</div>
-      </div>
-      <div class="fw-card reveal">
-        <div class="fw-step">Step 2</div>
-        <div class="fw-title">Pharmacy Enables Execution</div>
-        <div class="fw-body">Relevant medications move quickly from recommendation to fulfillment to follow-up.</div>
-      </div>
-      <div class="fw-card reveal">
-        <div class="fw-step">Step 3</div>
-        <div class="fw-title">Portal Captures Outcomes</div>
-        <div class="fw-body">Data shows adherence, biomarker movement, symptom changes, and new decisions to make.</div>
-      </div>
+      <div class="fw-card reveal"><div class="fw-step">Step 1</div><div class="fw-title">Doctors Create the Plan</div><div class="fw-body">Clinical guidance defines the goals, treatment pathways, and monitoring schedule.</div></div>
+      <div class="fw-card reveal"><div class="fw-step">Step 2</div><div class="fw-title">Pharmacy Enables Execution</div><div class="fw-body">Relevant medications move quickly from recommendation to fulfillment to follow-up.</div></div>
+      <div class="fw-card reveal"><div class="fw-step">Step 3</div><div class="fw-title">Portal Captures Outcomes</div><div class="fw-body">Data shows adherence, biomarker movement, symptom changes, and new decisions to make.</div></div>
     </div>
   </section>
 
-  <!-- ═══ CLOSING FRAME ═══ -->
   <section class="closing">
-    <div class="section-eyebrow" style="color:var(--teal-light);" class="reveal">Closing Frame</div>
+    <div class="section-eyebrow" style="color:var(--teal-light);">Closing Frame</div>
     <h2 class="closing-title reveal">A longevity company with a clear spine.</h2>
     <p class="closing-lead reveal">Not trying to be an all-purpose healthcare system. Building one focused platform around three tightly connected capabilities.</p>
     <div class="closing-grid">
       <div class="closing-card reveal">
         <div class="closing-card-label">Pillar One</div>
         <div class="closing-card-title">Clinical Credibility</div>
-        <div class="closing-card-body">Trusted doctors anchor the brand. Expert telehealth provides the medical foundation.</div>
+        <div class="closing-card-body">Two tracks — accessible primary care and structured optimization programs — anchor the brand in trusted physician relationships.</div>
       </div>
       <div class="closing-card reveal">
         <div class="closing-card-label">Pillar Two</div>
@@ -584,41 +342,8 @@ body { margin: 0; background: var(--surface); color: var(--dark-deep); font-fami
     </div>
   </section>
 
-  <!-- ═══ APPENDIX ═══ -->
-  <section class="appendix">
-    <div class="section-eyebrow reveal">Appendix</div>
-    <div class="appendix-inner reveal">
-      <div class="appendix-eyebrow">Advanced Research Partner</div>
-      <div class="appendix-title">An arm's-length affiliate for emerging &amp; investigational therapies</div>
-      <div class="appendix-body">
-        An arm's-length affiliate organization supporting access to emerging and investigational therapies outside the primary clinical relationship. Regulatory and liability separation keeps primary care physicians within Health Canada–approved practice, while the partner organization operates as a research facilitation and patient education platform.
-      </div>
-      <div class="appendix-grid">
-        <div class="appendix-item">
-          <div class="appendix-item-num">1</div>
-          <div class="appendix-item-title">Research Facilitation</div>
-          <div class="appendix-item-body">Curated access to peer-reviewed literature, N-of-1 protocol summaries, and emerging trial data on peptide and longevity compounds.</div>
-        </div>
-        <div class="appendix-item">
-          <div class="appendix-item-num">2</div>
-          <div class="appendix-item-title">Informed Patient Portal</div>
-          <div class="appendix-item-body">Educational platform where members track self-reported outcomes, upload biomarker data, and document personal protocols.</div>
-        </div>
-        <div class="appendix-item">
-          <div class="appendix-item-num">3</div>
-          <div class="appendix-item-title">Regulatory Readiness</div>
-          <div class="appendix-item-body">Monitor Health Canada schedules. First-mover advantage to formalize clinical offerings when reclassification occurs.</div>
-        </div>
-      </div>
-      <div class="disclaimer">
-        <strong>Disclaimer:</strong> This entity provides research information and patient education only. It does not prescribe, dispense, or recommend any compound not approved by Health Canada. Legal and compliance review required before launch.
-      </div>
-    </div>
-  </section>
-
 </main>
 
-<!-- Footer -->
 <footer class="site-footer">
   <span>© 2026 Culmina Health. Confidential &amp; proprietary.</span>
   <span>Internal overview document — not for distribution.</span>
@@ -626,21 +351,16 @@ body { margin: 0; background: var(--surface); color: var(--dark-deep); font-fami
 
 <script src="nav.js"></script>
 <script>
-/* Intersection Observer for scroll reveals */
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const el = entry.target;
       const siblings = Array.from(el.parentElement.querySelectorAll('.reveal:not(.revealed)'));
       const idx = siblings.indexOf(el);
-      setTimeout(() => {
-        el.classList.add('revealed');
-        observer.unobserve(el);
-      }, idx * 70);
+      setTimeout(() => { el.classList.add('revealed'); observer.unobserve(el); }, idx * 70);
     }
   });
 }, { threshold: 0.12 });
-
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
