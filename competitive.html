@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nav.css">
 <style>
 /* ─────────────────────────────────────────
    RESET & BASE
@@ -42,43 +43,6 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
 }
-
-/* ─────────────────────────────────────────
-   NAV
-───────────────────────────────────────── */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(10, 37, 51, 0.96);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(29,168,160,0.2);
-  padding: 0 1.5rem;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.site-header .brand {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #fff;
-  letter-spacing: -0.01em;
-}
-.site-header .brand span { color: var(--teal); }
-#site-nav { display: flex; gap: 0.25rem; align-items: center; }
-.nav-link {
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: rgba(255,255,255,0.65);
-  text-decoration: none;
-  padding: 0.35rem 0.75rem;
-  border-radius: 6px;
-  transition: color 0.18s, background 0.18s;
-}
-.nav-link:hover { color: #fff; background: rgba(255,255,255,0.07); }
-.nav-link.active { color: var(--teal); background: rgba(29,168,160,0.12); }
 
 /* ─────────────────────────────────────────
    LAYOUT WRAPPERS
@@ -290,8 +254,6 @@ body {
 /* ─────────────────────────────────────────
    TABLES — MOBILE-FRIENDLY APPROACH
 ───────────────────────────────────────── */
-
-/* Wrapper scrolls horizontally on small screens */
 .table-scroll {
   width: 100%;
   overflow-x: auto;
@@ -309,7 +271,7 @@ body {
   font-size: 0.83rem;
   font-family: 'DM Sans', sans-serif;
   background: #fff;
-  min-width: 700px; /* forces scroll on small screens */
+  min-width: 700px;
 }
 .feat-table thead tr {
   background: var(--teal);
@@ -337,7 +299,7 @@ body {
   text-align: left;
   font-weight: 600;
   color: var(--navy);
-  white-space: normal; /* allow feature label to wrap */
+  white-space: normal;
   min-width: 150px;
   max-width: 200px;
 }
@@ -349,7 +311,6 @@ body {
 .feat-table .partial { color: #E68A3A; font-size: 0.78rem; font-weight: 700; }
 .feat-table .vp-cell { background: #E2F4F1 !important; font-weight: 700; color: var(--teal-deep); }
 
-/* Scroll hint shown on mobile */
 .table-hint {
   display: none;
   font-size: 0.72rem;
@@ -362,7 +323,6 @@ body {
   .table-hint { display: block; }
 }
 
-/* Table legend */
 .table-legend {
   font-size: 0.73rem;
   color: var(--text-muted);
@@ -407,15 +367,8 @@ body {
 /* ─────────────────────────────────────────
    SCROLL REVEAL
 ───────────────────────────────────────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reveal { opacity: 0; transform: translateY(18px); }
+.revealed { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease; }
 
 /* ─────────────────────────────────────────
    SECTION DIVIDER
@@ -437,15 +390,16 @@ body {
 </head>
 <body>
 
-<!-- ─────────────────────── HEADER ──────────────────────── -->
-<header class="site-header">
-  <div class="brand">Vital<span>Path</span></div>
+<div id="top-stripe"></div>
+<header id="site-header">
+  <a href="index.html" class="site-wordmark"><span class="wm-dot"></span>Culmina Health</a>
   <nav id="site-nav"></nav>
 </header>
 
+<main class="page-body">
+
 <!-- ─────────────────────── HERO ──────────────────────── -->
 <section class="hero page-section dark">
-  <div class="top-stripe"></div>
   <div class="blob-deco" style="width:500px;height:500px;top:-150px;right:-120px;background:#1DA8A0;opacity:0.08;"></div>
   <div class="blob-deco" style="width:320px;height:320px;bottom:-80px;left:-60px;background:#5EC4BD;opacity:0.07;"></div>
   <div class="inner" style="text-align:center;">
@@ -585,37 +539,37 @@ body {
           </tr>
           <tr>
             <td>Longevity-focused care model</td>
-            <td class="partial">Partial</td><td class="yes">✓</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td><td class="partial">Partial</td><td class="yes">✓</td>
+            <td class="partial">Partial</td><td class="yes">✓</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td><td class="no">✗</td><td class="yes">✓</td>
             <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
-            <td>Recurring physician relationship</td>
-            <td class="partial">Episodic</td><td class="yes">✓</td><td class="partial">Partial</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td>
+            <td>Physician-led program (not just consults)</td>
+            <td class="partial">Partial</td><td class="yes">✓</td><td class="partial">Partial</td><td class="no">✗</td><td class="partial">Partial</td><td class="no">✗</td><td class="yes">✓</td>
             <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
-            <td>Integrated pharmacy layer</td>
+            <td>Focused online pharmacy</td>
             <td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td>
             <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
-            <td>Wearable &amp; data integration</td>
+            <td>Member data portal / dashboard</td>
+            <td class="partial">Partial</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td>
+            <td class="yes vp-cell">✓</td>
+          </tr>
+          <tr>
+            <td>Wearable / lifestyle data integration</td>
             <td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td>
             <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
-            <td>Structured member education</td>
-            <td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="partial">Partial</td>
+            <td>Education as a product layer</td>
+            <td class="no">✗</td><td class="partial">Partial</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td>
             <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
-            <td>Lab interpretation &amp; trend review</td>
-            <td class="partial">New</td><td class="partial">Partial</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td>
-            <td class="yes vp-cell">✓</td>
-          </tr>
-          <tr>
-            <td>Cross-gender, whole-person model</td>
-            <td class="yes">✓</td><td class="partial">Partial</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td>
+            <td>MSP-covered visit option</td>
+            <td class="partial">Partial</td><td class="yes">✓</td><td class="partial">Partial</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td>
             <td class="yes vp-cell">✓</td>
           </tr>
           <tr>
@@ -657,37 +611,38 @@ body {
           </div>
         </div>
         <div class="us-body">160+ lab tests annually, clinician-reviewed results, longitudinal dashboard, and personalized action guidance. Proves that consumers will pay for <strong style="color:#fff;">comprehensive insight</strong> when interpretation is built in — not just test kits. The retention engine is the dashboard, not the visit.</div>
-        <div class="us-lesson"><strong>Key lesson for VitalPath:</strong> Lead with data, trending, and clinician interpretation. The emotional hook is confidence and control — not medication access. Optional services layer on top once trust is built.</div>
+        <div class="us-lesson"><strong>Key lesson for VitalPath:</strong> Lead with data, trending, and clinician interpretation. The portal is the product, not just a feature.</div>
       </div>
       <div class="us-card reveal">
         <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.65rem;">
-          <div style="width:42px;height:42px;border-radius:10px;background:rgba(29,168,160,0.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">🤝</div>
+          <div style="width:42px;height:42px;border-radius:10px;background:rgba(29,168,160,0.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">🌿</div>
           <div>
             <div class="us-name">Parsley Health</div>
-            <div class="us-tag">Relationship-based care &nbsp;·&nbsp; 12-mo membership</div>
+            <div class="us-tag">Functional medicine membership &nbsp;·&nbsp; $150–200/mo</div>
           </div>
         </div>
-        <div class="us-body">5 in-depth medical visits/year, nutrition coaching, personalized care plans, advanced diagnostics, and ongoing support from a 5-person care team. Shows that consumers pay for <strong style="color:#fff;">depth and continuity</strong> — not just access. Virtual delivery doesn't weaken the model when it preserves responsiveness.</div>
-        <div class="us-lesson"><strong>Key lesson for VitalPath:</strong> Structure education and support as product, not goodwill. Long visits are a differentiator. Recurring care works best when it combines interpretation, accountability, and coordination.</div>
+        <div class="us-body">Physician-led functional medicine memberships combining root-cause diagnosis, advanced labs, and ongoing care coordination. Proves willingness to pay for <strong style="color:#fff;">recurring physician relationships</strong> outside conventional care — at a price point aligned with VitalPath's model.</div>
+        <div class="us-lesson"><strong>Key lesson for VitalPath:</strong> Recurring physician relationships and personalized care plans are the product. Prescriptions are support, not the story.</div>
       </div>
     </div>
 
     <div class="insight-box reveal">
-      <strong>Together, they map VitalPath's strategic spectrum:</strong> Function = data &amp; testing at the centre. Parsley = wrap those insights into ongoing, relationship-driven care. Canada needs both halves in one local platform.
+      <strong>The Canadian gap:</strong> Both Function and Parsley are US-only. No Canadian platform combines their strengths — comprehensive lab data, longitudinal tracking, physician-led programs, and a membership model — at an accessible price point. VitalPath is building the Canadian version of that integrated model.
     </div>
   </div>
 </section>
 
 <div class="section-stripe"></div>
 
-<!-- ─────────────────────── DIFFERENTIATORS ──────────────────────── -->
+<!-- ─────────────────────── DIFFERENTIATION ──────────────────────── -->
 <section class="page-section tinted">
+  <div class="blob-deco" style="width:300px;height:300px;top:-60px;left:-60px;background:#1DA8A0;opacity:0.05;"></div>
   <div class="inner">
-    <div class="section-label reveal">VitalPath differentiation</div>
-    <h2 class="section-heading reveal">Six reasons VitalPath wins where others don't</h2>
-    <p class="section-sub reveal">Each differentiator is structural — not just a feature that can be cloned quickly.</p>
+    <div class="section-label reveal">Differentiation</div>
+    <h2 class="section-heading reveal">Six ways VitalPath wins.</h2>
+    <p class="section-sub reveal">Not features in isolation — a coherent position no competitor currently holds.</p>
 
-    <div class="grid-2" style="gap:0.85rem;">
+    <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:1.4rem;">
       <div class="diff-card reveal">
         <div class="diff-title">1. A sharper customer thesis</div>
         <div class="diff-body">Designed for proactive, health-literate professionals who want better <em>interpretation</em>, not just better access. This creates clarity across branding, features, content, and pricing that generalist platforms can't match.</div>
@@ -779,17 +734,13 @@ body {
         </div>
         <div class="dark-card reveal">
           <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Win on local specificity before US brands localize</div>
-          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">Hims/Hers is already in Canada. Function and Parsley could follow. VitalPath's window is to establish Canadian credibility, workflows, and relationships before the category gets crowded from the south.</div>
+          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">Hims/Hers is already in Canada. Function and Parsley could follow. The window to establish a Canadian-first identity is open now — and closes as US brands invest in local compliance and branding.</div>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.85rem;">
         <div class="dark-card reveal">
-          <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Build the data portal as the retention engine</div>
-          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">Function Health proves that the dashboard — not the visit — keeps members subscribed. Invest in the data and education layer as seriously as the clinical one.</div>
-        </div>
-        <div class="dark-card reveal">
-          <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Use education as product, not marketing</div>
-          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">Parsley Health shows that structured interpretation, coaching, and content can be packaged as part of the membership. This is the feature no Canadian competitor has built — and the one most valued by the target member.</div>
+          <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Build the data layer early</div>
+          <div style="font-size:0.82rem;color:#B2D8D5;line-height:1.5;">The portal is what converts episodic patients into long-term members. Every competitor has underinvested here — it's the clearest sustainable advantage VitalPath can build.</div>
         </div>
         <div class="dark-card reveal">
           <div style="font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.3rem;">Bottom line</div>
@@ -800,74 +751,26 @@ body {
   </div>
 </section>
 
-<!-- ─────────────────────── FOOTER STRIPE ──────────────────────── -->
-<div class="section-stripe"></div>
-<footer style="background:var(--dark-bg);padding:1.5rem;text-align:center;font-size:0.75rem;color:#4A8A85;">
-  VitalPath &nbsp;·&nbsp; Competitive Landscape &nbsp;·&nbsp; Confidential
+</main>
+
+<footer class="site-footer">
+  <span>© 2026 Culmina Health. Confidential &amp; proprietary.</span>
+  <span>Internal overview document — not for distribution.</span>
 </footer>
 
+<script src="nav.js"></script>
 <script>
-/* ── Shared navigation ── */
-(function () {
-  const pages = [
-    { label: 'Home', href: 'index.html' },
-    { label: 'Programs', href: 'programs.html' },
-    { label: 'Competitive', href: 'competitive.html' },
-    { label: 'Architecture', href: 'architecture.html' },
-    { label: 'Patient Flow', href: 'flow.html' },
-  ];
-  function getCurrentPage() {
-    return window.location.pathname.split('/').pop() || 'index.html';
-  }
-  function buildNav() {
-    const current = getCurrentPage();
-    const nav = document.getElementById('site-nav');
-    if (!nav) return;
-    pages.forEach(p => {
-      const a = document.createElement('a');
-      a.href = p.href;
-      a.textContent = p.label;
-      a.className = (current === p.href || (current === '' && p.href === 'index.html'))
-        ? 'nav-link active' : 'nav-link';
-      nav.appendChild(a);
-    });
-  }
-  document.addEventListener('DOMContentLoaded', buildNav);
-})();
-
-/* ── Scroll reveal ── */
-(function () {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const delay = parseFloat(el.dataset.delay || 0);
-        setTimeout(() => el.classList.add('visible'), delay * 1000);
-        observer.unobserve(el);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  // Stagger siblings within the same parent
-  document.querySelectorAll('.reveal').forEach((el, i) => {
-    // Find sibling index for stagger
-    const siblings = Array.from(el.parentElement.querySelectorAll(':scope > .reveal'));
-    const sibIdx = siblings.indexOf(el);
-    if (sibIdx >= 0) el.dataset.delay = (sibIdx * 0.08).toFixed(2);
-    observer.observe(el);
-  });
-})();
-
-/* ── Mouse spotlight on dark sections ── */
-document.addEventListener('mousemove', (e) => {
-  document.querySelectorAll('.page-section.dark').forEach(s => {
-    const r = s.getBoundingClientRect();
-    if (e.clientY >= r.top && e.clientY <= r.bottom) {
-      s.style.setProperty('--spotlight-x', (e.clientX - r.left) + 'px');
-      s.style.setProperty('--spotlight-y', (e.clientY - r.top) + 'px');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const siblings = Array.from(el.parentElement.querySelectorAll('.reveal:not(.revealed)'));
+      const idx = siblings.indexOf(el);
+      setTimeout(() => { el.classList.add('revealed'); observer.unobserve(el); }, idx * 70);
     }
   });
-});
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
