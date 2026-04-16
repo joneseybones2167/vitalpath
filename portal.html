@@ -1,0 +1,3611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VitalPath — App Experience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nav.css">
+
+<!-- ── Outer marketing page CSS ── -->
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:#EEF6F5;color:#13384A;font-family:'DM Sans',system-ui,sans-serif;overflow-x:hidden;}
+
+/* ── Reveal ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.revealed{opacity:1;transform:none;}
+
+/* ══════════════════
+   HERO
+══════════════════ */
+.portal-hero{
+  background:linear-gradient(140deg,#071E2B 0%,#0D3D3D 55%,#0B3A47 100%);
+  padding:clamp(4rem,8vw,6rem) clamp(1.5rem,6vw,7rem) clamp(3rem,5vw,5rem);
+  position:relative;overflow:hidden;
+}
+.portal-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 80% at 72% 40%,rgba(29,168,160,0.2) 0%,transparent 65%);pointer-events:none;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(29,168,160,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(29,168,160,0.05) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;}
+.blob-a{width:480px;height:480px;top:-140px;right:-80px;background:#1DA8A0;opacity:0.09;animation:fa 18s ease-in-out infinite;}
+.blob-b{width:300px;height:300px;bottom:-80px;left:-50px;background:#5EC4BD;opacity:0.07;animation:fb 23s ease-in-out infinite;}
+@keyframes fa{0%,100%{transform:translate(0,0);}50%{transform:translate(-35px,25px);}}
+@keyframes fb{0%,100%{transform:translate(0,0);}50%{transform:translate(25px,-20px);}}
+
+.hero-inner{position:relative;z-index:1;max-width:680px;}
+.hero-eyebrow{font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#5EC4BD;margin-bottom:1rem;}
+.hero-title{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2.2rem,5vw,3.8rem);color:#fff;line-height:1.1;margin-bottom:1.1rem;}
+.hero-title em{font-style:italic;color:#5EC4BD;}
+.hero-sub{font-size:clamp(0.9rem,1.3vw,1.05rem);color:#B2D8D5;line-height:1.75;margin-bottom:2rem;max-width:580px;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:0.5rem;}
+.hero-chip{background:rgba(29,168,160,0.15);border:1px solid rgba(94,196,189,0.3);color:#7DD4CF;font-size:0.72rem;font-weight:600;padding:0.35rem 0.85rem;border-radius:20px;letter-spacing:0.03em;}
+
+/* ══════════════════
+   SECTION SHELL
+══════════════════ */
+.section{padding:clamp(3rem,6vw,5.5rem) clamp(1.5rem,6vw,7rem);}
+.section.dark{background:linear-gradient(150deg,#071E2B 0%,#0D3340 100%);color:#fff;}
+.section.light{background:#fff;}
+.section.mid{background:#EEF6F5;}
+
+.section-eyebrow{font-size:0.68rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#1DA8A0;margin-bottom:0.6rem;}
+.section-title{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.8rem,3.5vw,2.8rem);color:#13384A;line-height:1.15;margin-bottom:0.9rem;}
+.section-title.light-text{color:#fff;}
+.section-lead{font-size:clamp(0.9rem,1.2vw,1rem);color:#2D5A6A;line-height:1.75;max-width:600px;margin-bottom:2rem;}
+.section-lead.light-text{color:#B2D8D5;}
+
+/* ══════════════════
+   DASHBOARD MOCKUP
+══════════════════ */
+.dashboard-wrap{
+  background:linear-gradient(150deg,#071E2B 0%,#0D3340 100%);
+  border-radius:20px;border:1px solid rgba(29,168,160,0.2);
+  overflow:hidden;box-shadow:0 32px 80px rgba(7,30,43,0.5);
+  margin-top:2rem;
+}
+.db-topbar{
+  background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(29,168,160,0.12);
+  display:flex;align-items:center;gap:0.6rem;padding:0.75rem 1.25rem;
+}
+.db-dot{width:10px;height:10px;border-radius:50%;}
+.db-dot.r{background:#FF5F57;} .db-dot.y{background:#FEBC2E;} .db-dot.g{background:#28C840;}
+.db-title-bar{flex:1;text-align:center;font-size:0.72rem;color:rgba(255,255,255,0.3);font-weight:500;}
+
+.db-body{display:grid;grid-template-columns:220px 1fr 230px;min-height:520px;}
+@media(max-width:900px){.db-body{grid-template-columns:1fr;}}
+
+/* Sidebar */
+.db-sidebar{
+  background:rgba(255,255,255,0.03);border-right:1px solid rgba(29,168,160,0.1);
+  padding:1.5rem 1rem;display:flex;flex-direction:column;gap:0.25rem;
+}
+.db-member{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid rgba(29,168,160,0.1);}
+.db-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#1DA8A0,#5EC4BD);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:0.9rem;margin-bottom:0.6rem;}
+.db-member-name{font-size:0.85rem;font-weight:600;color:#fff;margin-bottom:0.2rem;}
+.db-bio-badge{display:inline-flex;align-items:center;gap:0.3rem;background:rgba(29,168,160,0.2);border:1px solid rgba(29,168,160,0.35);border-radius:20px;padding:0.2rem 0.55rem;font-size:0.65rem;font-weight:700;color:#5EC4BD;}
+.db-nav-item{
+  display:flex;align-items:center;gap:0.55rem;padding:0.5rem 0.65rem;border-radius:7px;
+  font-size:0.78rem;font-weight:500;color:rgba(255,255,255,0.5);cursor:pointer;transition:all 0.15s;
+}
+.db-nav-item:hover{background:rgba(29,168,160,0.1);color:#fff;}
+.db-nav-item.active{background:rgba(29,168,160,0.15);color:#5EC4BD;font-weight:600;}
+.db-nav-icon{width:16px;height:16px;opacity:0.7;flex-shrink:0;}
+
+/* Main chart area */
+.db-main{padding:1.5rem;}
+.db-section-label{font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#1DA8A0;margin-bottom:0.75rem;}
+.db-chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+.db-chart-title{font-size:0.9rem;font-weight:600;color:#fff;}
+.db-range-tabs{display:flex;gap:0.3rem;}
+.db-range-tab{font-size:0.68rem;font-weight:600;padding:0.25rem 0.6rem;border-radius:5px;cursor:pointer;color:rgba(255,255,255,0.4);background:transparent;border:1px solid transparent;transition:all 0.15s;}
+.db-range-tab.active{color:#5EC4BD;background:rgba(29,168,160,0.15);border-color:rgba(29,168,160,0.3);}
+
+.chart-legend{display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1rem;}
+.chart-legend-item{display:flex;align-items:center;gap:0.3rem;font-size:0.68rem;color:rgba(255,255,255,0.55);}
+.chart-legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+
+/* SVG chart container */
+.chart-svg-wrap{position:relative;background:rgba(255,255,255,0.02);border:1px solid rgba(29,168,160,0.08);border-radius:10px;padding:1rem;overflow:visible;}
+
+/* Tooltip */
+.chart-tooltip{
+  position:absolute;top:28px;left:52%;
+  background:#0D3340;border:1px solid rgba(29,168,160,0.35);border-radius:8px;
+  padding:0.65rem 0.85rem;pointer-events:none;min-width:160px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.4);
+}
+.tt-date{font-size:0.65rem;color:#5EC4BD;font-weight:700;margin-bottom:0.4rem;letter-spacing:0.06em;}
+.tt-row{display:flex;justify-content:space-between;align-items:center;gap:1rem;font-size:0.72rem;margin-bottom:0.2rem;}
+.tt-label{color:rgba(255,255,255,0.6);}
+.tt-value{font-weight:700;color:#fff;}
+.tt-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+/* Right panel */
+.db-right{
+  border-left:1px solid rgba(29,168,160,0.1);
+  padding:1.5rem 1.1rem;display:flex;flex-direction:column;gap:1rem;
+}
+.db-card{background:rgba(255,255,255,0.04);border:1px solid rgba(29,168,160,0.12);border-radius:10px;padding:0.9rem;}
+.db-card-label{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5EC4BD;margin-bottom:0.5rem;}
+.db-card-value{font-size:0.82rem;color:rgba(255,255,255,0.85);line-height:1.5;}
+.db-card.alert{border-color:rgba(250,199,117,0.3);background:rgba(250,199,117,0.06);}
+.db-card.alert .db-card-label{color:#FAC775;}
+.db-card.positive{border-color:rgba(29,168,160,0.3);background:rgba(29,168,160,0.07);}
+.alert-dot{display:inline-block;width:7px;height:7px;background:#FAC775;border-radius:50%;margin-right:0.4rem;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.physician-badge{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.65rem;background:rgba(29,168,160,0.15);border:1px solid rgba(29,168,160,0.3);color:#5EC4BD;border-radius:20px;padding:0.2rem 0.5rem;margin-top:0.4rem;}
+
+/* ══════════════════
+   BIOMARKER SECTION
+══════════════════ */
+.biomarker-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+@media(max-width:780px){.biomarker-grid{grid-template-columns:1fr;}}
+
+/* Metric panel mockup */
+.metric-panel{
+  background:#fff;border-radius:16px;
+  border:1px solid #D8EDEA;
+  box-shadow:0 8px 32px rgba(13,61,61,0.08);
+  overflow:hidden;
+}
+.metric-panel-header{
+  background:linear-gradient(135deg,#0D3D3D,#13384A);
+  padding:1.25rem 1.5rem;
+}
+.metric-panel-name{font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5EC4BD;margin-bottom:0.3rem;}
+.metric-panel-value{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#fff;}
+.metric-panel-unit{font-size:0.8rem;color:rgba(255,255,255,0.5);margin-left:0.3rem;}
+.metric-panel-trend{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.72rem;font-weight:700;color:#FAC775;background:rgba(250,199,117,0.15);border:1px solid rgba(250,199,117,0.3);border-radius:20px;padding:0.2rem 0.6rem;margin-top:0.5rem;}
+
+/* Gauge bar */
+.gauge-wrap{padding:1.25rem 1.5rem;border-bottom:1px solid #E8F4F2;}
+.gauge-labels{display:flex;justify-content:space-between;font-size:0.65rem;color:#9CAAB5;margin-bottom:0.4rem;}
+.gauge-bar{height:10px;border-radius:20px;background:linear-gradient(90deg,#27AE60 0%,#F1C40F 50%,#E74C3C 100%);position:relative;margin-bottom:0.35rem;}
+.gauge-marker{
+  position:absolute;top:-3px;width:16px;height:16px;border-radius:50%;
+  background:#fff;border:3px solid #13384A;box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  transform:translateX(-50%);left:74%;
+}
+.gauge-note{font-size:0.7rem;color:#637381;}
+
+/* Tabs */
+.metric-tabs{display:flex;border-bottom:1px solid #E8F4F2;}
+.metric-tab{flex:1;padding:0.75rem;font-size:0.75rem;font-weight:600;color:#9CAAB5;text-align:center;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;}
+.metric-tab.active{color:#1DA8A0;border-bottom-color:#1DA8A0;}
+.metric-tab-content{padding:1.25rem 1.5rem;}
+.metric-bullet{display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.65rem;font-size:0.8rem;color:#2D5A6A;line-height:1.5;}
+.metric-bullet::before{content:'';width:5px;height:5px;min-width:5px;background:#1DA8A0;border-radius:50%;margin-top:0.45rem;}
+.reviewed-badge{display:inline-flex;align-items:center;gap:0.35rem;font-size:0.68rem;font-weight:700;color:#1DA8A0;background:#E2F4F1;border:1px solid #B8DDD9;border-radius:20px;padding:0.25rem 0.65rem;margin-top:0.5rem;}
+.reviewed-badge::before{content:'✓';}
+
+/* Metric chips grid */
+.metric-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.75rem;}
+.metric-chip{
+  background:#fff;border:1px solid #C8E6E2;color:#2D5A6A;
+  font-size:0.75rem;font-weight:600;padding:0.45rem 0.85rem;border-radius:8px;
+  cursor:pointer;transition:all 0.18s;position:relative;
+}
+.metric-chip:hover{background:#1DA8A0;color:#fff;border-color:#1DA8A0;transform:translateY(-1px);box-shadow:0 4px 12px rgba(29,168,160,0.25);}
+.metric-chip.active{background:#1DA8A0;color:#fff;border-color:#1DA8A0;}
+.metric-chip-copy{font-size:0.8rem;color:#637381;margin-top:0.75rem;line-height:1.6;}
+
+/* ══════════════════
+   EDUCATION / CHATBOT
+══════════════════ */
+.edu-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+@media(max-width:820px){.edu-layout{grid-template-columns:1fr;}}
+
+.edu-card{
+  background:#fff;border-radius:16px;border:1px solid #D8EDEA;
+  box-shadow:0 8px 28px rgba(13,61,61,0.07);overflow:hidden;
+}
+.edu-header{
+  background:linear-gradient(135deg,#13384A,#1A4A3A);
+  padding:1.25rem 1.5rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;
+}
+.edu-metric-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#fff;}
+.edu-metric-sub{font-size:0.75rem;color:#B2D8D5;margin-top:0.15rem;}
+.edu-category-badge{background:rgba(29,168,160,0.25);border:1px solid rgba(94,196,189,0.4);color:#5EC4BD;font-size:0.65rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:20px;white-space:nowrap;flex-shrink:0;}
+.edu-value-row{display:flex;align-items:center;gap:0.75rem;margin-top:0.75rem;}
+.edu-current{font-size:0.78rem;color:rgba(255,255,255,0.6);}
+.edu-current strong{color:#FAC775;}
+
+.edu-sections{padding:1.25rem 1.5rem;}
+.edu-section{margin-bottom:1rem;}
+.edu-section-title{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#1DA8A0;margin-bottom:0.4rem;}
+.edu-section-body{font-size:0.8rem;color:#2D5A6A;line-height:1.65;}
+
+/* Chat interface */
+.chat-area{border-top:1px solid #E8F4F2;padding:1.25rem 1.5rem;}
+.chat-title{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#637381;margin-bottom:0.75rem;}
+.chat-messages{display:flex;flex-direction:column;gap:0.65rem;margin-bottom:0.85rem;max-height:260px;overflow-y:auto;}
+.chat-msg{display:flex;gap:0.6rem;align-items:flex-start;}
+.chat-msg.user{flex-direction:row-reverse;}
+.chat-bubble{
+  max-width:82%;font-size:0.78rem;line-height:1.55;border-radius:10px;padding:0.6rem 0.85rem;
+}
+.chat-msg.ai .chat-bubble{background:#F5FAFA;border:1px solid #D8EDEA;color:#2D5A6A;}
+.chat-msg.user .chat-bubble{background:#1DA8A0;color:#fff;}
+.chat-avatar{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;}
+.chat-msg.ai .chat-avatar{background:#E2F4F1;color:#1DA8A0;border:1px solid #B8DDD9;}
+.chat-msg.user .chat-avatar{background:#13384A;color:#5EC4BD;}
+.ai-badge{display:inline-block;font-size:0.6rem;background:#E2F4F1;color:#1DA8A0;border:1px solid #B8DDD9;border-radius:4px;padding:0.05rem 0.35rem;font-weight:700;margin-left:0.3rem;vertical-align:middle;}
+
+.chat-prompts{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.75rem;}
+.chat-prompt-chip{
+  background:#F5FAFA;border:1px solid #D8EDEA;color:#2D5A6A;
+  font-size:0.7rem;padding:0.3rem 0.65rem;border-radius:6px;cursor:pointer;
+  transition:all 0.15s;
+}
+.chat-prompt-chip:hover{background:#E2F4F1;border-color:#1DA8A0;color:#1DA8A0;}
+
+.chat-input-row{display:flex;gap:0.5rem;align-items:center;}
+.chat-input{
+  flex:1;background:#F5FAFA;border:1px solid #D8EDEA;border-radius:8px;
+  padding:0.55rem 0.85rem;font-size:0.78rem;color:#2D5A6A;font-family:'DM Sans',sans-serif;
+  outline:none;transition:border-color 0.15s;
+}
+.chat-input:focus{border-color:#1DA8A0;}
+.chat-send{
+  width:34px;height:34px;background:#1DA8A0;border:none;border-radius:8px;
+  color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:0.9rem;transition:background 0.15s;flex-shrink:0;
+}
+.chat-send:hover{background:#0D8A83;}
+.chat-disclaimer{font-size:0.65rem;color:#9CAAB5;margin-top:0.6rem;line-height:1.5;border-top:1px solid #E8F4F2;padding-top:0.6rem;}
+
+/* ══════════════════
+   EPIGENETICS
+══════════════════ */
+.epi-section{position:relative;overflow:hidden;}
+.epi-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 80% 30%,rgba(29,168,160,0.08) 0%,transparent 70%);pointer-events:none;}
+
+.epi-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}
+@media(max-width:820px){.epi-layout{grid-template-columns:1fr;}}
+
+.epi-card{
+  background:linear-gradient(150deg,#071E2B 0%,#0D3D3D 100%);
+  border:1px solid rgba(29,168,160,0.2);border-radius:20px;padding:2rem;
+  box-shadow:0 24px 60px rgba(7,30,43,0.45);
+}
+.epi-age-display{display:flex;gap:2.5rem;align-items:flex-end;margin-bottom:1.75rem;}
+.epi-age-block{display:flex;flex-direction:column;}
+.epi-age-label{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5EC4BD;margin-bottom:0.3rem;}
+.epi-age-num{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:900;color:#fff;line-height:1;}
+.epi-age-num.chron{color:rgba(255,255,255,0.35);font-size:2.2rem;}
+.epi-advantage{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(29,168,160,0.2);border:1px solid rgba(29,168,160,0.4);color:#5EC4BD;font-size:0.8rem;font-weight:700;padding:0.35rem 0.85rem;border-radius:20px;margin-bottom:1.5rem;}
+
+/* Timeline */
+.epi-timeline{margin-bottom:1.75rem;}
+.epi-tl-label{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.75rem;}
+.epi-tl-track{position:relative;height:4px;background:rgba(255,255,255,0.1);border-radius:4px;margin-bottom:0.6rem;}
+.epi-tl-fill{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,#1DA8A0,#5EC4BD);border-radius:4px;width:100%;}
+.epi-tl-points{display:flex;justify-content:space-between;position:relative;}
+.epi-tl-point{display:flex;flex-direction:column;align-items:center;gap:0.3rem;}
+.epi-tl-dot{width:12px;height:12px;border-radius:50%;border:2px solid #1DA8A0;background:#071E2B;}
+.epi-tl-dot.current{background:#1DA8A0;box-shadow:0 0 0 3px rgba(29,168,160,0.3);}
+.epi-tl-age{font-size:0.78rem;font-weight:700;color:#fff;}
+.epi-tl-date{font-size:0.62rem;color:rgba(255,255,255,0.35);}
+
+/* Driver cards */
+.epi-drivers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.65rem;}
+.epi-driver{background:rgba(255,255,255,0.05);border:1px solid rgba(29,168,160,0.12);border-radius:10px;padding:0.75rem;}
+.epi-driver-name{font-size:0.68rem;font-weight:600;color:rgba(255,255,255,0.65);margin-bottom:0.3rem;}
+.epi-driver-trend{font-size:0.75rem;font-weight:700;}
+.epi-driver-trend.up{color:#5EC4BD;}
+.epi-driver-trend.down{color:#5EC4BD;}
+.sparkline-wrap{margin-top:0.4rem;}
+
+/* ══════════════════
+   AI PATTERN SECTION
+══════════════════ */
+.pattern-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+@media(max-width:820px){.pattern-layout{grid-template-columns:1fr;}}
+
+.pattern-cards{display:flex;flex-direction:column;gap:0.85rem;}
+.pattern-card{background:#fff;border-radius:12px;padding:1rem 1.25rem;border-left:3px solid #E8F4F2;box-shadow:0 2px 12px rgba(13,61,61,0.05);}
+.pattern-card.amber{border-left-color:#FAC775;background:#FFFDF5;}
+.pattern-card.teal{border-left-color:#1DA8A0;background:#F5FAFA;}
+.pattern-card-label{font-size:0.63rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;}
+.pattern-card.amber .pattern-card-label{color:#BA7517;}
+.pattern-card.teal .pattern-card-label{color:#1DA8A0;}
+.pattern-card-text{font-size:0.8rem;color:#2D5A6A;line-height:1.55;margin-bottom:0.4rem;}
+.pattern-card-meta{font-size:0.68rem;color:#9CAAB5;display:flex;align-items:center;gap:0.4rem;}
+.pattern-card-meta::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.pattern-card.amber .pattern-card-meta{color:#BA7517;}
+.pattern-card.teal .pattern-card-meta{color:#1DA8A0;}
+
+/* Insight feed mockup */
+.insight-feed{
+  background:#fff;border-radius:16px;border:1px solid #D8EDEA;
+  box-shadow:0 8px 28px rgba(13,61,61,0.07);overflow:hidden;
+}
+.insight-feed-header{
+  background:linear-gradient(135deg,#0D3D3D,#13384A);
+  padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;
+}
+.insight-feed-title{font-size:0.8rem;font-weight:700;color:#fff;}
+.insight-feed-badge{background:rgba(29,168,160,0.25);color:#5EC4BD;font-size:0.62rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:20px;}
+.insight-item{padding:1rem 1.25rem;border-bottom:1px solid #E8F4F2;}
+.insight-item:last-child{border-bottom:none;}
+.insight-item-top{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem;}
+.insight-item-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;flex-shrink:0;}
+.insight-item-icon.amber{background:rgba(250,199,117,0.15);color:#BA7517;}
+.insight-item-icon.teal{background:rgba(29,168,160,0.12);color:#1DA8A0;}
+.insight-item-type{font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+.insight-item-type.amber{color:#BA7517;}
+.insight-item-type.teal{color:#1DA8A0;}
+.insight-item-time{font-size:0.62rem;color:#9CAAB5;margin-left:auto;}
+.insight-item-text{font-size:0.78rem;color:#2D5A6A;line-height:1.5;}
+.insight-reviewer{display:flex;align-items:center;gap:0.4rem;margin-top:0.4rem;}
+.reviewer-avatar{width:18px;height:18px;border-radius:50%;background:#1DA8A0;display:flex;align-items:center;justify-content:center;font-size:0.5rem;font-weight:700;color:#fff;}
+.reviewer-name{font-size:0.65rem;color:#1DA8A0;font-weight:600;}
+
+/* Privacy callout */
+.privacy-box{
+  background:#E2F4F1;border:1px solid #B8DDD9;border-radius:12px;
+  padding:1.25rem 1.5rem;margin-top:1.5rem;
+}
+.privacy-box-title{font-size:0.72rem;font-weight:700;color:#0D8A83;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.4rem;}
+.privacy-box-title::before{content:'🔒';font-size:0.8rem;}
+.privacy-box-text{font-size:0.78rem;color:#2D5A6A;line-height:1.6;}
+
+/* ══════════════════
+   FEATURE GRID
+══════════════════ */
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2rem;}
+@media(max-width:820px){.feature-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.feature-grid{grid-template-columns:1fr;}}
+
+.feature-tile{
+  background:#fff;border:1px solid #D8EDEA;border-radius:14px;
+  padding:1.5rem;transition:transform 0.2s,box-shadow 0.2s;
+}
+.feature-tile:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(13,61,61,0.1);}
+.feature-icon{width:40px;height:40px;border-radius:10px;background:#E2F4F1;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:1rem;}
+.feature-tile-title{font-size:0.9rem;font-weight:700;color:#13384A;margin-bottom:0.4rem;}
+.feature-tile-body{font-size:0.78rem;color:#637381;line-height:1.6;}
+
+/* ══════════════════
+   CLOSING CTA
+══════════════════ */
+.closing{
+  background:linear-gradient(140deg,#071E2B 0%,#0D3D3D 60%,#0B3A47 100%);
+  padding:clamp(4rem,7vw,6rem) clamp(1.5rem,6vw,7rem);
+  text-align:center;position:relative;overflow:hidden;
+}
+.closing::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 50% 50%,rgba(29,168,160,0.14) 0%,transparent 65%);pointer-events:none;}
+.closing-eyebrow{font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#5EC4BD;margin-bottom:0.9rem;}
+.closing-title{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3.2rem);color:#fff;line-height:1.15;margin-bottom:1rem;}
+.closing-sub{font-size:clamp(0.88rem,1.2vw,1rem);color:#B2D8D5;line-height:1.75;max-width:540px;margin:0 auto 2rem;}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:linear-gradient(135deg,#1DA8A0,#5EC4BD);
+  color:#071E2B;font-weight:700;font-size:0.9rem;
+  padding:0.9rem 2rem;border-radius:10px;text-decoration:none;
+  transition:transform 0.2s,opacity 0.2s;
+}
+.btn-primary:hover{transform:translateY(-2px);opacity:0.9;}
+
+/* ══════════════════
+   SECTION STRIPE
+══════════════════ */
+.section-stripe{height:4px;background:linear-gradient(90deg,#1DA8A0,#5EC4BD,#1DA8A0);}
+
+</style>
+
+<!-- ── Scoped embedded portal app CSS ── -->
+<style>
+
+/* ── RESET & VARS ── */
+#vp-app *, #vp-app *::before, #vp-app *::after { margin:0; padding:0; box-sizing:border-box; }
+
+#vp-app {
+  --bg: #0F0F0E;
+  --bg-card: #1A1A18;
+  --bg-card-hover: #222220;
+  --bg-elevated: #252523;
+  --border: #2A2A27;
+  --border-light: #333330;
+  --text: #E8E6DF;
+  --text-secondary: #9B9890;
+  --text-muted: #6B6961;
+  --accent: #C8B88A;
+  --accent-dim: rgba(200,184,138,0.12);
+  --accent-mid: rgba(200,184,138,0.25);
+  --green: #6BCB77;
+  --green-dim: rgba(107,203,119,0.12);
+  --red: #E05555;
+  --red-dim: rgba(224,85,85,0.12);
+  --blue: #5B9BD5;
+  --blue-dim: rgba(91,155,213,0.12);
+  --orange: #E8A838;
+  --orange-dim: rgba(232,168,56,0.12);
+  --purple: #9B8EC4;
+  --purple-dim: rgba(155,142,196,0.12);
+  --teal: #4ECDC4;
+  --teal-dim: rgba(78,205,196,0.12);
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-sm: 6px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --font: 'DM Sans', sans-serif;
+  --font-display: 'DM Serif Display', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --sidebar-w: 260px;
+  --topbar-h: 64px;
+}
+
+
+#vp-app .app-wrap {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  height: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── LAYOUT SHELL ── */
+#vp-app .app {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-rows: var(--topbar-h) 1fr;
+  height: 100%;
+}
+
+/* ── SIDEBAR ── */
+#vp-app .sidebar {
+  grid-row: 1 / -1;
+  background: #141413;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  z-index: 10;
+}
+
+#vp-app .sidebar-brand {
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+#vp-app .sidebar-brand .logo-mark {
+  width: 30px; height: 30px;
+  background: linear-gradient(135deg, var(--accent), #A89860);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: var(--bg);
+  letter-spacing: -0.5px;
+}
+
+#vp-app .sidebar-brand .logo-text {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--text);
+  letter-spacing: 0.3px;
+}
+
+#vp-app .sidebar-nav {
+  flex: 1;
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#vp-app .nav-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+  padding: 14px 12px 6px;
+}
+
+#vp-app .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 450;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  position: relative;
+  user-select: none;
+}
+
+#vp-app .nav-item:hover { background: var(--accent-dim); color: var(--text); }
+
+#vp-app .nav-item.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+#vp-app .nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 0 3px 3px 0;
+}
+
+#vp-app .nav-icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+#vp-app .nav-badge {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--accent-dim);
+  color: var(--accent);
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+
+#vp-app .sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+
+#vp-app .member-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+#vp-app .member-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #A89860);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: var(--bg);
+}
+
+#vp-app .member-info { flex: 1; min-width: 0; }
+#vp-app .member-name { font-size: 12.5px; font-weight: 600; color: var(--text); }
+#vp-app .member-role { font-size: 10.5px; color: var(--text-muted); }
+
+/* ── TOP BAR ── */
+#vp-app .topbar {
+  height: var(--topbar-h);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 9;
+}
+
+#vp-app .topbar-left { display: flex; align-items: center; gap: 14px; }
+
+#vp-app .topbar-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--text);
+}
+
+#vp-app .topbar-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 3px 10px;
+  background: var(--accent-dim);
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+#vp-app .topbar-right { display: flex; align-items: center; gap: 16px; }
+
+#vp-app .topbar-btn {
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+#vp-app .topbar-btn:hover { background: var(--bg-card); color: var(--text); }
+
+#vp-app .topbar-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+#vp-app .topbar-btn.primary:hover { opacity: 0.9; }
+
+/* ── MAIN CONTENT ── */
+#vp-app .main {
+  padding: 28px;
+  overflow-y: auto;
+  max-height: calc(100vh - var(--topbar-h));
+}
+
+/* ── PAGE VIEWS ── */
+#vp-app .page-view { display: none; animation: fadeUp 0.35s ease; }
+#vp-app .page-view.active { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── GRID HELPERS ── */
+#vp-app .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+#vp-app .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+#vp-app .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+/* ── CARDS ── */
+#vp-app .card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  transition: border-color 0.2s;
+}
+#vp-app .card:hover { border-color: var(--border-light); }
+
+#vp-app .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+#vp-app .card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.2px;
+}
+
+#vp-app .card-subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+#vp-app .card-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+#vp-app .badge-green { background: var(--green-dim); color: var(--green); }
+#vp-app .badge-red { background: var(--red-dim); color: var(--red); }
+#vp-app .badge-blue { background: var(--blue-dim); color: var(--blue); }
+#vp-app .badge-orange { background: var(--orange-dim); color: var(--orange); }
+#vp-app .badge-accent { background: var(--accent-dim); color: var(--accent); }
+#vp-app .badge-purple { background: var(--purple-dim); color: var(--purple); }
+#vp-app .badge-teal { background: var(--teal-dim); color: var(--teal); }
+
+/* ── STAT CARDS ── */
+#vp-app .stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+#vp-app .stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+#vp-app .stat-value {
+  font-family: var(--font-display);
+  font-size: 30px;
+  color: var(--text);
+  line-height: 1;
+}
+
+#vp-app .stat-unit {
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-left: 3px;
+}
+
+#vp-app .stat-change {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+#vp-app .stat-change.up { color: var(--green); }
+#vp-app .stat-change.down { color: var(--red); }
+#vp-app .stat-change.neutral { color: var(--text-muted); }
+
+/* ── CHART PLACEHOLDER ── */
+#vp-app .chart-area {
+  width: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+
+#vp-app .chart-area svg { display: block; width: 100%; }
+
+/* ── DATA TABLE ── */
+#vp-app .data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#vp-app .data-table th {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+#vp-app .data-table td {
+  font-size: 13px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+#vp-app .data-table tr:last-child td { border-bottom: none; }
+#vp-app .data-table tr:hover td { background: rgba(255,255,255,0.015); }
+
+#vp-app .data-table .val { font-family: var(--font-mono); font-weight: 500; color: var(--text); font-size: 12.5px; }
+#vp-app .data-table .range { font-size: 11px; color: var(--text-muted); }
+
+#vp-app .status-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+#vp-app .status-dot.optimal { background: var(--green); }
+#vp-app .status-dot.watch { background: var(--orange); }
+#vp-app .status-dot.flag { background: var(--red); }
+
+/* ── PROGRESS BAR ── */
+#vp-app .progress-track {
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#vp-app .progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s ease;
+}
+
+/* ── SECTION HEADER ── */
+#vp-app .section-head {
+  margin-bottom: 22px;
+}
+
+#vp-app .section-head h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+#vp-app .section-head p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ── WEARABLE DEVICE CARDS ── */
+#vp-app .device-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+#vp-app .device-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#vp-app .device-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+
+#vp-app .device-name { font-size: 14px; font-weight: 600; color: var(--text); }
+#vp-app .device-status { font-size: 11px; color: var(--green); display: flex; align-items: center; gap: 4px; }
+
+#vp-app .device-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+#vp-app .device-metric {
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+
+#vp-app .device-metric-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 4px;
+}
+
+#vp-app .device-metric-value {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* ── EPIGENETICS ── */
+#vp-app .age-ring-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 30px 0;
+}
+
+#vp-app .age-ring {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+
+#vp-app .age-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+
+#vp-app .age-ring-label {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#vp-app .age-ring-label .age-num {
+  font-family: var(--font-display);
+  font-size: 36px;
+  color: var(--text);
+  line-height: 1;
+}
+
+#vp-app .age-ring-label .age-type {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+#vp-app .age-delta {
+  text-align: center;
+}
+
+#vp-app .age-delta-value {
+  font-family: var(--font-display);
+  font-size: 42px;
+  color: var(--green);
+  line-height: 1;
+}
+
+#vp-app .age-delta-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* ── MEDICATION LIST ── */
+#vp-app .med-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+#vp-app .med-item:last-child { border-bottom: none; }
+
+#vp-app .med-icon {
+  width: 38px; height: 38px;
+  border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+#vp-app .med-info { flex: 1; }
+#vp-app .med-name { font-size: 13.5px; font-weight: 600; color: var(--text); }
+#vp-app .med-dose { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
+
+#vp-app .med-schedule {
+  text-align: right;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+#vp-app .med-next { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+/* ── MESSAGE THREAD ── */
+#vp-app .msg-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#vp-app .msg {
+  display: flex;
+  gap: 12px;
+  max-width: 85%;
+}
+
+#vp-app .msg.from-doc { align-self: flex-start; }
+#vp-app .msg.from-patient { align-self: flex-end; flex-direction: row-reverse; }
+
+#vp-app .msg-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  flex-shrink: 0;
+}
+
+#vp-app .msg.from-doc .msg-avatar { background: var(--accent-dim); color: var(--accent); }
+#vp-app .msg.from-patient .msg-avatar { background: var(--blue-dim); color: var(--blue); }
+
+#vp-app .msg-bubble {
+  border-radius: 12px 12px 12px 4px;
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+#vp-app .msg.from-doc .msg-bubble { background: var(--bg-elevated); border: 1px solid var(--border); }
+#vp-app .msg.from-patient .msg-bubble { background: var(--accent-dim); border-radius: 12px 12px 4px 12px; }
+
+#vp-app .msg-meta {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
+#vp-app .msg.from-patient .msg-meta { text-align: right; }
+
+/* ── MESSAGE INPUT ── */
+#vp-app .msg-input-bar {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+#vp-app .msg-input-bar input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+}
+#vp-app .msg-input-bar input::placeholder { color: var(--text-muted); }
+
+#vp-app .msg-send-btn {
+  padding: 7px 16px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ── GENE TABLE ── */
+#vp-app .gene-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.2fr 2fr;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  font-size: 12.5px;
+}
+
+#vp-app .gene-row:first-child {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-light);
+}
+
+#vp-app .gene-name { font-weight: 600; color: var(--text); }
+#vp-app .gene-variant { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-secondary); }
+
+#vp-app .risk-bar-track {
+  height: 5px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#vp-app .risk-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+/* ── TIMELINE ── */
+#vp-app .timeline-item {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  position: relative;
+}
+
+#vp-app .timeline-item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 42px;
+  bottom: -2px;
+  width: 1px;
+  background: var(--border);
+}
+
+#vp-app .timeline-dot {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+#vp-app .timeline-content { flex: 1; }
+#vp-app .timeline-title { font-size: 13px; font-weight: 600; color: var(--text); }
+#vp-app .timeline-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+#vp-app .timeline-date { font-size: 10.5px; color: var(--text-muted); margin-top: 4px; font-family: var(--font-mono); }
+
+/* ── SECTION DIVIDER ── */
+#vp-app .divider {
+  height: 1px;
+  background: var(--border);
+  margin: 24px 0;
+}
+
+/* ── FULL-WIDTH CARD ── */
+#vp-app .card-full { grid-column: 1 / -1; }
+
+/* ── TAB STRIP ── */
+#vp-app .tab-strip {
+  display: flex;
+  gap: 2px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 3px;
+  margin-bottom: 20px;
+}
+
+#vp-app .tab-item {
+  flex: 1;
+  padding: 8px 14px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#vp-app .tab-item:hover { color: var(--text-secondary); }
+#vp-app .tab-item.active { background: var(--accent-dim); color: var(--accent); font-weight: 600; }
+
+/* ── SPARKLINE ── */
+#vp-app .sparkline { display: inline-block; vertical-align: middle; }
+
+/* ── ADHERENCE RING ── */
+#vp-app .adherence-wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 10px 0;
+}
+
+/* ── EDUCATION MODULE ── */
+#vp-app .edu-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+#vp-app .edu-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+#vp-app .edu-tag {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+
+#vp-app .edu-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+#vp-app .edu-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+#vp-app .edu-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ── CARE TEAM ── */
+#vp-app .care-member {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+#vp-app .care-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+}
+
+#vp-app .care-name { font-size: 13px; font-weight: 600; color: var(--text); }
+#vp-app .care-role { font-size: 11px; color: var(--text-muted); }
+
+/* ── PROGRAM BADGE ── */
+#vp-app .program-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(200,184,138,0.2);
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ── CGM CHART ── */
+#vp-app .glucose-range {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 60px;
+  padding-top: 10px;
+}
+
+#vp-app .glucose-bar {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  min-height: 4px;
+  transition: height 0.3s;
+}
+
+
+/* ── Embedded portal container overrides ── */
+#vp-app { display: block; position: relative; }
+#vp-app .app-wrap { 
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+#vp-app .app {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-rows: var(--topbar-h) 1fr;
+  height: 720px;
+}
+#vp-app .main {
+  padding: 28px;
+  overflow-y: auto;
+  height: calc(720px - var(--topbar-h));
+  max-height: none;
+}
+#vp-app .sidebar {
+  height: 720px;
+  overflow-y: auto;
+}
+/* Ensure page-view animation works */
+#vp-app .page-view { display: none; }
+#vp-app .page-view.active { display: block; animation: vpFadeUp 0.3s ease; }
+@keyframes vpFadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+</style>
+
+</head>
+<body>
+<div id="top-stripe"></div>
+<header id="site-header">
+  <a href="index.html" class="site-wordmark"><span class="wm-dot"></span>VitalPath</a>
+  <nav id="site-nav"></nav>
+</header>
+
+<main class="page-body">
+
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section class="portal-hero">
+  <div class="hero-grid"></div>
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow reveal">Data &amp; Education Portal</div>
+    <h1 class="hero-title reveal">Your health data, finally <em>understood.</em></h1>
+    <p class="hero-sub reveal">The portal brings together your labs, wearables, and physician notes into a single longitudinal view — with education built in, AI-powered pattern detection, and every insight reviewed by your care team.</p>
+    <div class="hero-chips reveal">
+      <span class="hero-chip">Lab trends</span>
+      <span class="hero-chip">Wearable signals</span>
+      <span class="hero-chip">Biomarker education</span>
+      <span class="hero-chip">AI pattern detection</span>
+      <span class="hero-chip">Physician-reviewed</span>
+      <span class="hero-chip">Epigenetic age</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     DASHBOARD MOCKUP
+══════════════════════════════════════ -->
+<section class="section dark">
+  <div class="section-eyebrow reveal">Member Dashboard</div>
+  <h2 class="section-title light-text reveal">One view. Every signal. Over time.</h2>
+  <p class="section-lead light-text reveal">Not a static report — a live dashboard that shows where your biomarkers are going, not just where they are today. Wearable data, lab results, and physician notes in a single longitudinal record.</p>
+
+  <div class="dashboard-wrap reveal">
+    <div class="db-topbar">
+      <div class="db-dot r"></div><div class="db-dot y"></div><div class="db-dot g"></div>
+      <div class="db-title-bar">VitalPath Member Portal — Dashboard</div>
+    </div>
+    <div class="db-body">
+
+      <!-- Sidebar -->
+      <div class="db-sidebar">
+        <div class="db-member">
+          <div class="db-avatar">MH</div>
+          <div class="db-member-name">Marcus H.</div>
+          <div class="db-bio-badge">⬇ Bio Age: 41</div>
+        </div>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);padding:0.5rem 0.65rem 0.25rem;margin-top:0.25rem;">Dashboard</div>
+        <div class="db-nav-item active">
+          <svg class="db-nav-icon" fill="none" viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="#5EC4BD"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.2)"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.2)"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.2)"/></svg>
+          Overview
+        </div>
+        <div class="db-nav-item">
+          <svg class="db-nav-icon" fill="none" viewBox="0 0 16 16"><path d="M1 12 L4 8 L7 10 L10 5 L13 7 L15 3" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Lab Results
+        </div>
+        <div class="db-nav-item">
+          <svg class="db-nav-icon" fill="none" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Wearables
+        </div>
+        <div class="db-nav-item">
+          <svg class="db-nav-icon" fill="none" viewBox="0 0 16 16"><path d="M8 1L9.5 5.5H14L10.5 8.5L12 13L8 10L4 13L5.5 8.5L2 5.5H6.5L8 1Z" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          Epigenetics
+        </div>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);padding:0.75rem 0.65rem 0.25rem;margin-top:0.25rem;border-top:1px solid rgba(255,255,255,0.06);">Care</div>
+        <div class="db-nav-item">
+          <svg class="db-nav-icon" fill="none" viewBox="0 0 16 16"><rect x="2" y="1" width="12" height="14" rx="2" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/><path d="M5 5h6M5 8h6M5 11h3" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Medications
+        </div>
+        <div class="db-nav-item">
+          <svg class="db-nav-icon" fill="none" viewBox="0 0 16 16"><path d="M2 3h12v8H9l-3 2v-2H2z" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          Messages
+        </div>
+        <div class="db-nav-item">
+          <svg class="db-nav-icon" fill="none" viewBox="0 0 16 16"><path d="M2 4h12M2 8h8M2 12h6" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Education
+        </div>
+        <div class="db-nav-item">
+          <svg class="db-nav-icon" fill="none" viewBox="0 0 16 16"><path d="M8 1l1.8 3.6 4 .6-2.9 2.8.7 4L8 10l-3.6 2 .7-4L2.1 5.2l4-.6z" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          Care Plan
+        </div>
+      </div>
+
+      <!-- Chart area -->
+      <div class="db-main">
+        <div class="db-section-label">Biomarker Trends</div>
+        <div class="db-chart-header">
+          <span class="db-chart-title">Key markers — 12-month view</span>
+          <div class="db-range-tabs">
+            <span class="db-range-tab">3M</span>
+            <span class="db-range-tab">6M</span>
+            <span class="db-range-tab active">12M</span>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#5EC4BD;"></div> LDL-P</div>
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#FAC775;"></div> HsCRP</div>
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#A78BFA;"></div> HRV (avg)</div>
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#F87171;"></div> Fasting Glucose</div>
+        </div>
+
+        <div class="chart-svg-wrap">
+          <!-- Tooltip -->
+          <div class="chart-tooltip">
+            <div class="tt-date">OCT 2024</div>
+            <div class="tt-row"><div class="tt-dot" style="background:#5EC4BD;"></div><span class="tt-label">LDL-P</span><span class="tt-value">1,420 nmol/L</span></div>
+            <div class="tt-row"><div class="tt-dot" style="background:#FAC775;"></div><span class="tt-label">HsCRP</span><span class="tt-value">1.8 mg/L</span></div>
+            <div class="tt-row"><div class="tt-dot" style="background:#A78BFA;"></div><span class="tt-label">HRV</span><span class="tt-value">52 ms</span></div>
+            <div class="tt-row"><div class="tt-dot" style="background:#F87171;"></div><span class="tt-label">Glucose</span><span class="tt-value">5.1 mmol/L</span></div>
+          </div>
+
+          <svg width="100%" height="220" viewBox="0 0 560 220" preserveAspectRatio="none">
+            <!-- Grid lines -->
+            <line x1="0" y1="44" x2="560" y2="44" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+            <line x1="0" y1="88" x2="560" y2="88" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+            <line x1="0" y1="132" x2="560" y2="132" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+            <line x1="0" y1="176" x2="560" y2="176" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+            <!-- Month labels -->
+            <text x="0" y="215" fill="rgba(255,255,255,0.2)" font-size="9" font-family="DM Sans">Jan</text>
+            <text x="65" y="215" fill="rgba(255,255,255,0.2)" font-size="9" font-family="DM Sans">Feb</text>
+            <text x="130" y="215" fill="rgba(255,255,255,0.2)" font-size="9" font-family="DM Sans">Mar</text>
+            <text x="195" y="215" fill="rgba(255,255,255,0.2)" font-size="9" font-family="DM Sans">Apr</text>
+            <text x="260" y="215" fill="rgba(255,255,255,0.2)" font-size="9" font-family="DM Sans">May</text>
+            <text x="325" y="215" fill="rgba(255,255,255,0.2)" font-size="9" font-family="DM Sans">Jun</text>
+            <text x="390" y="215" fill="rgba(255,255,255,0.2)" font-size="9" font-family="DM Sans">Jul</text>
+            <text x="455" y="215" fill="rgba(255,255,255,0.2)" font-size="9" font-family="DM Sans">Aug</text>
+            <text x="520" y="215" fill="rgba(255,255,255,0.2)" font-size="9" font-family="DM Sans">Sep</text>
+            <!-- LDL-P (teal - trending down = improving) -->
+            <polyline points="0,60 65,65 130,75 195,80 260,90 325,95 390,100 455,108 520,115 560,120" fill="none" stroke="#5EC4BD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- HsCRP (amber - trending down = improving) -->
+            <polyline points="0,80 65,85 130,82 195,90 260,95 325,88 390,92 455,98 520,100 560,104" fill="none" stroke="#FAC775" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- HRV (purple - trending up = improving) -->
+            <polyline points="0,160 65,155 130,150 195,142 260,135 325,128 390,120 455,112 520,105 560,100" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Fasting Glucose (red - relatively stable, slight improvement) -->
+            <polyline points="0,130 65,128 130,132 195,126 260,124 325,120 390,122 455,118 520,115 560,112" fill="none" stroke="#F87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Hover point indicator -->
+            <circle cx="455" cy="108" r="5" fill="#5EC4BD" stroke="#071E2B" stroke-width="2"/>
+            <circle cx="455" cy="98" r="5" fill="#FAC775" stroke="#071E2B" stroke-width="2"/>
+            <circle cx="455" cy="112" r="5" fill="#A78BFA" stroke="#071E2B" stroke-width="2"/>
+            <circle cx="455" cy="118" r="5" fill="#F87171" stroke="#071E2B" stroke-width="2"/>
+            <line x1="455" y1="0" x2="455" y2="200" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="4 3"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Right panel -->
+      <div class="db-right">
+        <div class="db-card">
+          <div class="db-card-label">Next Lab Draw</div>
+          <div class="db-card-value">18 days — Full panel ordered by Dr. R.</div>
+        </div>
+        <div class="db-card positive">
+          <div class="db-card-label">Recent Physician Note</div>
+          <div class="db-card-value">LDL-P improvement on track. Continuing statin + lifestyle protocol.</div>
+          <div class="physician-badge">✓ Dr. R. — 3 days ago</div>
+        </div>
+        <div class="db-card alert">
+          <div class="db-card-label"><span class="alert-dot"></span>AI Pattern Alert</div>
+          <div class="db-card-value">HRV declined 18% over 6 weeks while HsCRP trending up. Flagged for physician review.</div>
+        </div>
+        <div class="db-card">
+          <div class="db-card-label">Biological Age</div>
+          <div class="db-card-value" style="font-size:1.5rem;font-family:'Playfair Display',serif;color:#5EC4BD;font-weight:700;">41 <span style="font-size:0.75rem;color:rgba(255,255,255,0.35);font-family:'DM Sans',sans-serif;">vs 47 chron.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     BIOMARKER ANALYSIS
+══════════════════════════════════════ -->
+<section class="section light">
+  <div class="section-eyebrow reveal">Blood Tests &amp; Biomarker Analysis</div>
+  <h2 class="section-title reveal">Your labs, explained. Not just reported.</h2>
+  <p class="section-lead reveal">Every biomarker comes with a plain-language explanation of what it measures and why it matters — with your personal trend over time, not just a pass/fail against a reference range.</p>
+
+  <div class="biomarker-grid">
+
+    <!-- Left: metric panel — driven by chip selection -->
+    <div class="metric-panel reveal" id="metric-panel-display">
+      <!-- Content injected by JS -->
+    </div>
+
+    <!-- Right: copy + chips -->
+    <div class="reveal">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#13384A;margin-bottom:1rem;line-height:1.3;">Click any marker to go deeper.</h3>
+      <p style="font-size:0.88rem;color:#637381;line-height:1.7;margin-bottom:0.5rem;">Reference ranges shown alongside your personal trend — not just a one-time pass/fail. Select any marker to see mechanism, lifestyle factors, what your physician is watching for, and ask the AI directly.</p>
+      <p style="font-size:0.88rem;color:#637381;line-height:1.7;margin-bottom:1.5rem;">AI-generated explanations are clearly labeled and reviewed by your care team before publication in your portal.</p>
+
+      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#1DA8A0;margin-bottom:0.85rem;">Key markers for hormone, sleep &amp; weight — select to explore</div>
+      <div class="metric-chips" id="chip-grid">
+        <span class="metric-chip active" onclick="selectMarker(this,'testosterone')">Testosterone (Free)</span>
+        <span class="metric-chip" onclick="selectMarker(this,'cortisol')">Cortisol AM</span>
+        <span class="metric-chip" onclick="selectMarker(this,'tsh')">TSH</span>
+        <span class="metric-chip" onclick="selectMarker(this,'insulin')">Fasting Insulin</span>
+        <span class="metric-chip" onclick="selectMarker(this,'hscrp')">HsCRP</span>
+      </div>
+      <div class="metric-chip-copy" style="margin-top:1rem;">Each marker opens a full education panel with plain-language context, what drives it, and a live AI Q&amp;A you can interact with now.</div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     EDUCATION + AI CHATBOT
+══════════════════════════════════════ -->
+<section class="section mid">
+  <div class="section-eyebrow reveal">Education Layer</div>
+  <h2 class="section-title reveal">Education that meets you where you are.</h2>
+  <p class="section-lead reveal">The portal isn't a library — it's a conversation. Every metric links to a structured education module, and every module has an AI layer that answers your specific questions in plain language.</p>
+
+  <div class="edu-layout">
+
+    <!-- Education card with chat -->
+    <div class="edu-card reveal">
+      <div class="edu-header">
+        <div>
+          <div class="edu-metric-name">HsCRP</div>
+          <div class="edu-metric-sub">High-Sensitivity C-Reactive Protein</div>
+          <div class="edu-value-row">
+            <span class="edu-current">Your value: <strong>1.8 mg/L</strong> — borderline</span>
+          </div>
+        </div>
+        <div class="edu-category-badge">Inflammation</div>
+      </div>
+
+      <div class="edu-sections">
+        <div class="edu-section">
+          <div class="edu-section-title">What is it</div>
+          <div class="edu-section-body">HsCRP is a protein produced by the liver in response to inflammation. The high-sensitivity version of the test detects low-level chronic inflammation — the kind that accelerates cardiovascular disease and metabolic dysfunction even when you feel fine.</div>
+        </div>
+        <div class="edu-section">
+          <div class="edu-section-title">Why it matters for longevity</div>
+          <div class="edu-section-body">Elevated HsCRP is independently associated with increased risk of heart disease, type 2 diabetes, and all-cause mortality. Tracking it over time reveals whether your lifestyle and treatment protocols are reducing systemic inflammation.</div>
+        </div>
+        <div class="edu-section">
+          <div class="edu-section-title">What brings it down</div>
+          <div class="edu-section-body">Sleep quality, omega-3 intake, exercise regularity, reducing ultra-processed food, and managing excess body weight all correlate with reduced CRP. Your physician can review which factors are most relevant to your profile.</div>
+        </div>
+      </div>
+
+      <!-- Chat -->
+      <div class="chat-area">
+        <div class="chat-title">Ask AI about HsCRP <span class="ai-badge">AI</span></div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="chat-msg ai">
+            <div class="chat-avatar">VP</div>
+            <div class="chat-bubble">Hi — I can answer questions about HsCRP and how it relates to your health. What would you like to know?</div>
+          </div>
+          <div class="chat-msg user">
+            <div class="chat-avatar">MH</div>
+            <div class="chat-bubble">What's the difference between CRP and HsCRP?</div>
+          </div>
+          <div class="chat-msg ai">
+            <div class="chat-avatar">VP</div>
+            <div class="chat-bubble">Great question. Standard CRP is used in hospitals to detect acute infections and major inflammation — it measures higher ranges (above 10 mg/L). HsCRP uses a more sensitive assay that detects chronic low-grade inflammation in the 0.5–10 mg/L range. That's the range relevant to cardiovascular and metabolic risk, which is why it's the version used in longevity programs like yours. <span class="ai-badge">AI</span></div>
+          </div>
+          <div class="chat-msg user">
+            <div class="chat-avatar">MH</div>
+            <div class="chat-bubble">How does my sleep affect my CRP?</div>
+          </div>
+          <div class="chat-msg ai">
+            <div class="chat-avatar">VP</div>
+            <div class="chat-bubble">Sleep has a direct effect on inflammation. Consistently sleeping under 6 hours has been shown in multiple studies to increase HsCRP, while sleep fragmentation — even at normal duration — elevates inflammatory cytokines. Your Oura data shows your sleep efficiency has improved over the past 6 weeks, which likely contributes to your CRP trending down. Your physician can confirm whether this correlation is showing in your numbers at your next review. <span class="ai-badge">AI</span></div>
+          </div>
+        </div>
+
+        <div class="chat-prompts">
+          <span class="chat-prompt-chip" onclick="sendPrompt('What did my doctor flag about this?')">What did my doctor flag?</span>
+          <span class="chat-prompt-chip" onclick="sendPrompt('What foods reduce inflammation most effectively?')">Foods that reduce CRP?</span>
+          <span class="chat-prompt-chip" onclick="sendPrompt('How long does it take to see improvement?')">How long to see improvement?</span>
+        </div>
+
+        <div class="chat-input-row">
+          <input class="chat-input" id="main-chat-input" placeholder="Ask about HsCRP…" type="text" onkeydown="if(event.key==='Enter')sendChat()"/>
+          <button class="chat-send" onclick="sendChat()">→</button>
+        </div>
+        <div class="chat-disclaimer">AI responses are for education only and do not constitute medical advice. All clinical guidance comes from your VitalPath physician.</div>
+      </div>
+    </div>
+
+    <!-- Right side copy -->
+    <div class="reveal">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:#13384A;margin-bottom:1.25rem;line-height:1.3;">Built for curious members, not passive patients.</h3>
+
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="width:36px;height:36px;background:#E2F4F1;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">📖</div>
+          <div>
+            <div style="font-size:0.88rem;font-weight:700;color:#13384A;margin-bottom:0.25rem;">Structured modules, not walls of text</div>
+            <div style="font-size:0.8rem;color:#637381;line-height:1.65;">Every biomarker has a concise module: what it is, why it matters for longevity, what drives it up, and what brings it down. Physician-reviewed and updated as research evolves.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="width:36px;height:36px;background:#E2F4F1;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">🤖</div>
+          <div>
+            <div style="font-size:0.88rem;font-weight:700;color:#13384A;margin-bottom:0.25rem;">AI that stays in its lane</div>
+            <div style="font-size:0.8rem;color:#637381;line-height:1.65;">The AI layer answers your questions in plain language — mechanism, context, what the research shows. It does not diagnose, prescribe, or interpret your personal results without physician oversight.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="width:36px;height:36px;background:#E2F4F1;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">✅</div>
+          <div>
+            <div style="font-size:0.88rem;font-weight:700;color:#13384A;margin-bottom:0.25rem;">Physician-reviewed at every layer</div>
+            <div style="font-size:0.8rem;color:#637381;line-height:1.65;">Education content is reviewed by VitalPath physicians before publication. AI responses are clearly labeled. Your doctor can add personal notes directly to your education feed at any time.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="width:36px;height:36px;background:#E2F4F1;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">🔒</div>
+          <div>
+            <div style="font-size:0.88rem;font-weight:700;color:#13384A;margin-bottom:0.25rem;">Your data, your conversation</div>
+            <div style="font-size:0.8rem;color:#637381;line-height:1.65;">Conversations in the education layer reference your data only within your account. Nothing is used to train AI models. No data is shared with third parties.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+<!-- ══════════════════════════════════════
+     LIVE PORTAL DEMO
+══════════════════════════════════════ -->
+<section class="section light" style="padding-bottom:0;">
+  <div class="section-eyebrow reveal">Interactive Demo</div>
+  <h2 class="section-title reveal">This is what members actually see.</h2>
+  <p class="section-lead reveal" style="max-width:680px;">The portal is not a concept — it's a working product. Explore it below exactly as a member would. Navigate between views, see how AI surfaces patterns, how physicians annotate results, and how education connects directly to your data. Every screen here is a real representation of what a Performance &amp; Longevity member experiences.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:0.65rem;margin-bottom:2.5rem;" class="reveal">
+    <span style="background:#E2F4F1;border:1px solid #B8DDD9;color:#1DA8A0;font-size:0.72rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:6px;">← Try the sidebar nav</span>
+    <span style="background:#E2F4F1;border:1px solid #B8DDD9;color:#1DA8A0;font-size:0.72rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:6px;">Lab sub-tabs</span>
+    <span style="background:#E2F4F1;border:1px solid #B8DDD9;color:#1DA8A0;font-size:0.72rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:6px;">AI Education Hub</span>
+    <span style="background:#E2F4F1;border:1px solid #B8DDD9;color:#1DA8A0;font-size:0.72rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:6px;">Epigenetic Profile</span>
+    <span style="background:#E2F4F1;border:1px solid #B8DDD9;color:#1DA8A0;font-size:0.72rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:6px;">Messages with Dr. Santos</span>
+  </div>
+</section>
+
+<!-- Browser frame + embedded app -->
+<div style="background:linear-gradient(150deg,#071E2B 0%,#0D3340 100%);padding:clamp(1.5rem,3vw,3rem) clamp(1.5rem,4vw,4rem) 0;position:relative;" class="reveal">
+  <!-- Browser chrome -->
+  <div style="background:#1A1A18;border-radius:14px 14px 0 0;border:1px solid #333330;border-bottom:none;overflow:hidden;box-shadow:0 -20px 60px rgba(0,0,0,0.5);">
+    <!-- Top bar -->
+    <div style="height:42px;background:#141413;border-bottom:1px solid #2A2A27;display:flex;align-items:center;padding:0 16px;gap:8px;">
+      <div style="width:12px;height:12px;border-radius:50%;background:#FF5F57;"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#FEBC2E;"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#28C840;"></div>
+      <div style="flex:1;margin:0 1rem;background:#0F0F0E;border:1px solid #2A2A27;border-radius:6px;height:24px;display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:11px;color:#6B6961;font-family:'DM Sans',sans-serif;">app.vitalpath.ca/portal/marcus-h</span>
+      </div>
+      <div style="font-size:11px;color:#6B6961;font-family:'DM Sans',sans-serif;">VitalPath — Member Portal</div>
+    </div>
+    <!-- Embedded app -->
+    <div id="vp-app" style="height:720px;overflow:hidden;position:relative;font-size:15px;">
+      <div class="app-wrap">
+
+<div class="app">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-mark">VP</div>
+      <div class="logo-text">VitalPath</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-label">Dashboard</div>
+      <div class="nav-item active" onclick="showPage('overview')">
+        <span class="nav-icon">📊</span> Overview
+      </div>
+      <div class="nav-item" onclick="showPage('labs')">
+        <span class="nav-icon">🧪</span> Lab Results
+        <span class="nav-badge">2 new</span>
+      </div>
+      <div class="nav-item" onclick="showPage('wearables')">
+        <span class="nav-icon">⌚</span> Wearables
+      </div>
+      <div class="nav-item" onclick="showPage('epigenetics')">
+        <span class="nav-icon">🧬</span> Epigenetics
+      </div>
+
+      <div class="nav-label">Care</div>
+      <div class="nav-item" onclick="showPage('medications')">
+        <span class="nav-icon">💊</span> Medications
+      </div>
+      <div class="nav-item" onclick="showPage('messages')">
+        <span class="nav-icon">💬</span> Messages
+        <span class="nav-badge">1</span>
+      </div>
+      <div class="nav-item" onclick="showPage('education')">
+        <span class="nav-icon">📚</span> Education
+      </div>
+
+      <div class="nav-label">Account</div>
+      <div class="nav-item" onclick="showPage('careplan')">
+        <span class="nav-icon">📋</span> Care Plan
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="member-card">
+        <div class="member-avatar">RM</div>
+        <div class="member-info">
+          <div class="member-name">R. Matsuda</div>
+          <div class="member-role">Active Member</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══ TOP BAR ══ -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title" id="page-title">Overview</div>
+      <div class="topbar-sub">Performance & Longevity</div>
+    </div>
+    <div class="topbar-right">
+      <button class="topbar-btn">🔔 Alerts</button>
+      <button class="topbar-btn primary">+ Book Visit</button>
+    </div>
+  </header>
+
+  <!-- ══ MAIN ══ -->
+  <main class="main">
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--           OVERVIEW PAGE                 -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="page-view active" id="page-overview">
+
+      <!-- Stat Row -->
+      <div class="grid-4" style="margin-bottom:22px;">
+        <div class="stat-card">
+          <div class="stat-label">Biological Age</div>
+          <div class="stat-value">34.2<span class="stat-unit">yrs</span></div>
+          <div class="stat-change up">▼ 1.8 yrs from baseline</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">VO2 Max</div>
+          <div class="stat-value">48.3<span class="stat-unit">ml/kg</span></div>
+          <div class="stat-change up">▲ 4.1 since Jan</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">HRV (7-day)</div>
+          <div class="stat-value">62<span class="stat-unit">ms</span></div>
+          <div class="stat-change up">▲ 8 ms trend</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Adherence</div>
+          <div class="stat-value">94<span class="stat-unit">%</span></div>
+          <div class="stat-change neutral">— On track</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+
+        <!-- Biomarker Trends -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Biomarker Trajectory</div>
+              <div class="card-subtitle">6-month trend — key longevity markers</div>
+            </div>
+            <span class="card-badge badge-green">On track</span>
+          </div>
+          <div class="chart-area">
+            <svg viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#6BCB77" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#6BCB77" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#5B9BD5" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#5B9BD5" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- Grid -->
+              <line x1="40" y1="20" x2="40" y2="150" stroke="#2A2A27" stroke-width="0.5"/>
+              <line x1="40" y1="150" x2="460" y2="150" stroke="#2A2A27" stroke-width="0.5"/>
+              <line x1="40" y1="85" x2="460" y2="85" stroke="#2A2A27" stroke-width="0.5" stroke-dasharray="4"/>
+              <line x1="40" y1="52" x2="460" y2="52" stroke="#2A2A27" stroke-width="0.5" stroke-dasharray="4"/>
+              <line x1="40" y1="118" x2="460" y2="118" stroke="#2A2A27" stroke-width="0.5" stroke-dasharray="4"/>
+              <!-- Labels -->
+              <text x="42" y="166" font-family="DM Sans" font-size="9" fill="#6B6961">Oct</text>
+              <text x="110" y="166" font-family="DM Sans" font-size="9" fill="#6B6961">Nov</text>
+              <text x="180" y="166" font-family="DM Sans" font-size="9" fill="#6B6961">Dec</text>
+              <text x="250" y="166" font-family="DM Sans" font-size="9" fill="#6B6961">Jan</text>
+              <text x="320" y="166" font-family="DM Sans" font-size="9" fill="#6B6961">Feb</text>
+              <text x="390" y="166" font-family="DM Sans" font-size="9" fill="#6B6961">Mar</text>
+              <!-- HRV Line -->
+              <path d="M50,120 L120,112 L190,105 L260,95 L330,88 L400,78 L450,72" fill="none" stroke="#6BCB77" stroke-width="2" stroke-linecap="round"/>
+              <path d="M50,120 L120,112 L190,105 L260,95 L330,88 L400,78 L450,72 L450,150 L50,150Z" fill="url(#g1)"/>
+              <!-- LDL Line -->
+              <path d="M50,65 L120,70 L190,78 L260,88 L330,94 L400,100 L450,105" fill="none" stroke="#5B9BD5" stroke-width="2" stroke-linecap="round"/>
+              <path d="M50,65 L120,70 L190,78 L260,88 L330,94 L400,100 L450,105 L450,150 L50,150Z" fill="url(#g2)"/>
+              <!-- hsCRP Line -->
+              <path d="M50,55 L120,60 L190,68 L260,80 L330,90 L400,98 L450,104" fill="none" stroke="#E8A838" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 3"/>
+              <!-- Dots -->
+              <circle cx="450" cy="72" r="3.5" fill="#6BCB77"/>
+              <circle cx="450" cy="105" r="3.5" fill="#5B9BD5"/>
+              <circle cx="450" cy="104" r="3.5" fill="#E8A838"/>
+              <!-- Legend -->
+              <circle cx="50" cy="14" r="3" fill="#6BCB77"/><text x="58" y="17" font-family="DM Sans" font-size="9" fill="#9B9890">HRV</text>
+              <circle cx="100" cy="14" r="3" fill="#5B9BD5"/><text x="108" y="17" font-family="DM Sans" font-size="9" fill="#9B9890">LDL-C ↓</text>
+              <circle cx="170" cy="14" r="3" fill="#E8A838"/><text x="178" y="17" font-family="DM Sans" font-size="9" fill="#9B9890">hsCRP ↓</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Care Team & Next Steps -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Care Team & Upcoming</div>
+              <div class="card-subtitle">Your program physician and next milestones</div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:18px;">
+            <div class="care-member">
+              <div class="care-avatar" style="background:var(--accent-dim); color:var(--accent);">JS</div>
+              <div>
+                <div class="care-name">Dr. J. Santos</div>
+                <div class="care-role">Program Physician — Performance & Longevity</div>
+              </div>
+            </div>
+            <div class="care-member">
+              <div class="care-avatar" style="background:var(--teal-dim); color:var(--teal);">KW</div>
+              <div>
+                <div class="care-name">K. Wong, RD</div>
+                <div class="care-role">Nutrition & Performance Coach</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-muted); margin-bottom:10px;">Upcoming</div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--accent-dim); color:var(--accent);">📅</div>
+            <div class="timeline-content">
+              <div class="timeline-title">Follow-up with Dr. J. Santos</div>
+              <div class="timeline-desc">Biomarker review & protocol adjustment</div>
+              <div class="timeline-date">Apr 28, 2026 · 10:30 AM PT</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--blue-dim); color:var(--blue);">🧪</div>
+            <div class="timeline-content">
+              <div class="timeline-title">Lab Panel #2</div>
+              <div class="timeline-desc">Full longevity panel — LifeLabs requisition ready</div>
+              <div class="timeline-date">May 5, 2026</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--purple-dim); color:var(--purple);">🧬</div>
+            <div class="timeline-content">
+              <div class="timeline-title">Epigenetic Re-test</div>
+              <div class="timeline-desc">TruAge clock — 6-month follow-up</div>
+              <div class="timeline-date">Jun 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Program Progress -->
+      <div class="card" style="margin-top:18px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Program Progress — Performance & Longevity</div>
+            <div class="card-subtitle">Annual membership · Enrolled Oct 15, 2025 · Renewal Oct 2026</div>
+          </div>
+          <span class="program-badge">🏔️ Performance & Longevity</span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:20px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+              <span style="font-size:11px; color:var(--text-muted);">Program Timeline</span>
+              <span style="font-size:11px; font-weight:600; color:var(--accent);">50%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width:50%; background:var(--accent);"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+              <span style="font-size:11px; color:var(--text-muted);">Lab Panels</span>
+              <span style="font-size:11px; font-weight:600; color:var(--green);">1 of 2</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width:50%; background:var(--green);"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+              <span style="font-size:11px; color:var(--text-muted);">Physician Visits</span>
+              <span style="font-size:11px; font-weight:600; color:var(--blue);">2 of 3</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width:66%; background:var(--blue);"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+              <span style="font-size:11px; color:var(--text-muted);">Medication Adherence</span>
+              <span style="font-size:11px; font-weight:600; color:var(--green);">94%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width:94%; background:var(--green);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--           LAB RESULTS PAGE              -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="page-view" id="page-labs">
+
+      <div class="section-head">
+        <h2>Lab Results</h2>
+        <p>Longitudinal biomarker tracking — clinic, at-home kits & member uploads</p>
+      </div>
+
+      <!-- Sub-tabs -->
+      <div class="tab-strip">
+        <div class="tab-item active" onclick="showLabTab(this,'labs-latest')">Latest Panel</div>
+        <div class="tab-item" onclick="showLabTab(this,'labs-trends')">Trends</div>
+        <div class="tab-item" onclick="showLabTab(this,'labs-history')">Full History</div>
+        <div class="tab-item" onclick="showLabTab(this,'labs-upload')">Upload Results</div>
+      </div>
+
+      <!-- Latest Panel -->
+      <div id="labs-latest">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+          <div>
+            <span style="font-size:13px; font-weight:600; color:var(--text);">Panel: Comprehensive Longevity</span>
+            <span style="font-size:11px; color:var(--text-muted); margin-left:10px;">Mar 12, 2026 · LifeLabs Vancouver</span>
+          </div>
+          <span class="card-badge badge-green">All reviewed by Dr. J. Santos</span>
+        </div>
+
+        <div class="card" style="padding:0; overflow:hidden;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Biomarker</th>
+                <th>Result</th>
+                <th>Reference Range</th>
+                <th>Status</th>
+                <th>Trend</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:600; color:var(--text);">Total Cholesterol</td>
+                <td><span class="val">182</span> <span class="range">mg/dL</span></td>
+                <td class="range">&lt; 200</td>
+                <td><span class="status-dot optimal"></span>Optimal</td>
+                <td><svg width="60" height="20"><polyline points="2,16 12,14 22,12 32,10 42,8 52,6 58,5" fill="none" stroke="#6BCB77" stroke-width="1.5" stroke-linecap="round"/></svg></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--text);">LDL-C</td>
+                <td><span class="val">92</span> <span class="range">mg/dL</span></td>
+                <td class="range">&lt; 100 optimal</td>
+                <td><span class="status-dot optimal"></span>Optimal</td>
+                <td><svg width="60" height="20"><polyline points="2,4 12,6 22,9 32,11 42,13 52,14 58,15" fill="none" stroke="#5B9BD5" stroke-width="1.5" stroke-linecap="round"/></svg></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--text);">HDL-C</td>
+                <td><span class="val">68</span> <span class="range">mg/dL</span></td>
+                <td class="range">&gt; 60</td>
+                <td><span class="status-dot optimal"></span>Optimal</td>
+                <td><svg width="60" height="20"><polyline points="2,14 12,12 22,10 32,9 42,8 52,7 58,6" fill="none" stroke="#6BCB77" stroke-width="1.5" stroke-linecap="round"/></svg></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--text);">Triglycerides</td>
+                <td><span class="val">88</span> <span class="range">mg/dL</span></td>
+                <td class="range">&lt; 150</td>
+                <td><span class="status-dot optimal"></span>Optimal</td>
+                <td><svg width="60" height="20"><polyline points="2,8 12,9 22,10 32,10 42,9 52,8 58,8" fill="none" stroke="#6BCB77" stroke-width="1.5" stroke-linecap="round"/></svg></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--text);">hsCRP</td>
+                <td><span class="val">0.6</span> <span class="range">mg/L</span></td>
+                <td class="range">&lt; 1.0</td>
+                <td><span class="status-dot optimal"></span>Optimal</td>
+                <td><svg width="60" height="20"><polyline points="2,4 12,5 22,8 32,10 42,12 52,14 58,15" fill="none" stroke="#6BCB77" stroke-width="1.5" stroke-linecap="round"/></svg></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--text);">Fasting Glucose</td>
+                <td><span class="val">86</span> <span class="range">mg/dL</span></td>
+                <td class="range">65–99</td>
+                <td><span class="status-dot optimal"></span>Normal</td>
+                <td><svg width="60" height="20"><polyline points="2,10 12,10 22,9 32,10 42,10 52,9 58,10" fill="none" stroke="#9B9890" stroke-width="1.5" stroke-linecap="round"/></svg></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--text);">HbA1c</td>
+                <td><span class="val">5.1</span> <span class="range">%</span></td>
+                <td class="range">&lt; 5.7</td>
+                <td><span class="status-dot optimal"></span>Normal</td>
+                <td><svg width="60" height="20"><polyline points="2,10 12,10 22,10 32,10 42,10 52,10 58,10" fill="none" stroke="#9B9890" stroke-width="1.5" stroke-linecap="round"/></svg></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--text);">Testosterone (Free)</td>
+                <td><span class="val">18.2</span> <span class="range">pg/mL</span></td>
+                <td class="range">9.3–26.5</td>
+                <td><span class="status-dot optimal"></span>Normal</td>
+                <td><svg width="60" height="20"><polyline points="2,14 12,12 22,11 32,10 42,9 52,8 58,7" fill="none" stroke="#6BCB77" stroke-width="1.5" stroke-linecap="round"/></svg></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--text);">Vitamin D (25-OH)</td>
+                <td><span class="val">58</span> <span class="range">ng/mL</span></td>
+                <td class="range">40–80 optimal</td>
+                <td><span class="status-dot optimal"></span>Optimal</td>
+                <td><svg width="60" height="20"><polyline points="2,16 12,14 22,10 32,8 42,6 52,5 58,5" fill="none" stroke="#6BCB77" stroke-width="1.5" stroke-linecap="round"/></svg></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--text);">ApoB</td>
+                <td><span class="val">78</span> <span class="range">mg/dL</span></td>
+                <td class="range">&lt; 90 optimal</td>
+                <td><span class="status-dot optimal"></span>Optimal</td>
+                <td><svg width="60" height="20"><polyline points="2,5 12,7 22,9 32,10 42,12 52,13 58,14" fill="none" stroke="#6BCB77" stroke-width="1.5" stroke-linecap="round"/></svg></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--text);">Homocysteine</td>
+                <td><span class="val">8.4</span> <span class="range">µmol/L</span></td>
+                <td class="range">&lt; 10</td>
+                <td><span class="status-dot watch"></span>Watch</td>
+                <td><svg width="60" height="20"><polyline points="2,6 12,7 22,8 32,9 42,9 52,10 58,10" fill="none" stroke="#E8A838" stroke-width="1.5" stroke-linecap="round"/></svg></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Trends Sub-tab (hidden) -->
+      <div id="labs-trends" style="display:none;">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">LDL-C Trajectory</div>
+            <div class="card-subtitle" style="margin-bottom:14px;">Target: &lt; 100 mg/dL</div>
+            <svg viewBox="0 0 440 160" xmlns="http://www.w3.org/2000/svg">
+              <rect x="30" y="20" width="400" height="120" fill="rgba(107,203,119,0.04)" rx="4"/>
+              <text x="34" y="16" font-family="DM Sans" font-size="8" fill="#6B6961">Target zone</text>
+              <line x1="30" y1="140" x2="430" y2="140" stroke="#2A2A27" stroke-width="0.5"/>
+              <path d="M40,40 L110,50 L180,65 L250,80 L320,90 L390,100 L420,104" fill="none" stroke="#5B9BD5" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="40" cy="40" r="4" fill="#5B9BD5"/><text x="40" y="35" font-family="JetBrains Mono" font-size="8" fill="#9B9890" text-anchor="middle">128</text>
+              <circle cx="180" cy="65" r="4" fill="#5B9BD5"/><text x="180" y="60" font-family="JetBrains Mono" font-size="8" fill="#9B9890" text-anchor="middle">112</text>
+              <circle cx="320" cy="90" r="4" fill="#5B9BD5"/><text x="320" y="85" font-family="JetBrains Mono" font-size="8" fill="#9B9890" text-anchor="middle">98</text>
+              <circle cx="420" cy="104" r="4" fill="#6BCB77"/><text x="420" y="99" font-family="JetBrains Mono" font-size="8" fill="#6BCB77" text-anchor="middle">92 ✓</text>
+              <text x="40" y="154" font-family="DM Sans" font-size="8" fill="#6B6961">Oct 25</text>
+              <text x="180" y="154" font-family="DM Sans" font-size="8" fill="#6B6961">Dec 25</text>
+              <text x="320" y="154" font-family="DM Sans" font-size="8" fill="#6B6961">Jan 26</text>
+              <text x="420" y="154" font-family="DM Sans" font-size="8" fill="#6B6961">Mar 26</text>
+            </svg>
+          </div>
+          <div class="card">
+            <div class="card-title">hsCRP Trajectory</div>
+            <div class="card-subtitle" style="margin-bottom:14px;">Target: &lt; 1.0 mg/L</div>
+            <svg viewBox="0 0 440 160" xmlns="http://www.w3.org/2000/svg">
+              <rect x="30" y="60" width="400" height="80" fill="rgba(107,203,119,0.04)" rx="4"/>
+              <text x="34" y="56" font-family="DM Sans" font-size="8" fill="#6B6961">Target zone</text>
+              <line x1="30" y1="140" x2="430" y2="140" stroke="#2A2A27" stroke-width="0.5"/>
+              <path d="M40,30 L110,38 L180,55 L250,75 L320,95 L390,108 L420,115" fill="none" stroke="#E8A838" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="40" cy="30" r="4" fill="#E05555"/><text x="40" y="25" font-family="JetBrains Mono" font-size="8" fill="#E05555" text-anchor="middle">2.8</text>
+              <circle cx="180" cy="55" r="4" fill="#E8A838"/><text x="180" y="50" font-family="JetBrains Mono" font-size="8" fill="#E8A838" text-anchor="middle">1.9</text>
+              <circle cx="320" cy="95" r="4" fill="#E8A838"/><text x="320" y="90" font-family="JetBrains Mono" font-size="8" fill="#9B9890" text-anchor="middle">1.1</text>
+              <circle cx="420" cy="115" r="4" fill="#6BCB77"/><text x="420" y="110" font-family="JetBrains Mono" font-size="8" fill="#6BCB77" text-anchor="middle">0.6 ✓</text>
+              <text x="40" y="154" font-family="DM Sans" font-size="8" fill="#6B6961">Oct 25</text>
+              <text x="180" y="154" font-family="DM Sans" font-size="8" fill="#6B6961">Dec 25</text>
+              <text x="320" y="154" font-family="DM Sans" font-size="8" fill="#6B6961">Jan 26</text>
+              <text x="420" y="154" font-family="DM Sans" font-size="8" fill="#6B6961">Mar 26</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- History Sub-tab (hidden) -->
+      <div id="labs-history" style="display:none;">
+        <div class="card">
+          <div class="card-title">Panel History</div>
+          <table class="data-table" style="margin-top:12px;">
+            <thead><tr><th>Date</th><th>Panel</th><th>Source</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="val">Mar 12, 2026</td><td>Comprehensive Longevity</td><td>LifeLabs Vancouver</td><td><span class="card-badge badge-green" style="font-size:9px;">Reviewed</span></td><td style="color:var(--accent); cursor:pointer; font-size:12px;">View →</td></tr>
+              <tr><td class="val">Jan 8, 2026</td><td>Metabolic + Hormone</td><td>SiPhox Health (at-home)</td><td><span class="card-badge badge-green" style="font-size:9px;">Reviewed</span></td><td style="color:var(--accent); cursor:pointer; font-size:12px;">View →</td></tr>
+              <tr><td class="val">Oct 20, 2025</td><td>Baseline Longevity</td><td>LifeLabs Vancouver</td><td><span class="card-badge badge-green" style="font-size:9px;">Reviewed</span></td><td style="color:var(--accent); cursor:pointer; font-size:12px;">View →</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Upload Sub-tab (hidden) -->
+      <div id="labs-upload" style="display:none;">
+        <div class="card" style="text-align:center; padding:50px;">
+          <div style="font-size:40px; margin-bottom:14px;">📄</div>
+          <div class="card-title" style="font-size:16px; margin-bottom:6px;">Upload Lab Results</div>
+          <p style="font-size:13px; color:var(--text-muted); max-width:400px; margin:0 auto 20px;">Photograph or upload a PDF lab report from any source. Our AI-powered OCR extracts biomarker values, reference ranges, and dates automatically.</p>
+          <div style="border:2px dashed var(--border-light); border-radius:var(--radius-lg); padding:36px; margin:0 auto; max-width:440px; cursor:pointer; transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border-light)'">
+            <div style="font-size:13px; color:var(--text-secondary); margin-bottom:6px;">Drop files here or click to browse</div>
+            <div style="font-size:11px; color:var(--text-muted);">PDF, JPG, PNG · Max 20MB</div>
+          </div>
+          <div style="margin-top:18px; font-size:11px; color:var(--text-muted);">Supported sources: LifeLabs, DynaLife, SiPhox Health, hospital labs, and more</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--           WEARABLES PAGE                -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="page-view" id="page-wearables">
+
+      <div class="section-head">
+        <h2>Wearable Data</h2>
+        <p>Continuous signals from your connected devices — normalized into a single view</p>
+      </div>
+
+      <div class="grid-3" style="margin-bottom:22px;">
+        <!-- Oura -->
+        <div class="device-card">
+          <div class="device-header">
+            <div class="device-icon" style="background:var(--purple-dim);">💍</div>
+            <div>
+              <div class="device-name">Oura Ring Gen 3</div>
+              <div class="device-status">● Synced 2h ago</div>
+            </div>
+          </div>
+          <div class="device-metrics">
+            <div class="device-metric">
+              <div class="device-metric-label">HRV</div>
+              <div class="device-metric-value" style="color:var(--green);">62 ms</div>
+            </div>
+            <div class="device-metric">
+              <div class="device-metric-label">RHR</div>
+              <div class="device-metric-value">52 bpm</div>
+            </div>
+            <div class="device-metric">
+              <div class="device-metric-label">Sleep Score</div>
+              <div class="device-metric-value" style="color:var(--green);">88</div>
+            </div>
+            <div class="device-metric">
+              <div class="device-metric-label">Readiness</div>
+              <div class="device-metric-value" style="color:var(--green);">85</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Apple Watch -->
+        <div class="device-card">
+          <div class="device-header">
+            <div class="device-icon" style="background:var(--blue-dim);">⌚</div>
+            <div>
+              <div class="device-name">Apple Watch Ultra 2</div>
+              <div class="device-status">● Live via HealthKit</div>
+            </div>
+          </div>
+          <div class="device-metrics">
+            <div class="device-metric">
+              <div class="device-metric-label">VO2 Max</div>
+              <div class="device-metric-value" style="color:var(--green);">48.3</div>
+            </div>
+            <div class="device-metric">
+              <div class="device-metric-label">Steps Today</div>
+              <div class="device-metric-value">8,420</div>
+            </div>
+            <div class="device-metric">
+              <div class="device-metric-label">Active Cal</div>
+              <div class="device-metric-value">620</div>
+            </div>
+            <div class="device-metric">
+              <div class="device-metric-label">SpO2 (avg)</div>
+              <div class="device-metric-value">98%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CGM -->
+        <div class="device-card">
+          <div class="device-header">
+            <div class="device-icon" style="background:var(--orange-dim);">📈</div>
+            <div>
+              <div class="device-name">FreeStyle Libre 3+</div>
+              <div class="device-status">● Real-time CGM</div>
+            </div>
+          </div>
+          <div class="device-metrics">
+            <div class="device-metric">
+              <div class="device-metric-label">Current</div>
+              <div class="device-metric-value" style="color:var(--green);">94 mg/dL</div>
+            </div>
+            <div class="device-metric">
+              <div class="device-metric-label">Avg (14d)</div>
+              <div class="device-metric-value">98 mg/dL</div>
+            </div>
+            <div class="device-metric">
+              <div class="device-metric-label">Time in Range</div>
+              <div class="device-metric-value" style="color:var(--green);">92%</div>
+            </div>
+            <div class="device-metric">
+              <div class="device-metric-label">Sensor Days</div>
+              <div class="device-metric-value">9 / 15</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sleep Breakdown -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Sleep Architecture — Last Night</div>
+              <div class="card-subtitle">7h 42m total · Oura Ring</div>
+            </div>
+            <span class="card-badge badge-green">Score: 88</span>
+          </div>
+          <svg viewBox="0 0 440 120" xmlns="http://www.w3.org/2000/svg">
+            <!-- Sleep stage bars -->
+            <rect x="10" y="10" width="420" height="22" rx="4" fill="var(--purple-dim)"/>
+            <text x="14" y="24" font-family="DM Sans" font-size="9" fill="var(--purple)">REM — 1h 48m (23%)</text>
+
+            <rect x="10" y="38" width="420" height="22" rx="4" fill="var(--blue-dim)"/>
+            <text x="14" y="52" font-family="DM Sans" font-size="9" fill="var(--blue)">Deep — 1h 32m (20%)</text>
+
+            <rect x="10" y="66" width="420" height="22" rx="4" fill="var(--accent-dim)"/>
+            <text x="14" y="80" font-family="DM Sans" font-size="9" fill="var(--accent)">Light — 3h 54m (50%)</text>
+
+            <rect x="10" y="94" width="420" height="22" rx="4" fill="rgba(255,255,255,0.04)"/>
+            <text x="14" y="108" font-family="DM Sans" font-size="9" fill="var(--text-muted)">Awake — 0h 28m (6%)</text>
+
+            <!-- Proportion bars -->
+            <rect x="200" y="14" width="97" height="14" rx="3" fill="var(--purple)" opacity="0.6"/>
+            <rect x="200" y="42" width="84" height="14" rx="3" fill="var(--blue)" opacity="0.6"/>
+            <rect x="200" y="70" width="210" height="14" rx="3" fill="var(--accent)" opacity="0.5"/>
+            <rect x="200" y="98" width="25" height="14" rx="3" fill="var(--text-muted)" opacity="0.3"/>
+          </svg>
+        </div>
+
+        <!-- Glucose Overlay -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">24h Glucose Overlay</div>
+              <div class="card-subtitle">FreeStyle Libre 3+ · Today</div>
+            </div>
+            <span class="card-badge badge-green">92% in range</span>
+          </div>
+          <svg viewBox="0 0 440 120" xmlns="http://www.w3.org/2000/svg">
+            <!-- Target zone -->
+            <rect x="30" y="25" width="400" height="60" fill="rgba(107,203,119,0.06)" rx="3"/>
+            <text x="34" y="22" font-family="DM Sans" font-size="7" fill="#6B6961">70–140 target</text>
+            <line x1="30" y1="105" x2="430" y2="105" stroke="#2A2A27" stroke-width="0.5"/>
+            <!-- Glucose curve -->
+            <path d="M35,55 C50,52 65,48 80,50 C95,52 110,58 125,70 C140,82 150,78 165,65 C180,52 195,48 210,50 C225,52 240,60 255,72 C270,84 280,80 295,68 C310,55 325,50 340,52 C355,54 370,56 385,54 C400,52 415,50 425,48" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/>
+            <!-- Time labels -->
+            <text x="35" y="115" font-family="DM Sans" font-size="7" fill="#6B6961">12a</text>
+            <text x="130" y="115" font-family="DM Sans" font-size="7" fill="#6B6961">6a</text>
+            <text x="230" y="115" font-family="DM Sans" font-size="7" fill="#6B6961">12p</text>
+            <text x="330" y="115" font-family="DM Sans" font-size="7" fill="#6B6961">6p</text>
+            <text x="415" y="115" font-family="DM Sans" font-size="7" fill="#6B6961">Now</text>
+            <!-- Meal markers -->
+            <line x1="125" y1="85" x2="125" y2="100" stroke="var(--text-muted)" stroke-width="0.5" stroke-dasharray="2"/>
+            <text x="125" y="103" font-family="DM Sans" font-size="6" fill="#6B6961" text-anchor="middle">🍳</text>
+            <line x1="255" y1="85" x2="255" y2="100" stroke="var(--text-muted)" stroke-width="0.5" stroke-dasharray="2"/>
+            <text x="255" y="103" font-family="DM Sans" font-size="6" fill="#6B6961" text-anchor="middle">🥗</text>
+            <line x1="370" y1="85" x2="370" y2="100" stroke="var(--text-muted)" stroke-width="0.5" stroke-dasharray="2"/>
+            <text x="370" y="103" font-family="DM Sans" font-size="6" fill="#6B6961" text-anchor="middle">🍽</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- HRV Trend -->
+      <div class="card" style="margin-top:18px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">HRV 30-Day Trend</div>
+            <div class="card-subtitle">Resting HRV via Oura Ring — improving trajectory</div>
+          </div>
+          <span class="card-badge badge-green">▲ +8 ms</span>
+        </div>
+        <svg viewBox="0 0 700 140" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="hrvg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#6BCB77" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#6BCB77" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line x1="30" y1="120" x2="680" y2="120" stroke="#2A2A27" stroke-width="0.5"/>
+          <line x1="30" y1="60" x2="680" y2="60" stroke="#2A2A27" stroke-width="0.5" stroke-dasharray="4"/>
+          <path d="M35,95 L55,90 L75,98 L95,88 L115,85 L135,92 L155,82 L175,78 L195,84 L215,76 L235,80 L255,72 L275,78 L295,70 L315,74 L335,68 L355,72 L375,65 L395,68 L415,60 L435,64 L455,58 L475,62 L495,55 L515,58 L535,52 L555,56 L575,50 L595,54 L615,48 L635,52 L655,46 L670,44" fill="none" stroke="#6BCB77" stroke-width="2" stroke-linecap="round"/>
+          <path d="M35,95 L55,90 L75,98 L95,88 L115,85 L135,92 L155,82 L175,78 L195,84 L215,76 L235,80 L255,72 L275,78 L295,70 L315,74 L335,68 L355,72 L375,65 L395,68 L415,60 L435,64 L455,58 L475,62 L495,55 L515,58 L535,52 L555,56 L575,50 L595,54 L615,48 L635,52 L655,46 L670,44 L670,120 L35,120Z" fill="url(#hrvg)"/>
+          <text x="35" y="134" font-family="DM Sans" font-size="8" fill="#6B6961">Mar 17</text>
+          <text x="350" y="134" font-family="DM Sans" font-size="8" fill="#6B6961">Mar 31</text>
+          <text x="660" y="134" font-family="DM Sans" font-size="8" fill="#6B6961">Apr 16</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--         EPIGENETICS PAGE                -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="page-view" id="page-epigenetics">
+
+      <div class="section-head">
+        <h2>Epigenetic Profile</h2>
+        <p>DNA methylation-based biological age and genetic risk assessment</p>
+      </div>
+
+      <!-- Biological Age Ring -->
+      <div class="card" style="margin-bottom:22px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Biological vs. Chronological Age</div>
+            <div class="card-subtitle">TruAge Epigenetic Clock · Last tested: Feb 18, 2026</div>
+          </div>
+          <span class="card-badge badge-green">Younger than calendar age</span>
+        </div>
+
+        <div class="age-ring-container">
+          <div class="age-ring">
+            <svg viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="68" fill="none" stroke="var(--border)" stroke-width="8"/>
+              <circle cx="80" cy="80" r="68" fill="none" stroke="var(--green)" stroke-width="8" stroke-dasharray="320 427.3" stroke-linecap="round"/>
+            </svg>
+            <div class="age-ring-label">
+              <div class="age-num">34.2</div>
+              <div class="age-type">Biological</div>
+            </div>
+          </div>
+
+          <div class="age-delta">
+            <div class="age-delta-value">−3.8</div>
+            <div class="age-delta-label">Years younger than<br>chronological age (38)</div>
+          </div>
+
+          <div class="age-ring">
+            <svg viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="68" fill="none" stroke="var(--border)" stroke-width="8"/>
+              <circle cx="80" cy="80" r="68" fill="none" stroke="var(--accent)" stroke-width="8" stroke-dasharray="380 427.3" stroke-linecap="round"/>
+            </svg>
+            <div class="age-ring-label">
+              <div class="age-num">38</div>
+              <div class="age-type">Chronological</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:10px;">
+          <div style="text-align:center; padding:14px; background:var(--bg); border-radius:var(--radius);">
+            <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px;">Pace of Aging</div>
+            <div style="font-family:var(--font-display); font-size:22px; color:var(--green); margin-top:6px;">0.92</div>
+            <div style="font-size:10px; color:var(--text-muted);">years/year (< 1.0 = slowing)</div>
+          </div>
+          <div style="text-align:center; padding:14px; background:var(--bg); border-radius:var(--radius);">
+            <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px;">Telomere Length</div>
+            <div style="font-family:var(--font-display); font-size:22px; color:var(--accent); margin-top:6px;">7.2 kb</div>
+            <div style="font-size:10px; color:var(--text-muted);">75th percentile for age</div>
+          </div>
+          <div style="text-align:center; padding:14px; background:var(--bg); border-radius:var(--radius);">
+            <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px;">Immune Age</div>
+            <div style="font-family:var(--font-display); font-size:22px; color:var(--green); margin-top:6px;">32</div>
+            <div style="font-size:10px; color:var(--text-muted);">6 years younger</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Polygenic Risk Scores -->
+      <div class="card" style="margin-bottom:22px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Polygenic Risk Scores (PRS)</div>
+            <div class="card-subtitle">Multi-variant genetic risk assessment across key conditions</div>
+          </div>
+          <span class="card-badge badge-accent">23andMe + clinical WGS</span>
+        </div>
+
+        <div class="gene-row">
+          <div>Condition</div>
+          <div>PRS Percentile</div>
+          <div>Risk Level</div>
+          <div>Action</div>
+        </div>
+        <div class="gene-row">
+          <div class="gene-name">Cardiovascular Disease</div>
+          <div class="gene-variant">32nd</div>
+          <div><div class="risk-bar-track"><div class="risk-bar-fill" style="width:32%; background:var(--green);"></div></div></div>
+          <div style="font-size:11.5px; color:var(--text-secondary);">Standard monitoring — no elevated risk</div>
+        </div>
+        <div class="gene-row">
+          <div class="gene-name">Type 2 Diabetes</div>
+          <div class="gene-variant">58th</div>
+          <div><div class="risk-bar-track"><div class="risk-bar-fill" style="width:58%; background:var(--orange);"></div></div></div>
+          <div style="font-size:11.5px; color:var(--text-secondary);">CGM monitoring active — glucose in range</div>
+        </div>
+        <div class="gene-row">
+          <div class="gene-name">Alzheimer's Disease</div>
+          <div class="gene-variant">18th</div>
+          <div><div class="risk-bar-track"><div class="risk-bar-fill" style="width:18%; background:var(--green);"></div></div></div>
+          <div style="font-size:11.5px; color:var(--text-secondary);">Low risk — APOE3/3 genotype</div>
+        </div>
+        <div class="gene-row">
+          <div class="gene-name">Colorectal Cancer</div>
+          <div class="gene-variant">71st</div>
+          <div><div class="risk-bar-track"><div class="risk-bar-fill" style="width:71%; background:var(--orange);"></div></div></div>
+          <div style="font-size:11.5px; color:var(--text-secondary);">Enhanced screening scheduled — next colonoscopy age 42</div>
+        </div>
+        <div class="gene-row">
+          <div class="gene-name">Osteoporosis</div>
+          <div class="gene-variant">25th</div>
+          <div><div class="risk-bar-track"><div class="risk-bar-fill" style="width:25%; background:var(--green);"></div></div></div>
+          <div style="font-size:11.5px; color:var(--text-secondary);">Low risk — weight-bearing exercise maintained</div>
+        </div>
+      </div>
+
+      <!-- Methylation Breakdown -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Key Methylation Markers</div>
+          <div class="card-subtitle" style="margin-bottom:14px;">CpG sites associated with aging processes</div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span style="font-size:12px; color:var(--text);">Inflammation (NF-κB pathway)</span>
+                <span style="font-size:11px; font-weight:600; color:var(--green);">Low</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:22%; background:var(--green);"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span style="font-size:12px; color:var(--text);">DNA Repair (BRCA/ATM)</span>
+                <span style="font-size:11px; font-weight:600; color:var(--green);">Active</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:82%; background:var(--green);"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span style="font-size:12px; color:var(--text);">Mitochondrial Function</span>
+                <span style="font-size:11px; font-weight:600; color:var(--accent);">Moderate</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:64%; background:var(--accent);"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span style="font-size:12px; color:var(--text);">Telomere Maintenance</span>
+                <span style="font-size:11px; font-weight:600; color:var(--green);">Strong</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:75%; background:var(--green);"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span style="font-size:12px; color:var(--text);">Oxidative Stress Response</span>
+                <span style="font-size:11px; font-weight:600; color:var(--green);">Good</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:70%; background:var(--green);"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Aging Clock Comparison</div>
+          <div class="card-subtitle" style="margin-bottom:14px;">Multiple algorithms, same sample</div>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:120px; font-size:12px; color:var(--text);">Horvath Clock</div>
+              <div style="flex:1;"><div class="progress-track" style="height:8px;"><div class="progress-fill" style="width:62%; background:var(--green); height:100%;"></div></div></div>
+              <div style="font-family:var(--font-mono); font-size:13px; color:var(--green); width:50px; text-align:right;">33.8</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:120px; font-size:12px; color:var(--text);">Hannum Clock</div>
+              <div style="flex:1;"><div class="progress-track" style="height:8px;"><div class="progress-fill" style="width:65%; background:var(--green); height:100%;"></div></div></div>
+              <div style="font-family:var(--font-mono); font-size:13px; color:var(--green); width:50px; text-align:right;">34.6</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:120px; font-size:12px; color:var(--text);">GrimAge</div>
+              <div style="flex:1;"><div class="progress-track" style="height:8px;"><div class="progress-fill" style="width:60%; background:var(--green); height:100%;"></div></div></div>
+              <div style="font-family:var(--font-mono); font-size:13px; color:var(--green); width:50px; text-align:right;">33.2</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:120px; font-size:12px; color:var(--text);">PhenoAge</div>
+              <div style="flex:1;"><div class="progress-track" style="height:8px;"><div class="progress-fill" style="width:68%; background:var(--accent); height:100%;"></div></div></div>
+              <div style="font-family:var(--font-mono); font-size:13px; color:var(--accent); width:50px; text-align:right;">35.4</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:120px; font-size:12px; color:var(--text);">DunedinPACE</div>
+              <div style="flex:1;"><div class="progress-track" style="height:8px;"><div class="progress-fill" style="width:55%; background:var(--green); height:100%;"></div></div></div>
+              <div style="font-family:var(--font-mono); font-size:13px; color:var(--green); width:50px; text-align:right;">0.92x</div>
+            </div>
+          </div>
+          <div style="margin-top:16px; padding:12px; background:var(--bg); border-radius:var(--radius); font-size:11px; color:var(--text-muted); line-height:1.5;">
+            Chronological age: 38 · Average biological age across clocks: <strong style="color:var(--green);">34.2</strong> · All clocks show consistent decelerated aging.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--         MEDICATIONS PAGE                -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="page-view" id="page-medications">
+
+      <div class="section-head">
+        <h2>Medications & Supplements</h2>
+        <p>Prescribed by Dr. J. Santos — tracked via the focused pharmacy & adherence monitoring</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Current Prescriptions</div>
+            <span class="card-badge badge-accent">Via VitalPath Pharmacy</span>
+          </div>
+
+          <div class="med-item">
+            <div class="med-icon" style="background:var(--green-dim);">💊</div>
+            <div class="med-info">
+              <div class="med-name">Metformin ER</div>
+              <div class="med-dose">500 mg · once daily with dinner</div>
+            </div>
+            <div class="med-schedule">
+              <div>Daily</div>
+              <div class="med-next">Next refill: May 2</div>
+            </div>
+          </div>
+          <div class="med-item">
+            <div class="med-icon" style="background:var(--blue-dim);">💊</div>
+            <div class="med-info">
+              <div class="med-name">Rosuvastatin</div>
+              <div class="med-dose">5 mg · once daily at bedtime</div>
+            </div>
+            <div class="med-schedule">
+              <div>Daily</div>
+              <div class="med-next">Next refill: May 15</div>
+            </div>
+          </div>
+          <div class="med-item">
+            <div class="med-icon" style="background:var(--purple-dim);">💊</div>
+            <div class="med-info">
+              <div class="med-name">Rapamycin (Sirolimus)</div>
+              <div class="med-dose">2 mg · once weekly (Fridays)</div>
+            </div>
+            <div class="med-schedule">
+              <div>Weekly</div>
+              <div class="med-next">Next dose: Apr 18</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Supplement Protocol</div>
+            <span class="card-badge badge-blue">Physician-guided</span>
+          </div>
+
+          <div class="med-item">
+            <div class="med-icon" style="background:var(--orange-dim);">🧴</div>
+            <div class="med-info">
+              <div class="med-name">Vitamin D3 + K2</div>
+              <div class="med-dose">5000 IU D3 / 200 mcg K2 · AM with fat</div>
+            </div>
+            <div class="med-schedule"><div>Daily</div></div>
+          </div>
+          <div class="med-item">
+            <div class="med-icon" style="background:var(--teal-dim);">🧴</div>
+            <div class="med-info">
+              <div class="med-name">Omega-3 (EPA/DHA)</div>
+              <div class="med-dose">2g EPA / 1g DHA · with meals</div>
+            </div>
+            <div class="med-schedule"><div>Daily</div></div>
+          </div>
+          <div class="med-item">
+            <div class="med-icon" style="background:var(--accent-dim);">🧴</div>
+            <div class="med-info">
+              <div class="med-name">Magnesium L-Threonate</div>
+              <div class="med-dose">2000 mg · before bed</div>
+            </div>
+            <div class="med-schedule"><div>Nightly</div></div>
+          </div>
+          <div class="med-item">
+            <div class="med-icon" style="background:var(--green-dim);">🧴</div>
+            <div class="med-info">
+              <div class="med-name">Creatine Monohydrate</div>
+              <div class="med-dose">5g · daily with water</div>
+            </div>
+            <div class="med-schedule"><div>Daily</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Adherence -->
+      <div class="card" style="margin-top:18px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">30-Day Adherence Tracker</div>
+            <div class="card-subtitle">Prescription medications only · flagged to care team if &lt; 80%</div>
+          </div>
+          <span class="card-badge badge-green">94% overall</span>
+        </div>
+        <div style="display:flex; gap:3px; flex-wrap:wrap;">
+          <script>
+            // Will generate adherence dots via JS below
+          </script>
+        </div>
+        <div id="adherence-dots" style="display:flex; gap:3px; flex-wrap:wrap;"></div>
+        <div style="display:flex; gap:16px; margin-top:12px; font-size:11px; color:var(--text-muted);">
+          <span>🟢 Taken</span>
+          <span>🔴 Missed</span>
+          <span>⚪ Upcoming</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--           MESSAGES PAGE                 -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="page-view" id="page-messages">
+
+      <div class="section-head">
+        <h2>Messages</h2>
+        <p>Secure async messaging with your care team — SLA: response within 24 hours</p>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid var(--border);">
+          <div class="care-avatar" style="background:var(--accent-dim); color:var(--accent); width:34px; height:34px; font-size:12px;">JS</div>
+          <div>
+            <div style="font-size:13px; font-weight:600; color:var(--text);">Dr. J. Santos</div>
+            <div style="font-size:10.5px; color:var(--green);">● Typically responds within 12h</div>
+          </div>
+        </div>
+
+        <div class="msg-thread">
+          <div class="msg from-doc">
+            <div class="msg-avatar">JS</div>
+            <div>
+              <div class="msg-bubble">Hi R. — I've reviewed your latest panel from March 12. Really pleased with the LDL trajectory. Your ApoB at 78 is exactly where we want it for your risk profile. Homocysteine is worth watching — I'd recommend adding methylfolate to the supplement stack. Let me know if you have questions.</div>
+              <div class="msg-meta">Dr. J. Santos · Mar 14, 2:18 PM</div>
+            </div>
+          </div>
+
+          <div class="msg from-patient">
+            <div class="msg-avatar">RM</div>
+            <div>
+              <div class="msg-bubble">Thanks Dr. S. — great to hear about the LDL progress. On the methylfolate, any specific brand or dosage you'd recommend? Also wanted to ask about the rapamycin — should I continue the same dose after the next blood draw or are we adjusting?</div>
+              <div class="msg-meta">R. Matsuda · Mar 14, 5:42 PM</div>
+            </div>
+          </div>
+
+          <div class="msg from-doc">
+            <div class="msg-avatar">JS</div>
+            <div>
+              <div class="msg-bubble">Good questions. For methylfolate, 1mg daily (Thorne or Jarrow are reliable). On the rapamycin — let's keep the current 2mg weekly through the next panel in May, then reassess. I want to see your mTOR-related markers before adjusting. Your sirolimus trough levels looked good last time.</div>
+              <div class="msg-meta">Dr. J. Santos · Mar 15, 9:04 AM</div>
+            </div>
+          </div>
+
+          <div class="msg from-patient">
+            <div class="msg-avatar">RM</div>
+            <div>
+              <div class="msg-bubble">Perfect, I'll start the methylfolate. One more thing — my HRV has been trending up nicely but I noticed a dip last week. Could the Zone 2 volume increase be related? I bumped from 3 to 4 sessions per week.</div>
+              <div class="msg-meta">R. Matsuda · Mar 15, 12:30 PM</div>
+            </div>
+          </div>
+
+          <div class="msg from-doc">
+            <div class="msg-avatar">JS</div>
+            <div>
+              <div class="msg-bubble">That's a classic overreaching signal. HRV dips when training load outpaces recovery. I'd hold at 3 sessions for another 2–3 weeks and let HRV re-stabilize before adding the 4th. Your Oura readiness scores should confirm — look for consistent 80+ before progressing. Your overall aerobic base is building well.</div>
+              <div class="msg-meta">Dr. J. Santos · Mar 15, 4:15 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="msg-input-bar">
+          <input type="text" placeholder="Type a message to your care team...">
+          <button class="msg-send-btn">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--         EDUCATION PAGE                  -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="page-view" id="page-education">
+
+      <div class="section-head">
+        <h2>Education Hub</h2>
+        <p>Condition-specific content explaining what your biomarkers mean and why they matter</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="edu-card">
+          <div class="edu-tag" style="color:var(--green);">● Recommended for you</div>
+          <div class="edu-title">Understanding ApoB & Cardiovascular Risk</div>
+          <div class="edu-desc">Why ApoB is considered a better predictor of cardiovascular events than LDL-C alone, and what your target range means.</div>
+          <div class="edu-footer">
+            <span>📖 8 min read</span>
+            <span style="color:var(--accent);">Start →</span>
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-tag" style="color:var(--green);">● Recommended for you</div>
+          <div class="edu-title">Rapamycin & mTOR: The Longevity Connection</div>
+          <div class="edu-desc">How mTOR inhibition affects cellular aging, what the current evidence shows, and what to watch for during therapy.</div>
+          <div class="edu-footer">
+            <span>📖 12 min read</span>
+            <span style="color:var(--accent);">Start →</span>
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-tag" style="color:var(--blue);">● Performance</div>
+          <div class="edu-title">VO2 Max: Why It Matters More Than You Think</div>
+          <div class="edu-desc">VO2 max is the single strongest predictor of all-cause mortality. Here's how to interpret yours and how Zone 2 training moves the needle.</div>
+          <div class="edu-footer">
+            <span>📖 6 min read</span>
+            <span style="color:var(--accent);">Start →</span>
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-tag" style="color:var(--purple);">● Epigenetics</div>
+          <div class="edu-title">Epigenetic Clocks Explained</div>
+          <div class="edu-desc">Horvath, Hannum, GrimAge, DunedinPACE — what each clock measures and why the consensus matters more than any single number.</div>
+          <div class="edu-footer">
+            <span>📖 10 min read</span>
+            <span style="color:var(--accent);">Start →</span>
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-tag" style="color:var(--orange);">● CGM & Metabolism</div>
+          <div class="edu-title">Reading Your CGM Data</div>
+          <div class="edu-desc">What glucose variability tells you about metabolic health, how to interpret post-meal spikes, and when to be concerned.</div>
+          <div class="edu-footer">
+            <span>📖 7 min read</span>
+            <span style="color:var(--accent);">Start →</span>
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-tag" style="color:var(--teal);">● Sleep & Recovery</div>
+          <div class="edu-title">HRV: Your Recovery Signal</div>
+          <div class="edu-desc">How heart rate variability reflects autonomic nervous system health, what drives changes, and how to use it to guide training.</div>
+          <div class="edu-footer">
+            <span>📖 5 min read</span>
+            <span style="color:var(--accent);">Start →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--           CARE PLAN PAGE                -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="page-view" id="page-careplan">
+
+      <div class="section-head">
+        <h2>Care Plan</h2>
+        <p>Your personalized Performance & Longevity protocol — built and maintained by Dr. J. Santos</p>
+      </div>
+
+      <div class="card" style="margin-bottom:22px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Program: Performance & Longevity</div>
+            <div class="card-subtitle">Annual membership · $1,800–$2,400 CAD/yr · Medications billed separately</div>
+          </div>
+          <span class="program-badge">🏔️ Active</span>
+        </div>
+
+        <div class="grid-2" style="gap:16px; margin-top:4px;">
+          <div>
+            <div style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-muted); margin-bottom:10px;">Health Goals</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div style="padding:10px 14px; background:var(--bg); border-radius:var(--radius-sm); font-size:12.5px; color:var(--text-secondary); border-left:3px solid var(--green);">Reduce biological age by ≥ 2 years within 12 months</div>
+              <div style="padding:10px 14px; background:var(--bg); border-radius:var(--radius-sm); font-size:12.5px; color:var(--text-secondary); border-left:3px solid var(--blue);">Achieve VO2 max ≥ 50 ml/kg/min (superior for age)</div>
+              <div style="padding:10px 14px; background:var(--bg); border-radius:var(--radius-sm); font-size:12.5px; color:var(--text-secondary); border-left:3px solid var(--accent);">Maintain ApoB &lt; 80 mg/dL and hsCRP &lt; 0.5 mg/L</div>
+              <div style="padding:10px 14px; background:var(--bg); border-radius:var(--radius-sm); font-size:12.5px; color:var(--text-secondary); border-left:3px solid var(--purple);">Optimize sleep architecture — Deep sleep ≥ 20%</div>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-muted); margin-bottom:10px;">Review Schedule</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div style="padding:10px 14px; background:var(--bg); border-radius:var(--radius-sm); font-size:12.5px; color:var(--text-secondary); display:flex; justify-content:space-between;">
+                <span>Comprehensive lab panel</span><span style="color:var(--accent); font-family:var(--font-mono); font-size:11px;">Every 6 months</span>
+              </div>
+              <div style="padding:10px 14px; background:var(--bg); border-radius:var(--radius-sm); font-size:12.5px; color:var(--text-secondary); display:flex; justify-content:space-between;">
+                <span>Physician follow-up</span><span style="color:var(--accent); font-family:var(--font-mono); font-size:11px;">Every 4 months</span>
+              </div>
+              <div style="padding:10px 14px; background:var(--bg); border-radius:var(--radius-sm); font-size:12.5px; color:var(--text-secondary); display:flex; justify-content:space-between;">
+                <span>Epigenetic re-test</span><span style="color:var(--accent); font-family:var(--font-mono); font-size:11px;">Every 6 months</span>
+              </div>
+              <div style="padding:10px 14px; background:var(--bg); border-radius:var(--radius-sm); font-size:12.5px; color:var(--text-secondary); display:flex; justify-content:space-between;">
+                <span>Wearable data review</span><span style="color:var(--accent); font-family:var(--font-mono); font-size:11px;">Continuous + visits</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Treatment Protocols</div>
+        <div class="card-subtitle" style="margin-bottom:16px;">Current interventions and rationale</div>
+        <table class="data-table">
+          <thead><tr><th>Intervention</th><th>Protocol</th><th>Rationale</th><th>Monitoring</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:600; color:var(--text);">Metformin ER</td>
+              <td>500mg daily</td>
+              <td>AMPK activation, insulin sensitivity, anti-aging pathway</td>
+              <td>HbA1c, fasting glucose q6m</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600; color:var(--text);">Rapamycin</td>
+              <td>2mg weekly</td>
+              <td>mTOR inhibition, cellular senescence reduction</td>
+              <td>Sirolimus trough, CBC, lipids q6m</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600; color:var(--text);">Rosuvastatin</td>
+              <td>5mg daily</td>
+              <td>LDL/ApoB reduction, cardiovascular risk</td>
+              <td>Lipid panel, liver enzymes q6m</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600; color:var(--text);">Zone 2 Training</td>
+              <td>3x/week, 45 min</td>
+              <td>Mitochondrial biogenesis, VO2 max improvement</td>
+              <td>HRV, VO2 max estimate via wearable</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600; color:var(--text);">Resistance Training</td>
+              <td>3x/week</td>
+              <td>Muscle mass preservation, bone density, metabolic health</td>
+              <td>Strength metrics, body composition</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ── Navigation ──
+function showPage(pageId) {
+  // Deactivate all
+  document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  // Activate target
+  const page = document.getElementById('page-' + pageId);
+  if (page) page.classList.add('active');
+
+  // Activate nav
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes(pageId)) {
+      n.classList.add('active');
+    }
+  });
+
+  // Update topbar title
+  const titles = {
+    overview: 'Overview',
+    labs: 'Lab Results',
+    wearables: 'Wearable Data',
+    epigenetics: 'Epigenetic Profile',
+    medications: 'Medications',
+    messages: 'Messages',
+    education: 'Education Hub',
+    careplan: 'Care Plan'
+  };
+  document.getElementById('page-title').textContent = titles[pageId] || 'Overview';
+}
+
+// ── Lab Sub-Tabs ──
+function showLabTab(el, tabId) {
+  // Hide all lab sub-tabs
+  ['labs-latest','labs-trends','labs-history','labs-upload'].forEach(id => {
+    const tab = document.getElementById(id);
+    if (tab) tab.style.display = 'none';
+  });
+
+  // Show target
+  const target = document.getElementById(tabId);
+  if (target) target.style.display = 'block';
+
+  // Update active tab
+  el.parentElement.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── Adherence Dots ──
+(function() {
+  const container = document.getElementById('adherence-dots');
+  if (!container) return;
+  const pattern = [1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1];
+  pattern.forEach((taken, i) => {
+    const dot = document.createElement('div');
+    dot.style.cssText = `width:16px; height:16px; border-radius:3px; background:${taken ? 'var(--green)' : 'var(--red)'}; opacity:${taken ? 0.7 : 1};`;
+    dot.title = `Day ${i + 1}: ${taken ? 'Taken' : 'Missed'}`;
+    container.appendChild(dot);
+  });
+})();
+</script>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div style="background:linear-gradient(150deg,#071E2B 0%,#0D3340 100%);padding:0 0 1rem 0;"></div>
+
+
+<!-- ══════════════════════════════════════
+     EPIGENETICS
+══════════════════════════════════════ -->
+<section class="section light epi-section">
+  <div class="section-eyebrow reveal">Epigenetic Age Testing</div>
+  <h2 class="section-title reveal">How old is your biology — really?</h2>
+  <p class="section-lead reveal">Epigenetic testing measures how your DNA is being expressed — not just what genes you have, but how lifestyle, environment, and interventions are aging you at a cellular level.</p>
+
+  <div class="epi-layout">
+
+    <div class="epi-card reveal">
+      <!-- Age display -->
+      <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5EC4BD;margin-bottom:0.85rem;">Biological Age Assessment</div>
+      <div class="epi-age-display">
+        <div class="epi-age-block">
+          <div class="epi-age-label">Biological Age</div>
+          <div class="epi-age-num">41</div>
+        </div>
+        <div class="epi-age-block">
+          <div class="epi-age-label">Chronological Age</div>
+          <div class="epi-age-num chron">47</div>
+        </div>
+      </div>
+      <div class="epi-advantage">↓ 6 years younger biologically</div>
+
+      <!-- Timeline -->
+      <div class="epi-timeline">
+        <div class="epi-tl-label">Biological age over program</div>
+        <div class="epi-tl-track"><div class="epi-tl-fill"></div></div>
+        <div class="epi-tl-points">
+          <div class="epi-tl-point">
+            <div class="epi-tl-dot"></div>
+            <div class="epi-tl-age" style="color:rgba(255,255,255,0.5);">46</div>
+            <div class="epi-tl-date">Baseline</div>
+          </div>
+          <div class="epi-tl-point">
+            <div class="epi-tl-dot"></div>
+            <div class="epi-tl-age" style="color:rgba(255,255,255,0.7);">43</div>
+            <div class="epi-tl-date">6 months</div>
+          </div>
+          <div class="epi-tl-point">
+            <div class="epi-tl-dot current"></div>
+            <div class="epi-tl-age">41</div>
+            <div class="epi-tl-date">12 months</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drivers -->
+      <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:0.65rem;">Key driver improvements</div>
+      <div class="epi-drivers">
+        <div class="epi-driver">
+          <div class="epi-driver-name">Sleep Quality</div>
+          <div class="epi-driver-trend up">↑ Improved</div>
+          <svg class="sparkline-wrap" width="100%" height="24" viewBox="0 0 80 24"><polyline points="0,20 16,18 32,14 48,10 64,7 80,4" fill="none" stroke="#5EC4BD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="epi-driver">
+          <div class="epi-driver-name">Inflammatory Load</div>
+          <div class="epi-driver-trend down">↓ Reduced</div>
+          <svg class="sparkline-wrap" width="100%" height="24" viewBox="0 0 80 24"><polyline points="0,5 16,7 32,10 48,13 64,16 80,19" fill="none" stroke="#5EC4BD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="epi-driver">
+          <div class="epi-driver-name">Metabolic Fitness</div>
+          <div class="epi-driver-trend up">↑ Improved</div>
+          <svg class="sparkline-wrap" width="100%" height="24" viewBox="0 0 80 24"><polyline points="0,20 16,17 32,13 48,10 64,7 80,5" fill="none" stroke="#5EC4BD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: copy -->
+    <div class="reveal">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:#13384A;margin-bottom:1.25rem;line-height:1.3;">A number that actually changes — based on how you live.</h3>
+
+      <div style="display:flex;flex-direction:column;gap:1.1rem;margin-bottom:1.5rem;">
+        <div style="background:#F5FAFA;border:1px solid #D8EDEA;border-radius:10px;padding:1rem 1.1rem;">
+          <div style="font-size:0.72rem;font-weight:700;color:#1DA8A0;letter-spacing:0.06em;margin-bottom:0.3rem;">WHAT IT MEASURES</div>
+          <div style="font-size:0.82rem;color:#2D5A6A;line-height:1.6;">Epigenetic clocks like DunedinPACE and Horvath's clock analyze DNA methylation patterns across thousands of genomic sites to estimate how fast your cells are aging — independent of your calendar age.</div>
+        </div>
+        <div style="background:#F5FAFA;border:1px solid #D8EDEA;border-radius:10px;padding:1rem 1.1rem;">
+          <div style="font-size:0.72rem;font-weight:700;color:#1DA8A0;letter-spacing:0.06em;margin-bottom:0.3rem;">HOW IT'S USED IN YOUR PROGRAM</div>
+          <div style="font-size:0.82rem;color:#2D5A6A;line-height:1.6;">VitalPath includes epigenetic age testing at program baseline and at 12-month milestones. Your physician interprets the result in the context of your full biomarker picture — not as a standalone score.</div>
+        </div>
+        <div style="background:#F5FAFA;border:1px solid #D8EDEA;border-radius:10px;padding:1rem 1.1rem;">
+          <div style="font-size:0.72rem;font-weight:700;color:#1DA8A0;letter-spacing:0.06em;margin-bottom:0.3rem;">WHAT MOVES THE NUMBER</div>
+          <div style="font-size:0.82rem;color:#2D5A6A;line-height:1.6;">Sleep, exercise, inflammatory load, metabolic health, and stress are all independently shown to affect epigenetic aging rate. The program interventions your physician builds are designed to move these drivers directly.</div>
+        </div>
+      </div>
+
+      <div style="background:#E2F4F1;border:1px solid #B8DDD9;border-radius:10px;padding:1rem 1.1rem;">
+        <div style="font-size:0.72rem;font-weight:700;color:#0D8A83;margin-bottom:0.3rem;">A NOTE ON INTERPRETATION</div>
+        <div style="font-size:0.78rem;color:#2D5A6A;line-height:1.6;">Epigenetic age is a directional signal, not a verdict. Your physician contextualizes it alongside your labs, wearables, and clinical picture — and explains what it means for your specific care plan at each program review.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     AI PATTERN DETECTION
+══════════════════════════════════════ -->
+<section class="section dark">
+  <div class="section-eyebrow reveal">AI Pattern Detection</div>
+  <h2 class="section-title light-text reveal">AI notices. Your doctor interprets.</h2>
+  <p class="section-lead light-text reveal">The portal uses pattern detection across your combined data to surface correlations that would be invisible looking at any single metric in isolation. These signals go to your physician — not directly to you as advice.</p>
+
+  <div class="pattern-layout">
+
+    <!-- Pattern cards -->
+    <div class="reveal">
+      <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:1rem;">Example pattern signals</div>
+      <div class="pattern-cards">
+
+        <div class="pattern-card amber">
+          <div class="pattern-card-label">🔶 AI Pattern Detected</div>
+          <div class="pattern-card-text">HRV has declined 18% over 6 weeks. HsCRP trending upward in the same window. Correlation may indicate elevated recovery stress load or subclinical inflammation.</div>
+          <div class="pattern-card-meta amber">Flagged for physician review · 3 days ago</div>
+        </div>
+
+        <div class="pattern-card amber">
+          <div class="pattern-card-label">🔶 AI Pattern Detected</div>
+          <div class="pattern-card-text">Fasting glucose readings on CGM are 12% higher on days following less than 6 hours of sleep — consistent across 8-week window. Sleep-glucose relationship identified.</div>
+          <div class="pattern-card-meta amber">Educational note added to portal · 1 week ago</div>
+        </div>
+
+        <div class="pattern-card teal">
+          <div class="pattern-card-label">✅ Physician Note Added</div>
+          <div class="pattern-card-text">LDL-P improvement is consistent with dietary changes reported at last visit. Continuing current protocol. Next full draw in 90 days — will reassess statin dosing based on results.</div>
+          <div class="pattern-card-meta teal">Dr. R. · Confirmed · 3 days ago</div>
+        </div>
+
+      </div>
+
+      <div class="privacy-box">
+        <div class="privacy-box-title">Your data stays yours</div>
+        <div class="privacy-box-text">AI pattern detection runs only within your account on your data. No data is used to train models or shared with third parties. Physician access to your portal requires your explicit permission, which you can grant or revoke at any time.</div>
+      </div>
+    </div>
+
+    <!-- Insight feed mockup -->
+    <div class="insight-feed reveal">
+      <div class="insight-feed-header">
+        <div>
+          <div class="insight-feed-title">Physician Insights Feed</div>
+        </div>
+        <div class="insight-feed-badge">3 new</div>
+      </div>
+
+      <div class="insight-item">
+        <div class="insight-item-top">
+          <div class="insight-item-icon amber">🔶</div>
+          <span class="insight-item-type amber">Pattern Alert</span>
+          <span class="insight-item-time">3 days ago</span>
+        </div>
+        <div class="insight-item-text">HRV + HsCRP correlation flagged. AI detected 18% HRV decline alongside rising inflammation markers over 6-week window.</div>
+        <div class="insight-reviewer">
+          <div class="reviewer-avatar">R</div>
+          <span class="reviewer-name">Pending Dr. R. review</span>
+        </div>
+      </div>
+
+      <div class="insight-item">
+        <div class="insight-item-top">
+          <div class="insight-item-icon teal">✅</div>
+          <span class="insight-item-type teal">Physician Note</span>
+          <span class="insight-item-time">3 days ago</span>
+        </div>
+        <div class="insight-item-text">LDL-P trending in right direction. Statin + dietary changes working. Staying on current protocol for next 90 days.</div>
+        <div class="insight-reviewer">
+          <div class="reviewer-avatar" style="background:#0D8A83;">R</div>
+          <span class="reviewer-name">Reviewed by Dr. R.</span>
+        </div>
+      </div>
+
+      <div class="insight-item">
+        <div class="insight-item-top">
+          <div class="insight-item-icon amber">📊</div>
+          <span class="insight-item-type amber">Education Note</span>
+          <span class="insight-item-time">1 week ago</span>
+        </div>
+        <div class="insight-item-text">Sleep-glucose pattern identified from your CGM data. Education module on sleep and metabolic health added to your portal.</div>
+        <div class="insight-reviewer">
+          <div class="reviewer-avatar">R</div>
+          <span class="reviewer-name">Added by care team</span>
+        </div>
+      </div>
+
+      <div class="insight-item">
+        <div class="insight-item-top">
+          <div class="insight-item-icon teal">🧬</div>
+          <span class="insight-item-type teal">Epigenetic Update</span>
+          <span class="insight-item-time">2 weeks ago</span>
+        </div>
+        <div class="insight-item-text">12-month epigenetic result: biological age 41, down from 46 at baseline. Dr. R. has added interpretation notes to your epigenetics module.</div>
+        <div class="insight-reviewer">
+          <div class="reviewer-avatar" style="background:#0D8A83;">R</div>
+          <span class="reviewer-name">Reviewed by Dr. R.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+<!-- ══════════════════════════════════════
+     AI COMMITMENT STATEMENT  
+══════════════════════════════════════ -->
+<section style="background:linear-gradient(135deg,#071E2B,#0D3340);padding:clamp(2.5rem,5vw,4rem) clamp(1.5rem,6vw,7rem);">
+  <div style="max-width:800px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+      <div class="reveal">
+        <div class="section-eyebrow" style="color:#5EC4BD;">Our AI Commitment</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.4rem);color:#fff;line-height:1.15;margin-bottom:1rem;">Powerful technology. Clear boundaries.</h2>
+        <p style="font-size:0.9rem;color:#B2D8D5;line-height:1.75;margin-bottom:1.25rem;">AI in VitalPath is not a diagnostic tool, a prescriber, or a replacement for clinical judgment. It is a pattern detector, an educator, and a translator — working in the background so that your physician arrives at every visit with the full picture.</p>
+        <p style="font-size:0.9rem;color:#B2D8D5;line-height:1.75;">Every AI output is labeled as such. Every meaningful signal goes to your physician before it reaches you. Your data is used only within your account — never sold, never used to train models, never shared without your explicit consent.</p>
+      </div>
+      <div class="reveal" style="display:flex;flex-direction:column;gap:1rem;">
+        <div style="background:rgba(29,168,160,0.08);border:1px solid rgba(29,168,160,0.2);border-radius:12px;padding:1.1rem 1.25rem;">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5EC4BD;margin-bottom:0.4rem;">AI does</div>
+          <div style="font-size:0.82rem;color:#E8F4F2;line-height:1.6;">Pattern detection across your labs + wearables · Plain-language biomarker education · OCR extraction of uploaded lab reports · Flagging correlations for physician review</div>
+        </div>
+        <div style="background:rgba(250,199,117,0.06);border:1px solid rgba(250,199,117,0.2);border-radius:12px;padding:1.1rem 1.25rem;">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#FAC775;margin-bottom:0.4rem;">AI does not</div>
+          <div style="font-size:0.82rem;color:#E8F4F2;line-height:1.6;">Diagnose conditions · Prescribe or adjust medications · Give personalized medical advice · Access or share your data outside your account</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem 1.25rem;">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:0.4rem;">Always</div>
+          <div style="font-size:0.82rem;color:#E8F4F2;line-height:1.6;">Physician-reviewed before clinical use · Clearly labeled in the member portal · Constrained to educational and pattern-detection roles · Opt-in and transparent</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     FEATURE GRID
+══════════════════════════════════════ -->
+<section class="section light">
+  <div class="section-eyebrow reveal">What's Included</div>
+  <h2 class="section-title reveal">Portal features, at a glance.</h2>
+  <p class="section-lead reveal">Every VitalPath program includes full portal access — the data layer that makes every physician visit more informed and every renewal more valuable than the last.</p>
+
+  <div class="feature-grid">
+    <div class="feature-tile reveal">
+      <div class="feature-icon">📈</div>
+      <div class="feature-tile-title">Longitudinal Dashboard</div>
+      <div class="feature-tile-body">Track every biomarker over time, not just at a single point. Trend lines, trajectories, and the full picture of where your health is going.</div>
+    </div>
+    <div class="feature-tile reveal">
+      <div class="feature-icon">🧪</div>
+      <div class="feature-tile-title">Lab Result History</div>
+      <div class="feature-tile-body">All tests, all sources, in one place — clinic-ordered, at-home kits, or uploaded PDFs. One longitudinal record regardless of where the test was done.</div>
+    </div>
+    <div class="feature-tile reveal">
+      <div class="feature-icon">⌚</div>
+      <div class="feature-tile-title">Wearable Integration</div>
+      <div class="feature-tile-body">Oura, Apple Health, and CGM data overlaid with lab results. Wearable signals turn point-in-time labs into a continuous story.</div>
+    </div>
+    <div class="feature-tile reveal">
+      <div class="feature-icon">💬</div>
+      <div class="feature-tile-title">Education + AI Q&amp;A</div>
+      <div class="feature-tile-body">Click any metric for a structured education module and AI-powered Q&amp;A in plain language. Education content physician-reviewed throughout.</div>
+    </div>
+    <div class="feature-tile reveal">
+      <div class="feature-icon">🧬</div>
+      <div class="feature-tile-title">Epigenetic Age Tracking</div>
+      <div class="feature-tile-body">Biological age measured at program baseline and milestones. Physician-interpreted alongside your full biomarker picture — not as a standalone number.</div>
+    </div>
+    <div class="feature-tile reveal">
+      <div class="feature-icon">✅</div>
+      <div class="feature-tile-title">Physician-Reviewed Insights</div>
+      <div class="feature-tile-body">Every AI-detected pattern surfaces to your care team before reaching you. Clinical notes added directly to your feed by your VitalPath physician.</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-stripe"></div>
+
+<!-- ══════════════════════════════════════
+     CLOSING CTA
+══════════════════════════════════════ -->
+<section class="closing">
+  <div class="section-eyebrow reveal">Included in every program</div>
+  <h2 class="closing-title reveal">Your data doesn't disappear between visits.</h2>
+  <p class="closing-sub reveal">It builds — creating a longitudinal record that makes every physician conversation more informed, and every renewal more valuable than the last. By year two, you have something no fresh start can replicate.</p>
+  <a href="programs.html" class="btn-primary reveal">Explore Programs →</a>
+</section>
+
+<footer style="background:#071E2B;border-top:1px solid rgba(29,168,160,0.1);padding:1.25rem clamp(1.5rem,4vw,4rem);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;">
+  <span style="font-size:0.75rem;color:rgba(255,255,255,0.25);font-family:'DM Sans',sans-serif;">© 2026 VitalPath Health. Confidential &amp; proprietary.</span>
+  <span style="font-size:0.75rem;color:rgba(255,255,255,0.25);font-family:'DM Sans',sans-serif;">Internal overview — not for distribution.</span>
+</footer>
+
+
+</main>
+
+<script src="nav.js"></script>
+<script>
+/* ── Outer page scripts ── */
+
+/* ── Scroll reveal ── */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const siblings = Array.from(el.parentElement.querySelectorAll('.reveal:not(.revealed)'));
+      const idx = siblings.indexOf(el);
+      setTimeout(() => { el.classList.add('revealed'); revealObs.unobserve(el); }, idx * 90);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ── Marker data ── */
+const MARKERS = {
+  testosterone: {
+    name: 'Testosterone (Free)',
+    value: '14.2', unit: 'pg/mL',
+    trendLabel: '↑ Improving — within range',
+    trendColor: '#5EC4BD',
+    gaugePos: '48%',
+    gaugeNote: 'Your free testosterone is in the lower-normal range. Your physician is monitoring whether this warrants protocol adjustment.',
+    gaugeLeft: 'Low', gaugeMid: 'Normal', gaugeRight: 'Optimal',
+    category: 'Hormone',
+    context: [
+      'Free testosterone represents the biologically active fraction — only ~2% of total testosterone is unbound and available to tissues.',
+      'Levels decline ~1–2% per year after age 30. Symptoms like fatigue, low libido, reduced muscle mass, and mood changes often appear before numbers fall outside standard ranges.',
+      'Your physician monitors free T alongside SHBG and total testosterone to get the full picture of hormone availability.'
+    ],
+    affects: [
+      'Sleep quality directly impacts testosterone — even a single night of poor sleep can reduce levels by 15%. Consistently good sleep is one of the most powerful levers.',
+      'Resistance training and Zone 2 cardio both support testosterone production; chronic overtraining suppresses it.',
+      'Body fat, particularly visceral fat, converts testosterone to estrogen via aromatase. Metabolic health and testosterone are tightly linked.'
+    ],
+    aiPrompts: ['Why does sleep affect testosterone so much?', 'What\'s the difference between free and total testosterone?'],
+    reviewDate: 'Mar 2026'
+  },
+  cortisol: {
+    name: 'Cortisol AM',
+    value: '22.4', unit: 'µg/dL',
+    trendLabel: '↑ Elevated — physician flagged',
+    trendColor: '#FAC775',
+    gaugePos: '72%',
+    gaugeNote: 'Your morning cortisol is elevated. This is being monitored alongside your sleep data and HRV trends.',
+    gaugeLeft: 'Low', gaugeMid: 'Normal', gaugeRight: 'High',
+    category: 'Stress & Recovery',
+    context: [
+      'Cortisol is your primary stress hormone, peaking naturally 30–45 minutes after waking (the cortisol awakening response). This morning spike is healthy — chronic elevation throughout the day is not.',
+      'Elevated AM cortisol can indicate HPA axis dysregulation, chronic psychological stress, poor sleep quality, or underlying metabolic issues.',
+      'When chronically high, cortisol breaks down muscle tissue, promotes abdominal fat accumulation, disrupts thyroid function, and suppresses testosterone production.'
+    ],
+    affects: [
+      'Sleep architecture is the biggest driver — particularly deep sleep (N3), which is when cortisol resets. Poor sleep quality creates a vicious cycle of elevated cortisol → worse sleep.',
+      'Caffeine timing matters significantly: consuming caffeine during the cortisol peak (typically 8–10am) blunts its natural rise and resets the rhythm poorly.',
+      'Moderate exercise reduces cortisol over time; high-intensity training without adequate recovery raises it. Your wearable HRV data reflects this balance directly.'
+    ],
+    aiPrompts: ['How does cortisol affect my weight?', 'What does my HRV tell you about my stress levels?'],
+    reviewDate: 'Mar 2026'
+  },
+  tsh: {
+    name: 'TSH',
+    value: '2.8', unit: 'mIU/L',
+    trendLabel: '→ Stable — monitoring',
+    trendColor: '#9CAAB5',
+    gaugePos: '55%',
+    gaugeNote: 'Your TSH is within range but on the higher end of functional optimal. Your physician is tracking this alongside free T3/T4.',
+    gaugeLeft: 'Low (hyper)', gaugeMid: 'Optimal', gaugeRight: 'High (hypo)',
+    category: 'Thyroid',
+    context: [
+      'TSH (thyroid-stimulating hormone) is the master signal telling your thyroid to produce T3 and T4. Higher TSH means the pituitary is working harder to push a sluggish thyroid.',
+      'Standard reference range is 0.4–4.0 mIU/L, but many functional medicine physicians target 1.0–2.5 for optimal energy, metabolism, and cognitive function.',
+      'Thyroid function is intimately connected to metabolic rate, body weight, energy levels, mood, hair quality, and cold tolerance.'
+    ],
+    affects: [
+      'Selenium, iodine, and zinc are critical cofactors for thyroid hormone production and conversion. Deficiencies in any of these can elevate TSH even without true thyroid disease.',
+      'Chronic caloric restriction — common in weight loss programs — suppresses T3 conversion and raises TSH as a survival adaptation.',
+      'Sleep deprivation, chronic stress, and elevated cortisol all suppress thyroid output over time. This is why TSH often improves when sleep and recovery are addressed.'
+    ],
+    aiPrompts: ['What\'s the difference between TSH and T3/T4?', 'Can weight loss affect my thyroid numbers?'],
+    reviewDate: 'Mar 2026'
+  },
+  insulin: {
+    name: 'Fasting Insulin',
+    value: '11.2', unit: 'µIU/mL',
+    trendLabel: '↓ Improving — on target',
+    trendColor: '#5EC4BD',
+    gaugePos: '60%',
+    gaugeNote: 'Your fasting insulin has improved since baseline. Functional optimal is below 8 µIU/mL — still room to progress.',
+    gaugeLeft: 'Optimal (<8)', gaugeMid: 'Borderline', gaugeRight: 'Elevated',
+    category: 'Metabolic',
+    context: [
+      'Fasting insulin is one of the earliest warning signs of metabolic dysfunction — it begins rising years before blood glucose becomes abnormal, making it far more sensitive than HbA1c alone.',
+      'Chronically elevated insulin drives fat storage (particularly visceral fat), suppresses fat burning, promotes inflammation, disrupts sex hormone balance, and accelerates cellular aging.',
+      'Most standard panels don\'t include fasting insulin — its inclusion in your program reflects a commitment to catching metabolic dysfunction early, not after it becomes disease.'
+    ],
+    affects: [
+      'Dietary carbohydrate quality and timing are the primary drivers. Refined carbohydrates and sugar cause repeated insulin spikes; fibre, protein, and fat blunt them significantly.',
+      'Sleep deprivation raises insulin resistance acutely — a single bad night can cause a 25% reduction in insulin sensitivity. This is the mechanistic link between poor sleep and weight gain.',
+      'Exercise — particularly resistance training and Zone 2 cardio — is the most powerful non-dietary insulin sensitizer, acting through a completely different pathway than diet alone.'
+    ],
+    aiPrompts: ['Why is fasting insulin more useful than HbA1c?', 'How quickly can insulin levels improve?'],
+    reviewDate: 'Mar 2026'
+  },
+  hscrp: {
+    name: 'HsCRP',
+    value: '1.8', unit: 'mg/L',
+    trendLabel: '↑ Borderline — under review',
+    trendColor: '#FAC775',
+    gaugePos: '65%',
+    gaugeNote: 'Your HsCRP is in the borderline range. Your physician is monitoring this alongside your cortisol and sleep data.',
+    gaugeLeft: 'Optimal', gaugeMid: 'Borderline', gaugeRight: 'Elevated',
+    category: 'Inflammation',
+    context: [
+      'HsCRP (high-sensitivity C-reactive protein) is a liver-produced protein that rises in response to systemic inflammation. The high-sensitivity version detects the chronic low-grade inflammation most relevant to longevity and metabolic risk.',
+      'Elevated HsCRP independently predicts cardiovascular events, type 2 diabetes, cognitive decline, and all-cause mortality — even when other markers appear normal.',
+      'It functions as a downstream readout of multiple upstream problems: poor sleep, visceral fat, insulin resistance, chronic stress, poor diet, and low physical activity all raise it.'
+    ],
+    affects: [
+      'Sleep is one of the most potent drivers — sleeping under 6 hours or experiencing fragmented sleep consistently elevates inflammatory cytokines within days.',
+      'Visceral fat is metabolically active and releases pro-inflammatory signals continuously. Reducing central adiposity directly lowers CRP over months.',
+      'Omega-3 fatty acids, polyphenol-rich foods, and reducing ultra-processed foods are the most evidence-backed dietary interventions. The effect is meaningful but takes 8–12 weeks of consistency.'
+    ],
+    aiPrompts: ['How does sleep specifically raise my CRP?', 'What foods reduce inflammation fastest?'],
+    reviewDate: 'Mar 2026'
+  }
+};
+
+let currentMarkerTab = 'context';
+
+function selectMarker(chipEl, markerId) {
+  // Update chips
+  document.querySelectorAll('#chip-grid .metric-chip').forEach(c => c.classList.remove('active'));
+  chipEl.classList.add('active');
+  currentMarkerTab = 'context';
+  renderMarkerPanel(markerId);
+}
+
+function renderMarkerPanel(markerId) {
+  const m = MARKERS[markerId];
+  if (!m) return;
+  const panel = document.getElementById('metric-panel-display');
+  if (!panel) return;
+
+  const trendIsWarning = m.trendColor === '#FAC775';
+  const trendIsGood = m.trendColor === '#5EC4BD';
+
+  panel.innerHTML = `
+    <div class="metric-panel-header">
+      <div class="metric-panel-name">${m.name}</div>
+      <div>
+        <span class="metric-panel-value">${m.value}</span>
+        <span class="metric-panel-unit">${m.unit}</span>
+      </div>
+      <div class="metric-panel-trend" style="color:${m.trendColor};background:${m.trendColor}1a;border-color:${m.trendColor}4d;">${m.trendLabel}</div>
+    </div>
+
+    <div class="gauge-wrap">
+      <div class="gauge-labels"><span>${m.gaugeLeft}</span><span>${m.gaugeMid}</span><span>${m.gaugeRight}</span></div>
+      <div class="gauge-bar"><div class="gauge-marker" style="left:${m.gaugePos};"></div></div>
+      <div class="gauge-note">${m.gaugeNote}</div>
+    </div>
+
+    <div class="metric-tabs">
+      <div class="metric-tab ${currentMarkerTab==='context'?'active':''}" onclick="switchMarkerTab(this,'context','${markerId}')">Context</div>
+      <div class="metric-tab ${currentMarkerTab==='affects'?'active':''}" onclick="switchMarkerTab(this,'affects','${markerId}')">What affects this</div>
+      <div class="metric-tab ${currentMarkerTab==='ask'?'active':''}" onclick="switchMarkerTab(this,'ask','${markerId}')">Ask AI</div>
+    </div>
+
+    <div class="metric-tab-content" id="mp-context" style="display:${currentMarkerTab==='context'?'block':'none'}">
+      ${m.context.map(b => `<div class="metric-bullet">${b}</div>`).join('')}
+      <div class="reviewed-badge">Physician reviewed · Updated ${m.reviewDate}</div>
+    </div>
+
+    <div class="metric-tab-content" id="mp-affects" style="display:${currentMarkerTab==='affects'?'block':'none'}">
+      ${m.affects.map(b => `<div class="metric-bullet">${b}</div>`).join('')}
+      <div class="reviewed-badge">Physician reviewed · Updated ${m.reviewDate}</div>
+    </div>
+
+    <div class="metric-tab-content" id="mp-ask" style="display:${currentMarkerTab==='ask'?'block':'none'}">
+      <div style="font-size:0.75rem;color:#637381;margin-bottom:0.65rem;">Ask your AI health assistant about ${m.name}:</div>
+      <div class="chat-prompts" style="margin-bottom:0.75rem;">
+        ${m.aiPrompts.map(p => `<span class="chat-prompt-chip" onclick="fillMetricChat('${markerId}',this)">${p}</span>`).join('')}
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="metric-chat-input" placeholder="Ask about ${m.name}…" type="text" onkeydown="if(event.key==='Enter')sendMetricChat('${markerId}')"/>
+        <button class="chat-send" onclick="sendMetricChat('${markerId}')">→</button>
+      </div>
+      <div id="metric-chat-thread" style="margin-top:0.75rem;display:flex;flex-direction:column;gap:0.5rem;max-height:160px;overflow-y:auto;"></div>
+      <div class="chat-disclaimer">AI responses are educational only. All clinical guidance comes from your VitalPath physician.</div>
+    </div>
+  `;
+}
+
+function switchMarkerTab(tabEl, tabId, markerId) {
+  currentMarkerTab = tabId;
+  renderMarkerPanel(markerId);
+}
+
+function fillMetricChat(markerId, el) {
+  const input = document.getElementById('metric-chat-input');
+  if (input) { input.value = el.textContent; input.focus(); }
+}
+
+function sendMetricChat(markerId) {
+  const input = document.getElementById('metric-chat-input');
+  const thread = document.getElementById('metric-chat-thread');
+  if (!input || !thread || !input.value.trim()) return;
+  const text = input.value.trim();
+  input.value = '';
+
+  const userBubble = document.createElement('div');
+  userBubble.className = 'chat-msg user';
+  userBubble.innerHTML = `<div class="chat-avatar">MH</div><div class="chat-bubble">${text}</div>`;
+  thread.appendChild(userBubble);
+
+  const typing = document.createElement('div');
+  typing.className = 'chat-msg ai';
+  typing.innerHTML = `<div class="chat-avatar">VP</div><div class="chat-bubble" style="color:#9CAAB5;font-style:italic;">Thinking…</div>`;
+  thread.appendChild(typing);
+  thread.scrollTop = thread.scrollHeight;
+
+  const m = MARKERS[markerId];
+  const lower = text.toLowerCase();
+  const aiResponses = {
+    testosterone: {
+      default: `Free testosterone is the biologically active fraction — most testosterone is bound to SHBG or albumin and unavailable to cells. Your current level of ${m.value} pg/mL puts you in the lower-normal range. What matters most is whether you're experiencing symptoms — fatigue, reduced recovery, mood changes — alongside the number. Your physician will contextualize both. <span class='ai-badge'>AI</span>`,
+      sleep: "Sleep has a direct and well-documented effect on testosterone. Multiple studies show that sleeping under 6 hours reduces morning testosterone by 10–15%. Deep sleep (N3) is when the majority of daily testosterone is produced — it's not just rest, it's biochemical production time. Addressing sleep quality is often the first intervention before any medication is considered. <span class='ai-badge'>AI</span>",
+      training: "Resistance training acutely raises testosterone and creates long-term upward adaptation in baseline levels. Zone 2 cardio supports testosterone by reducing visceral fat (which aromatizes testosterone to estrogen) and improving insulin sensitivity. However, chronic overtraining without recovery suppresses testosterone significantly — your HRV data is a good proxy for whether your training load is net positive. <span class='ai-badge'>AI</span>"
+    },
+    cortisol: {
+      default: `Cortisol at ${m.value} µg/dL in the morning is elevated relative to optimal range. The morning cortisol awakening response should peak and then descend through the day. When it stays elevated, it promotes muscle breakdown, central fat storage, and suppresses both thyroid and sex hormone production. Your physician is tracking this alongside your Oura HRV data to understand the pattern. <span class='ai-badge'>AI</span>`,
+      weight: "Cortisol directly drives weight gain through multiple mechanisms: it stimulates appetite (particularly for calorie-dense food), promotes visceral fat accumulation specifically, breaks down muscle tissue (reducing metabolic rate), and drives insulin resistance which makes fat storage easier. This is why stress management is a literal metabolic intervention, not just a wellness idea. <span class='ai-badge'>AI</span>",
+      sleep: "Cortisol and sleep have a bidirectional relationship. Elevated cortisol suppresses melatonin and delays sleep onset. Poor sleep raises cortisol the following day. Breaking this cycle requires addressing both simultaneously — sleep hygiene, cortisol management (timing of exercise, caffeine, light exposure), and stress reduction all contribute. Your wearable data gives your physician real-time visibility into whether interventions are working. <span class='ai-badge'>AI</span>"
+    },
+    tsh: {
+      default: `TSH at ${m.value} mIU/L is within standard range but on the higher side of what many longevity-focused physicians consider optimal (1.0–2.5 mIU/L). Your physician is watching this alongside free T3 and T4 to understand whether your thyroid is converting adequately. Symptoms matter as much as the number. <span class='ai-badge'>AI</span>`,
+      t3t4: "TSH is the messenger — it tells your thyroid how hard to work. But the active hormone is T3, which is largely produced by converting T4 in your liver and peripheral tissues. It's possible to have a 'normal' TSH and still have inadequate T3 if conversion is impaired (common with low selenium, chronic stress, or low-carb diets). That's why your physician looks at the full panel. <span class='ai-badge'>AI</span>",
+      weight: "Thyroid hormones regulate basal metabolic rate — T3 directly determines how fast your cells burn energy. Even subclinical hypothyroidism (TSH 2.5–4.0 with normal T4) is associated with reduced metabolic rate, easier weight gain, and difficulty losing weight. Caloric restriction itself suppresses T3 conversion as an energy-conservation response, which is one reason aggressive dieting is often counterproductive. <span class='ai-badge'>AI</span>"
+    },
+    insulin: {
+      default: `Fasting insulin at ${m.value} µIU/mL has improved from your baseline but optimal is below 8. Even within 'normal' ranges, insulin above 10 reflects meaningful metabolic burden — cells are becoming resistant to the signal, requiring more insulin to achieve the same effect. The good news is this responds well to the interventions in your current protocol. <span class='ai-badge'>AI</span>`,
+      hba1c: "HbA1c reflects average blood glucose over ~90 days — but by the time it's elevated, insulin resistance has typically been present for years. Fasting insulin rises first as the pancreas compensates for worsening sensitivity. Think of it as the early warning system. Many people have 'normal' HbA1c with significantly elevated insulin, missing the window for early intervention. <span class='ai-badge'>AI</span>",
+      improve: "Fasting insulin is one of the most responsive biomarkers to lifestyle change. Dietary adjustments (lower refined carbohydrate load, time-restricted eating) can show measurable improvement within 2–4 weeks. Resistance training improves insulin sensitivity through a completely different mechanism — muscle tissue is the largest glucose sink in the body. Combined, these interventions can move insulin significantly within a single 90-day program cycle. <span class='ai-badge'>AI</span>"
+    },
+    hscrp: {
+      default: `HsCRP at ${m.value} mg/L puts you in the borderline range (optimal is below 1.0 mg/L). This level is associated with elevated cardiovascular and metabolic risk over time. The key question your physician is investigating is: what's driving it? Given your cortisol elevation and sleep patterns, chronic stress-related inflammation is likely a contributor. <span class='ai-badge'>AI</span>`,
+      sleep: "The mechanism is direct: sleep deprivation activates NF-κB, the master switch for inflammatory gene expression. Even one night of poor sleep measurably elevates IL-6 and TNF-alpha — the cytokines that drive CRP production. Chronic sleep restriction keeps these elevated continuously. Your Oura sleep efficiency data gives your physician a real-time proxy for your inflammatory baseline. <span class='ai-badge'>AI</span>",
+      foods: "The most evidence-backed dietary levers: omega-3 fatty acids (EPA/DHA) directly compete with pro-inflammatory arachidonic acid; polyphenols from berries, olive oil, and dark leafy greens suppress NF-κB; soluble fibre feeds anti-inflammatory gut bacteria. Conversely, ultra-processed foods, refined seed oils, and excess refined carbohydrates all reliably raise CRP. Diet alone typically moves CRP 20–30% within 12 weeks. <span class='ai-badge'>AI</span>"
+    }
+  };
+
+  const markerResponses = aiResponses[markerId] || { default: "That's a great question about this marker. Based on the research, your physician will be best placed to interpret this alongside your full data picture at your next visit. <span class='ai-badge'>AI</span>" };
+
+  let reply = markerResponses.default;
+  if (markerId === 'testosterone' && (lower.includes('sleep') || lower.includes('night') || lower.includes('rest'))) reply = markerResponses.sleep;
+  else if (markerId === 'testosterone' && (lower.includes('train') || lower.includes('exercise') || lower.includes('work'))) reply = markerResponses.training || markerResponses.default;
+  else if (markerId === 'cortisol' && (lower.includes('weight') || lower.includes('fat') || lower.includes('gain'))) reply = markerResponses.weight;
+  else if (markerId === 'cortisol' && (lower.includes('sleep') || lower.includes('night') || lower.includes('melatonin'))) reply = markerResponses.sleep;
+  else if (markerId === 'tsh' && (lower.includes('t3') || lower.includes('t4') || lower.includes('differ'))) reply = markerResponses.t3t4 || markerResponses.default;
+  else if (markerId === 'tsh' && (lower.includes('weight') || lower.includes('loss') || lower.includes('diet'))) reply = markerResponses.weight;
+  else if (markerId === 'insulin' && (lower.includes('hba1c') || lower.includes('a1c') || lower.includes('glucose') || lower.includes('differ'))) reply = markerResponses.hba1c;
+  else if (markerId === 'insulin' && (lower.includes('improv') || lower.includes('quickly') || lower.includes('fast') || lower.includes('long'))) reply = markerResponses.improve;
+  else if (markerId === 'hscrp' && (lower.includes('sleep') || lower.includes('night') || lower.includes('rest'))) reply = markerResponses.sleep;
+  else if (markerId === 'hscrp' && (lower.includes('food') || lower.includes('eat') || lower.includes('diet') || lower.includes('reduc'))) reply = markerResponses.foods;
+
+  setTimeout(() => {
+    typing.innerHTML = `<div class="chat-avatar">VP</div><div class="chat-bubble">${reply}</div>`;
+    thread.scrollTop = thread.scrollHeight;
+  }, 900);
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', function() {
+  renderMarkerPanel('testosterone');
+});
+
+/* ── Chat: fill from prompt chip ── */
+function fillChat(el) {
+  const input = document.getElementById('main-chat-input');
+  if (input) input.value = el.textContent;
+  input?.focus();
+}
+
+/* ── Main chat send ── */
+function sendPrompt(text) {
+  const input = document.getElementById('main-chat-input');
+  if (input) { input.value = text; sendChat(); }
+}
+
+function sendChat() {
+  const input = document.getElementById('main-chat-input');
+  const messages = document.getElementById('chat-messages');
+  if (!input || !messages || !input.value.trim()) return;
+
+  const userText = input.value.trim();
+  input.value = '';
+
+  // Add user message
+  const userMsg = document.createElement('div');
+  userMsg.className = 'chat-msg user';
+  userMsg.innerHTML = `<div class="chat-avatar">MH</div><div class="chat-bubble">${userText}</div>`;
+  messages.appendChild(userMsg);
+
+  // Typing indicator
+  const typing = document.createElement('div');
+  typing.className = 'chat-msg ai';
+  typing.innerHTML = `<div class="chat-avatar">VP</div><div class="chat-bubble" style="color:#9CAAB5;font-style:italic;">Thinking…</div>`;
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
+
+  // Simulate AI response
+  const responses = {
+    default: "That's a great question. Based on the research around HsCRP and chronic inflammation, the evidence points to a combination of lifestyle factors — particularly sleep quality, dietary patterns, and exercise consistency — as the most modifiable drivers. Your physician can give you a personalized answer at your next visit based on your specific data. <span class='ai-badge'>AI</span>",
+    doctor: "Your physician Dr. R. last reviewed your HsCRP on November 12th and noted that your result of 1.8 mg/L is in the borderline range and is being monitored alongside your LDL-P trend. No immediate intervention was indicated — the plan is to reassess after your next lab draw in 18 days. <span class='ai-badge'>AI</span>",
+    foods: "The most evidence-backed dietary levers for reducing HsCRP are: increasing omega-3 fatty acids (particularly EPA/DHA from fatty fish or supplementation), reducing ultra-processed foods and refined carbohydrates, increasing soluble fibre, and adding polyphenol-rich foods like berries, olive oil, and dark leafy greens. The effect size from dietary changes alone is typically modest but cumulative over months. <span class='ai-badge'>AI</span>",
+    improvement: "Most studies show meaningful HsCRP reductions within 8–12 weeks of consistent lifestyle changes. Statin therapy, if prescribed, tends to reduce CRP independently of its lipid effects — often within 4–6 weeks. Your trajectory over the next lab cycle (approximately 90 days) should give a clearer signal of whether your current interventions are having the intended effect. <span class='ai-badge'>AI</span>"
+  };
+
+  const lower = userText.toLowerCase();
+  let reply = responses.default;
+  if (lower.includes('doctor') || lower.includes('flag') || lower.includes('physician')) reply = responses.doctor;
+  else if (lower.includes('food') || lower.includes('eat') || lower.includes('diet')) reply = responses.foods;
+  else if (lower.includes('long') || lower.includes('improve') || lower.includes('time')) reply = responses.improvement;
+
+  setTimeout(() => {
+    typing.innerHTML = `<div class="chat-avatar">VP</div><div class="chat-bubble">${reply}</div>`;
+    messages.scrollTop = messages.scrollHeight;
+  }, 1100);
+}
+
+</script>
+
+<!-- ── Embedded portal app scripts ── -->
+<script>
+// ── Navigation ──
+function showPage(pageId) {
+  document.querySelectorAll('#vp-app .page-view').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#vp-app .nav-item').forEach(n => n.classList.remove('active'));
+  const page = document.getElementById('page-' + pageId);
+  if (page) page.classList.add('active');
+  const navItems = document.querySelectorAll('#vp-app .nav-item');
+  navItems.forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes(pageId)) {
+      n.classList.add('active');
+    }
+  });
+  const titles = {
+    overview: 'Overview', labs: 'Lab Results', wearables: 'Wearable Data',
+    epigenetics: 'Epigenetic Profile', medications: 'Medications',
+    messages: 'Messages', education: 'Education Hub', careplan: 'Care Plan'
+  };
+  const titleEl = document.getElementById('page-title');
+  if (titleEl) titleEl.textContent = titles[pageId] || 'Overview';
+}
+
+function showLabTab(el, tabId) {
+  ['labs-latest','labs-trends','labs-history','labs-upload'].forEach(id => {
+    const tab = document.getElementById(id);
+    if (tab) tab.style.display = 'none';
+  });
+  const target = document.getElementById(tabId);
+  if (target) target.style.display = 'block';
+  el.parentElement.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+(function() {
+  const container = document.getElementById('adherence-dots');
+  if (!container) return;
+  const pattern = [1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1];
+  pattern.forEach((taken, i) => {
+    const dot = document.createElement('div');
+    dot.style.cssText = `width:16px; height:16px; border-radius:3px; background:${taken ? 'var(--green)' : 'var(--red)'}; opacity:${taken ? 0.7 : 1};`;
+    dot.title = `Day ${i + 1}: ${taken ? 'Taken' : 'Missed'}`;
+    container.appendChild(dot);
+  });
+})();
+</script>
+
+</body>
+</html>
