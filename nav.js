@@ -1,89 +1,114 @@
-// Shared navigation logic for Culmina Health site
+// Shared navigation logic for VitalPath site
 (function () {
   const pages = [
-    { label: 'Home', href: 'index.html' },
-    { label: 'Programs', href: 'programs.html' },
-    { label: 'Competitive', href: 'competitive.html' },
-    { label: 'Architecture', href: 'architecture.html' },
-    { label: 'Patient Flow', href: 'flow.html' },
+    { label: "Home",            href: "index.html" },
+    { label: "Programs",        href: "programs.html" },
+    { label: "App Experience",  href: "portal.html",  badge: "New" },
+    { label: "Competitive",     href: "competitive.html" },
+    { label: "Architecture",    href: "architecture.html" },
+    { label: "Patient Flow",    href: "flow.html" },
   ];
 
+  // Separate CTA-style entry for the patient portal
+  const portalCTA = {
+    label: "Member Portal",
+    href:  "vitalpath-portal.html",
+    cta:   true,
+  };
+
   function getCurrentPage() {
-    const path = window.location.pathname.split('/').pop() || 'index.html';
+    const path = window.location.pathname.split("/").pop() || "index.html";
     return path;
   }
 
   function buildNav() {
     const current = getCurrentPage();
-    const nav = document.getElementById('site-nav');
+
+    // Update wordmark text to VitalPath
+    const wordmark = document.querySelector(".site-wordmark");
+    if (wordmark) wordmark.innerHTML = "<span class="wm-dot"></span>VitalPath";
+
+    const nav = document.getElementById("site-nav");
     if (!nav) return;
 
-    // ── Hamburger button ──
-    const hamburger = document.createElement('button');
-    hamburger.id = 'nav-hamburger';
-    hamburger.setAttribute('aria-label', 'Toggle navigation menu');
-    hamburger.setAttribute('aria-expanded', 'false');
-    hamburger.setAttribute('aria-controls', 'nav-dropdown');
-    hamburger.innerHTML = `
-      <span class="ham-bar"></span>
-      <span class="ham-bar"></span>
-      <span class="ham-bar"></span>
-    `;
+    // Hamburger button
+    const hamburger = document.createElement("button");
+    hamburger.id = "nav-hamburger";
+    hamburger.setAttribute("aria-label", "Toggle navigation menu");
+    hamburger.setAttribute("aria-expanded", "false");
+    hamburger.setAttribute("aria-controls", "nav-dropdown");
+    hamburger.innerHTML = "<span class="ham-bar"></span><span class="ham-bar"></span><span class="ham-bar"></span>";
     nav.appendChild(hamburger);
 
-    // ── Dropdown panel ──
-    const dropdown = document.createElement('div');
-    dropdown.id = 'nav-dropdown';
-    dropdown.setAttribute('role', 'menu');
-    dropdown.setAttribute('aria-hidden', 'true');
+    // Dropdown panel
+    const dropdown = document.createElement("div");
+    dropdown.id = "nav-dropdown";
+    dropdown.setAttribute("role", "menu");
+    dropdown.setAttribute("aria-hidden", "true");
 
+    // Internal pages
     pages.forEach(p => {
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = p.href;
-      a.textContent = p.label;
-      const isActive = current === p.href || (current === '' && p.href === 'index.html');
-      a.className = isActive ? 'nav-link active' : 'nav-link';
-      a.setAttribute('role', 'menuitem');
+      const isActive = current === p.href || (current === "" && p.href === "index.html");
+      a.className = isActive ? "nav-link active" : "nav-link";
+      a.setAttribute("role", "menuitem");
+      if (p.badge) {
+        a.innerHTML = p.label + " <span class="nav-badge-pill">" + p.badge + "</span>";
+      } else {
+        a.textContent = p.label;
+      }
       dropdown.appendChild(a);
     });
 
+    // Divider
+    const divider = document.createElement("div");
+    divider.className = "nav-divider-rule";
+    dropdown.appendChild(divider);
+
+    // Member Portal CTA
+    const portalLink = document.createElement("a");
+    portalLink.href = portalCTA.href;
+    portalLink.className = current === portalCTA.href
+      ? "nav-link nav-link-portal active"
+      : "nav-link nav-link-portal";
+    portalLink.setAttribute("role", "menuitem");
+    portalLink.innerHTML = "<span class="nav-portal-icon"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 12c0-3 2.5-4.5 5.5-4.5S12 9 12 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Member Portal";
+    dropdown.appendChild(portalLink);
+
     nav.appendChild(dropdown);
 
-    // ── Toggle logic ──
     function openMenu() {
-      dropdown.classList.add('open');
-      hamburger.classList.add('open');
-      hamburger.setAttribute('aria-expanded', 'true');
-      dropdown.setAttribute('aria-hidden', 'false');
+      dropdown.classList.add("open");
+      hamburger.classList.add("open");
+      hamburger.setAttribute("aria-expanded", "true");
+      dropdown.setAttribute("aria-hidden", "false");
     }
 
     function closeMenu() {
-      dropdown.classList.remove('open');
-      hamburger.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-      dropdown.setAttribute('aria-hidden', 'true');
+      dropdown.classList.remove("open");
+      hamburger.classList.remove("open");
+      hamburger.setAttribute("aria-expanded", "false");
+      dropdown.setAttribute("aria-hidden", "true");
     }
 
-    hamburger.addEventListener('click', (e) => {
+    hamburger.addEventListener("click", (e) => {
       e.stopPropagation();
-      dropdown.classList.contains('open') ? closeMenu() : openMenu();
+      dropdown.classList.contains("open") ? closeMenu() : openMenu();
     });
 
-    // Close when clicking a link
-    dropdown.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', closeMenu);
+    dropdown.querySelectorAll(".nav-link").forEach(link => {
+      link.addEventListener("click", closeMenu);
     });
 
-    // Close on outside click
-    document.addEventListener('click', (e) => {
+    document.addEventListener("click", (e) => {
       if (!nav.contains(e.target)) closeMenu();
     });
 
-    // Close on Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMenu();
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeMenu();
     });
   }
 
-  document.addEventListener('DOMContentLoaded', buildNav);
+  document.addEventListener("DOMContentLoaded", buildNav);
 })();
