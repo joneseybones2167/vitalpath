@@ -73,6 +73,8 @@
     // Member Portal CTA
     var portalLink = document.createElement('a');
     portalLink.href = portalCTA.href;
+    portalLink.target = '_blank';
+    portalLink.rel = 'noopener noreferrer';
     portalLink.className = (current === portalCTA.href)
       ? 'nav-link nav-link-portal active'
       : 'nav-link nav-link-portal';
