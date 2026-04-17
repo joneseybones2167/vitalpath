@@ -6,7 +6,6 @@
     { label: 'Programs',       href: 'programs.html' },
     { label: 'App Experience', href: 'portal.html', badge: 'New' },
     { label: 'Competitive',    href: 'competitive.html' },
-    { label: 'Architecture',   href: 'architecture.html' },
     { label: 'Patient Flow',   href: 'flow.html' },
   ];
 
