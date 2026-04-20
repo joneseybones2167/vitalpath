@@ -1,0 +1,31 @@
+# Local development secrets for Cloudflare Workers.
+# Copy this file to .dev.vars and fill in real values.
+# NEVER commit .dev.vars — it's gitignored.
+#
+# For production, set these via:
+#   npx wrangler pages secret put VAR_NAME
+
+# ── Azure OpenAI (Canada region, BAA in place) ─────────────────────
+# Used for: lab OCR cleanup, education Q&A, pattern detection
+AZURE_OPENAI_ENDPOINT="https://your-resource.openai.azure.com"
+AZURE_OPENAI_API_KEY=""
+AZURE_OPENAI_DEPLOYMENT_GPT4O_MINI="gpt-4o-mini"
+AZURE_OPENAI_DEPLOYMENT_GPT4O="gpt-4o"
+AZURE_OPENAI_API_VERSION="2024-08-01-preview"
+
+# ── Azure Document Intelligence (structured lab PDF OCR) ───────────
+AZURE_DOC_INTELLIGENCE_ENDPOINT=""
+AZURE_DOC_INTELLIGENCE_API_KEY=""
+
+# ── Terra API (unified wearable data) ──────────────────────────────
+TERRA_API_KEY=""
+TERRA_DEV_ID=""
+TERRA_SIGNING_SECRET=""
+
+# ── Auth ───────────────────────────────────────────────────────────
+# 32-char random string — generate with `openssl rand -base64 32`
+AUTH_SECRET=""
+
+# ── Azure PostgreSQL (Canada Central, TimescaleDB) ─────────────────
+# For time-series biomarker + wearable data
+DATABASE_URL=""

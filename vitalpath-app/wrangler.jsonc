@@ -1,0 +1,35 @@
+{
+  // $schema disabled because the portal app uses next-on-pages,
+  // which has its own Pages-specific config shape.
+  "name": "vitalpath-portal",
+  "compatibility_date": "2026-04-14",
+  "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": ".vercel/output/static",
+  "observability": {
+    "enabled": true
+  }
+
+  // ─── Bindings to add as we progress through phases ────────────────
+  // When we wire up D1 (Phase 1 end / Phase 2):
+  //
+  //   "d1_databases": [
+  //     { "binding": "DB", "database_name": "vitalpath-db", "database_id": "<uuid>" }
+  //   ]
+  //
+  // When we wire up R2 for lab PDF uploads (Phase 2):
+  //
+  //   "r2_buckets": [
+  //     { "binding": "LAB_UPLOADS", "bucket_name": "vitalpath-lab-uploads" }
+  //   ]
+  //
+  // When we wire up KV for sessions (Phase 1 end):
+  //
+  //   "kv_namespaces": [
+  //     { "binding": "SESSIONS", "id": "<namespace-id>" }
+  //   ]
+  //
+  // Secrets (Azure OpenAI, Terra API, etc.) are set with:
+  //   npx wrangler pages secret put AZURE_OPENAI_API_KEY
+  //   npx wrangler pages secret put TERRA_API_KEY
+  // —————————————————————————————————————————————————————————————————
+}

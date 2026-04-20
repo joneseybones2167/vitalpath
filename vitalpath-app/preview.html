@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VitalPath Dashboard — Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.447.0/dist/umd/lucide.min.js"></script>
+<script src="https://unpkg.com/recharts@2.13.0/umd/Recharts.min.js"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+      },
+      colors: {
+        teal: { DEFAULT: '#1DA8A0', light: '#5EC4BD' },
+        deep: { DEFAULT: '#0D3D3D', navy: '#13384A', darker: '#071E2B' },
+        portal: {
+          bg: '#0F0F0E', card: '#1A1A18', cardHover: '#222220',
+          elevated: '#252523', border: '#2A2A27', borderLight: '#333330',
+          text: '#E8E6DF', textSecondary: '#9B9890', textMuted: '#6B6961',
+          accent: '#C8B88A',
+        },
+        status: {
+          green: '#6BCB77', red: '#E05555', amber: '#E8A838',
+          blue: '#5B9BD5', purple: '#9B8EC4', teal: '#4ECDC4',
+        },
+      },
+      borderRadius: { sm: '6px', DEFAULT: '10px', lg: '14px', xl: '16px' },
+      keyframes: {
+        pulse: { '0%,100%': { opacity: 1 }, '50%': { opacity: 0.4 } },
+      },
+      animation: { 'pulse-soft': 'pulse 2s infinite' },
+    },
+  },
+};
+</script>
+
+<style>
+  body { font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+  .font-display { font-family: 'Playfair Display', serif; }
+  .vp-card { background: #1A1A18; border: 1px solid #2A2A27; border-radius: 14px; padding: 20px; }
+  .vp-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #C8B88A; }
+  .vp-stat-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6961; }
+  .vp-stat-value { font-size: 26px; font-weight: 700; color: #E8E6DF; line-height: 1; font-family: 'Playfair Display', serif; }
+  .progress-track { height: 6px; border-radius: 999px; background: rgba(42,42,39,0.5); overflow: hidden; }
+  .progress-fill { height: 100%; transition: width 0.3s; }
+</style>
+</head>
+<body class="bg-portal-bg text-portal-text min-h-screen">
+
+<div class="flex min-h-screen">
+
+  <!-- ═════════ SIDEBAR ═════════ -->
+  <aside class="hidden md:flex w-[260px] h-screen sticky top-0 flex-col bg-[#141413] border-r border-portal-border">
+    <div class="h-16 flex items-center gap-2.5 px-5 border-b border-portal-border">
+      <div class="w-[30px] h-[30px] rounded-[7px] flex items-center justify-center font-bold text-sm text-portal-bg"
+           style="background: linear-gradient(135deg, #C8B88A, #A89860);">VP</div>
+      <div class="font-display text-[18px] tracking-wide text-portal-text">VitalPath</div>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-0.5">
+      <!-- Dashboard group -->
+      <div class="text-[10px] font-semibold uppercase tracking-[0.12em] text-portal-textMuted px-3 pt-3.5 pb-1.5">Dashboard</div>
+
+      <a class="relative flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] font-semibold"
+         style="background: rgba(200,184,138,0.12); color: #C8B88A;">
+        <span class="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r" style="background:#C8B88A;"></span>
+        <i data-lucide="layout-grid" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
+        <span class="flex-1">Overview</span>
+      </a>
+
+      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
+        <i data-lucide="flask-conical" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
+        <span class="flex-1">Lab Results</span>
+        <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded" style="background:rgba(200,184,138,0.2);color:#C8B88A;">2 new</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
+        <i data-lucide="watch" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
+        <span class="flex-1">Wearables</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
+        <i data-lucide="dna" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
+        <span class="flex-1">Epigenetics</span>
+      </a>
+
+      <div class="text-[10px] font-semibold uppercase tracking-[0.12em] text-portal-textMuted px-3 pt-3.5 pb-1.5">Care</div>
+      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
+        <i data-lucide="pill" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
+        <span class="flex-1">Medications</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
+        <i data-lucide="message-square" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
+        <span class="flex-1">Messages</span>
+        <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded" style="background:rgba(200,184,138,0.2);color:#C8B88A;">1</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
+        <i data-lucide="book-open" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
+        <span class="flex-1">Education</span>
+      </a>
+
+      <div class="text-[10px] font-semibold uppercase tracking-[0.12em] text-portal-textMuted px-3 pt-3.5 pb-1.5">Account</div>
+      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
+        <i data-lucide="clipboard-list" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
+        <span class="flex-1">Care Plan</span>
+      </a>
+    </nav>
+
+    <div class="p-3 border-t border-portal-border">
+      <div class="flex items-center gap-2.5 p-2.5 rounded-md bg-portal-elevated border border-portal-border">
+        <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm text-portal-bg"
+             style="background: linear-gradient(135deg, #C8B88A, #A89860);">RM</div>
+        <div class="min-w-0 flex-1">
+          <div class="text-[13px] font-semibold text-portal-text truncate">R. Matsuda</div>
+          <div class="text-[10.5px] text-portal-textMuted">Active Member</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═════════ MAIN ═════════ -->
+  <div class="flex-1 flex flex-col min-w-0">
+
+    <!-- Topbar -->
+    <header class="h-16 sticky top-0 z-20 flex items-center justify-between gap-4 px-5 md:px-8 bg-portal-bg/80 backdrop-blur border-b border-portal-border">
+      <h1 class="font-display text-[22px] text-portal-text">Overview</h1>
+      <div class="flex items-center gap-3">
+        <button class="relative w-9 h-9 rounded-md flex items-center justify-center text-portal-textSecondary hover:text-portal-text hover:bg-portal-cardHover transition-colors">
+          <i data-lucide="bell" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
+          <span class="absolute top-1.5 right-2 w-1.5 h-1.5 rounded-full" style="background:#C8B88A;"></span>
+        </button>
+        <button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-md text-[13px] font-semibold text-portal-bg hover:opacity-90 transition-opacity"
+                style="background: linear-gradient(135deg, #C8B88A, #A89860);">
+          <i data-lucide="calendar-plus" class="w-4 h-4" stroke-width="2"></i>
+          Book Visit
+        </button>
+      </div>
+    </header>
+
+    <!-- Page body -->
+    <main class="flex-1 px-5 md:px-8 py-6 md:py-8 flex flex-col gap-6">
+
+      <!-- Greeting -->
+      <section>
+        <div class="vp-eyebrow mb-1">Welcome back</div>
+        <h2 class="font-display text-[32px] leading-tight text-portal-text">Hello, Riko.</h2>
+        <p class="text-[13.5px] text-portal-textSecondary mt-1 max-w-[540px]">
+          Here's where your health is trending today — all signals reviewed by your care team.
+        </p>
+      </section>
+
+      <!-- Stat strip -->
+      <section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <!-- LDL-P (good) -->
+        <div class="vp-card relative overflow-hidden flex flex-col gap-1.5">
+          <div class="absolute left-0 top-0 bottom-0 w-[3px]" style="background:#6BCB77;"></div>
+          <div class="flex items-start justify-between">
+            <div class="w-8 h-8 rounded-md flex items-center justify-center" style="background:rgba(200,184,138,0.12);color:#C8B88A;">
+              <i data-lucide="droplet" class="w-4 h-4" stroke-width="1.8"></i>
+            </div>
+            <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10.5px] font-semibold"
+                 style="background:rgba(107,203,119,0.12); color:#6BCB77; border-color:rgba(107,203,119,0.2);">
+              <i data-lucide="trending-down" class="w-3 h-3" stroke-width="2.2"></i>
+              −14% vs 6mo
+            </div>
+          </div>
+          <div class="vp-stat-label mt-2">LDL-P</div>
+          <div class="flex items-baseline gap-1.5">
+            <span class="vp-stat-value">1,190</span>
+            <span class="text-xs text-portal-textMuted">nmol/L</span>
+          </div>
+        </div>
+
+        <!-- HsCRP (warn) -->
+        <div class="vp-card relative overflow-hidden flex flex-col gap-1.5">
+          <div class="absolute left-0 top-0 bottom-0 w-[3px]" style="background:#E8A838;"></div>
+          <div class="flex items-start justify-between">
+            <div class="w-8 h-8 rounded-md flex items-center justify-center" style="background:rgba(200,184,138,0.12);color:#C8B88A;">
+              <i data-lucide="flame" class="w-4 h-4" stroke-width="1.8"></i>
+            </div>
+            <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10.5px] font-semibold"
+                 style="background:rgba(232,168,56,0.12); color:#E8A838; border-color:rgba(232,168,56,0.2);">
+              <i data-lucide="trending-up" class="w-3 h-3" stroke-width="2.2"></i>
+              +0.6 vs last
+            </div>
+          </div>
+          <div class="vp-stat-label mt-2">HsCRP</div>
+          <div class="flex items-baseline gap-1.5">
+            <span class="vp-stat-value">2.4</span>
+            <span class="text-xs text-portal-textMuted">mg/L</span>
+          </div>
+        </div>
+
+        <!-- HRV (warn) -->
+        <div class="vp-card relative overflow-hidden flex flex-col gap-1.5">
+          <div class="absolute left-0 top-0 bottom-0 w-[3px]" style="background:#E8A838;"></div>
+          <div class="flex items-start justify-between">
+            <div class="w-8 h-8 rounded-md flex items-center justify-center" style="background:rgba(200,184,138,0.12);color:#C8B88A;">
+              <i data-lucide="heart-pulse" class="w-4 h-4" stroke-width="1.8"></i>
+            </div>
+            <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10.5px] font-semibold"
+                 style="background:rgba(232,168,56,0.12); color:#E8A838; border-color:rgba(232,168,56,0.2);">
+              <i data-lucide="trending-down" class="w-3 h-3" stroke-width="2.2"></i>
+              −8 vs 30d avg
+            </div>
+          </div>
+          <div class="vp-stat-label mt-2">HRV (avg)</div>
+          <div class="flex items-baseline gap-1.5">
+            <span class="vp-stat-value">48</span>
+            <span class="text-xs text-portal-textMuted">ms</span>
+          </div>
+        </div>
+
+        <!-- Glucose (good) -->
+        <div class="vp-card relative overflow-hidden flex flex-col gap-1.5">
+          <div class="absolute left-0 top-0 bottom-0 w-[3px]" style="background:#6BCB77;"></div>
+          <div class="flex items-start justify-between">
+            <div class="w-8 h-8 rounded-md flex items-center justify-center" style="background:rgba(200,184,138,0.12);color:#C8B88A;">
+              <i data-lucide="activity" class="w-4 h-4" stroke-width="1.8"></i>
+            </div>
+            <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10.5px] font-semibold"
+                 style="background:rgba(107,203,119,0.12); color:#6BCB77; border-color:rgba(107,203,119,0.2);">
+              <i data-lucide="minus" class="w-3 h-3" stroke-width="2.2"></i>
+              In target
+            </div>
+          </div>
+          <div class="vp-stat-label mt-2">Fasting Glucose</div>
+          <div class="flex items-baseline gap-1.5">
+            <span class="vp-stat-value">92</span>
+            <span class="text-xs text-portal-textMuted">mg/dL</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Chart + Feed -->
+      <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+        <!-- Biomarker chart -->
+        <div class="lg:col-span-2 vp-card">
+          <div class="flex items-start justify-between mb-4 gap-4 flex-wrap">
+            <div>
+              <div class="vp-eyebrow mb-1">Biomarker Trends</div>
+              <div class="text-[14px] font-semibold text-portal-text">Key markers — 12-month view</div>
+            </div>
+            <div class="flex gap-1 p-1 bg-portal-elevated rounded-md border border-portal-border">
+              <button class="px-3 py-1 text-[11px] font-semibold rounded text-portal-textMuted">3M</button>
+              <button class="px-3 py-1 text-[11px] font-semibold rounded text-portal-textMuted">6M</button>
+              <button class="px-3 py-1 text-[11px] font-semibold rounded" style="background:rgba(200,184,138,0.12);color:#C8B88A;">12M</button>
+            </div>
+          </div>
+          <div id="chart-root" class="h-[300px] w-full"></div>
+          <p class="text-[11px] text-portal-textMuted mt-2">
+            Values normalized for display — hover points to see actual units.
+          </p>
+        </div>
+
+        <!-- Care feed -->
+        <div class="flex flex-col gap-3">
+          <div class="vp-eyebrow">Recent Activity</div>
+
+          <!-- Physician note -->
+          <div class="vp-card border-l-[3px] p-4" style="border-left-color:#1DA8A0;">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-md flex items-center justify-center shrink-0" style="background:rgba(29,168,160,0.15);color:#1DA8A0;">
+                <i data-lucide="check-circle-2" class="w-4 h-4" stroke-width="1.8"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-[12px] font-semibold uppercase tracking-wider text-portal-textSecondary mb-1">Physician Note</div>
+                <p class="text-[12.5px] text-portal-textSecondary leading-relaxed">
+                  Lipid response is on track. Continuing statin + lifestyle protocol.
+                </p>
+                <div class="mt-2 inline-flex items-center gap-1.5 text-[10.5px]" style="color:#1DA8A0;">
+                  <i data-lucide="check-circle-2" class="w-3 h-3" stroke-width="2.2"></i>
+                  Dr. R. Patel · 3d ago
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Alert -->
+          <div class="vp-card border-l-[3px] p-4" style="border-left-color:#E8A838;">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-md flex items-center justify-center shrink-0" style="background:rgba(232,168,56,0.12);color:#E8A838;">
+                <i data-lucide="sparkles" class="w-4 h-4" stroke-width="1.8"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <div class="text-[12px] font-semibold uppercase tracking-wider text-portal-textSecondary">AI Pattern Alert</div>
+                  <span class="w-1.5 h-1.5 rounded-full animate-pulse-soft" style="background:#E8A838;"></span>
+                </div>
+                <p class="text-[12.5px] text-portal-textSecondary leading-relaxed">
+                  HRV declined 18% over 6 weeks while HsCRP is trending up. Flagged for physician review.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bio age -->
+          <div class="vp-card border-l-[3px] p-4" style="border-left-color:#C8B88A;">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-md flex items-center justify-center shrink-0" style="background:rgba(200,184,138,0.12);color:#C8B88A;">
+                <i data-lucide="dna" class="w-4 h-4" stroke-width="1.8"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-[12px] font-semibold uppercase tracking-wider text-portal-textSecondary mb-1">Biological Age</div>
+                <div class="flex items-baseline gap-2 mt-0.5">
+                  <span class="font-display text-[26px]" style="color:#C8B88A;">41</span>
+                  <span class="text-[11px] text-portal-textMuted">vs 47 chronological</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Program progress -->
+      <section>
+        <div class="vp-card">
+          <div class="vp-eyebrow mb-1">Program Progress</div>
+          <div class="text-[14px] font-semibold text-portal-text mb-4">Year-to-date</div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="flex flex-col gap-1.5">
+              <div class="flex items-baseline justify-between">
+                <span class="text-[11px] text-portal-textMuted">Wearable Data Days</span>
+                <span class="text-[11px] font-semibold text-portal-text">182 / 365</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:50%; background:#1DA8A0;"></div></div>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <div class="flex items-baseline justify-between">
+                <span class="text-[11px] text-portal-textMuted">Lab Panels</span>
+                <span class="text-[11px] font-semibold text-portal-text">1 of 2</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:50%; background:#6BCB77;"></div></div>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <div class="flex items-baseline justify-between">
+                <span class="text-[11px] text-portal-textMuted">Physician Visits</span>
+                <span class="text-[11px] font-semibold text-portal-text">2 of 3</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:66%; background:#5B9BD5;"></div></div>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <div class="flex items-baseline justify-between">
+                <span class="text-[11px] text-portal-textMuted">Medication Adherence</span>
+                <span class="text-[11px] font-semibold text-portal-text">94%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:94%; background:#6BCB77;"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+</div>
+
+<script>
+// Initialize Lucide icons
+lucide.createIcons();
+
+// ── Render biomarker chart ──
+const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } = Recharts;
+
+const data = [
+  { month: "May '25", ldlPN: 92.3, hsCrpN: 54.3, hrvN: 70, glucoseN: 78.3, ldlP: 1385, hsCrp: 1.9, hrv: 56, glucose: 94 },
+  { month: "Jun '25", ldlPN: 90, hsCrpN: 57.1, hrvN: 72.5, glucoseN: 77.5, ldlP: 1350, hsCrp: 2.0, hrv: 58, glucose: 93 },
+  { month: "Jul '25", ldlPN: 88, hsCrpN: 51.4, hrvN: 73.75, glucoseN: 79.2, ldlP: 1320, hsCrp: 1.8, hrv: 59, glucose: 95 },
+  { month: "Aug '25", ldlPN: 86, hsCrpN: 48.6, hrvN: 75, glucoseN: 76.7, ldlP: 1290, hsCrp: 1.7, hrv: 60, glucose: 92 },
+  { month: "Sep '25", ldlPN: 84, hsCrpN: 45.7, hrvN: 71.25, glucoseN: 78.3, ldlP: 1260, hsCrp: 1.6, hrv: 57, glucose: 94 },
+  { month: "Oct '25", ldlPN: 82.7, hsCrpN: 42.9, hrvN: 68.75, glucoseN: 75.8, ldlP: 1240, hsCrp: 1.5, hrv: 55, glucose: 91 },
+  { month: "Nov '25", ldlPN: 82, hsCrpN: 45.7, hrvN: 67.5, glucoseN: 76.7, ldlP: 1230, hsCrp: 1.6, hrv: 54, glucose: 92 },
+  { month: "Dec '25", ldlPN: 81.3, hsCrpN: 48.6, hrvN: 66.25, glucoseN: 77.5, ldlP: 1220, hsCrp: 1.7, hrv: 53, glucose: 93 },
+  { month: "Jan '26", ldlPN: 80.7, hsCrpN: 54.3, hrvN: 65, glucoseN: 75.8, ldlP: 1210, hsCrp: 1.9, hrv: 52, glucose: 91 },
+  { month: "Feb '26", ldlPN: 80.3, hsCrpN: 60, hrvN: 62.5, glucoseN: 76.7, ldlP: 1205, hsCrp: 2.1, hrv: 50, glucose: 92 },
+  { month: "Mar '26", ldlPN: 80, hsCrpN: 65.7, hrvN: 61.25, glucoseN: 77.5, ldlP: 1200, hsCrp: 2.3, hrv: 49, glucose: 93 },
+  { month: "Apr '26", ldlPN: 79.3, hsCrpN: 68.6, hrvN: 60, glucoseN: 76.7, ldlP: 1190, hsCrp: 2.4, hrv: 48, glucose: 92 },
+];
+
+const SERIES = [
+  { key: "ldlPN", label: "LDL-P", color: "#5EC4BD" },
+  { key: "hsCrpN", label: "HsCRP", color: "#FAC775" },
+  { key: "hrvN", label: "HRV", color: "#A78BFA" },
+  { key: "glucoseN", label: "Glucose", color: "#F87171" },
+];
+
+const e = React.createElement;
+const chart = e(ResponsiveContainer, { width: "100%", height: "100%" },
+  e(LineChart, { data, margin: { top: 8, right: 8, bottom: 0, left: -20 } },
+    e(CartesianGrid, { strokeDasharray: "3 3", stroke: "#2A2A27", vertical: false }),
+    e(XAxis, { dataKey: "month", tick: { fill: "#9B9890", fontSize: 11 }, axisLine: { stroke: "#2A2A27" }, tickLine: false }),
+    e(YAxis, { tick: { fill: "#6B6961", fontSize: 10 }, axisLine: false, tickLine: false, domain: [0, 100] }),
+    e(Tooltip, {
+      contentStyle: { background: "#1A1A18", border: "1px solid #2A2A27", borderRadius: 8, fontSize: 12, color: "#E8E6DF" },
+      labelStyle: { color: "#9B9890", fontSize: 11, marginBottom: 4 },
+    }),
+    e(Legend, { iconType: "circle", wrapperStyle: { fontSize: 11, color: "#9B9890", paddingTop: 8 } }),
+    ...SERIES.map(s => e(Line, {
+      key: s.key, type: "monotone", dataKey: s.key, name: s.label,
+      stroke: s.color, strokeWidth: 2,
+      dot: { r: 2.5, strokeWidth: 0, fill: s.color },
+      activeDot: { r: 5, strokeWidth: 0 },
+    }))
+  )
+);
+
+ReactDOM.createRoot(document.getElementById('chart-root')).render(chart);
+</script>
+
+</body>
+</html>

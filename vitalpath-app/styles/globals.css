@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ───────────────────────────────────────────
+   VitalPath global base styles
+   ─────────────────────────────────────────── */
+
+:root {
+  /* Expose the portal dark-mode tokens as CSS vars too,
+     in case we want raw CSS access inside components */
+  --portal-bg: #0F0F0E;
+  --portal-card: #1A1A18;
+  --portal-border: #2A2A27;
+  --portal-accent: #C8B88A;
+  --portal-text: #E8E6DF;
+  --portal-text-muted: #6B6961;
+
+  --brand-teal: #1DA8A0;
+  --brand-teal-light: #5EC4BD;
+  --brand-deep: #0D3D3D;
+}
+
+/* Smooth font rendering + no horizontal overflow on mobile */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  @apply bg-portal-bg text-portal-text font-sans;
+  min-height: 100vh;
+}
+
+/* ───────────────────────────────────────────
+   Reusable component classes
+   These let us author tidy JSX without long className chains
+   ─────────────────────────────────────────── */
+
+@layer components {
+  /* Card surface for the dark portal dashboard */
+  .vp-card {
+    @apply bg-portal-card border border-portal-border rounded-lg p-5;
+  }
+
+  .vp-card-hover {
+    @apply transition-colors hover:bg-portal-cardHover;
+  }
+
+  /* Stat card in the Overview dashboard */
+  .vp-stat {
+    @apply vp-card flex flex-col gap-1.5;
+  }
+  .vp-stat-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.08em] text-portal-textMuted;
+  }
+  .vp-stat-value {
+    @apply text-[26px] font-bold text-portal-text leading-none font-display;
+  }
+
+  /* Small labelled pill (used in hero chips) */
+  .vp-chip {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-[11px] font-semibold
+           bg-portal-accentDim text-portal-accent border border-portal-accent/25;
+  }
+
+  /* Section labels (eyebrow text) */
+  .vp-eyebrow {
+    @apply text-[10px] font-bold uppercase tracking-[0.14em] text-portal-accent;
+  }
+
+  /* Progress track used in medication/goal completion */
+  .vp-progress-track {
+    @apply h-1.5 rounded-full bg-portal-border/50 overflow-hidden;
+  }
+  .vp-progress-fill {
+    @apply h-full transition-all duration-300;
+  }
+}
+
+/* Hide scrollbars on horizontally scrollable tab strips */
+.vp-scroll-x::-webkit-scrollbar { display: none; }
+.vp-scroll-x { scrollbar-width: none; }
