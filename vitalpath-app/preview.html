@@ -9,9 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.447.0/dist/umd/lucide.min.js"></script>
-<script src="https://unpkg.com/recharts@2.13.0/umd/Recharts.min.js"></script>
-<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 
 <script>
 tailwind.config = {
@@ -22,404 +19,438 @@ tailwind.config = {
         sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
       },
       colors: {
-        teal: { DEFAULT: '#1DA8A0', light: '#5EC4BD' },
-        deep: { DEFAULT: '#0D3D3D', navy: '#13384A', darker: '#071E2B' },
         portal: {
           bg: '#0F0F0E', card: '#1A1A18', cardHover: '#222220',
-          elevated: '#252523', border: '#2A2A27', borderLight: '#333330',
+          elevated: '#252523', border: '#2A2A27',
           text: '#E8E6DF', textSecondary: '#9B9890', textMuted: '#6B6961',
           accent: '#C8B88A',
         },
-        status: {
-          green: '#6BCB77', red: '#E05555', amber: '#E8A838',
-          blue: '#5B9BD5', purple: '#9B8EC4', teal: '#4ECDC4',
-        },
       },
-      borderRadius: { sm: '6px', DEFAULT: '10px', lg: '14px', xl: '16px' },
-      keyframes: {
-        pulse: { '0%,100%': { opacity: 1 }, '50%': { opacity: 0.4 } },
-      },
-      animation: { 'pulse-soft': 'pulse 2s infinite' },
     },
   },
 };
 </script>
-
 <style>
   body { font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; }
-  .font-display { font-family: 'Playfair Display', serif; }
   .vp-card { background: #1A1A18; border: 1px solid #2A2A27; border-radius: 14px; padding: 20px; }
   .vp-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #C8B88A; }
-  .vp-stat-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6961; }
-  .vp-stat-value { font-size: 26px; font-weight: 700; color: #E8E6DF; line-height: 1; font-family: 'Playfair Display', serif; }
-  .progress-track { height: 6px; border-radius: 999px; background: rgba(42,42,39,0.5); overflow: hidden; }
-  .progress-fill { height: 100%; transition: width 0.3s; }
+  .progress-track { height: 6px; border-radius: 999px; background: rgba(42,42,39,0.6); overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 999px; }
+  #chart-tooltip {
+    position: absolute; pointer-events: none; display: none;
+    background: #1A1A18; border: 1px solid #333330; border-radius: 8px;
+    padding: 9px 13px; font-size: 12px; color: #E8E6DF;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.6); z-index: 50; min-width: 155px;
+  }
 </style>
 </head>
-<body class="bg-portal-bg text-portal-text min-h-screen">
+<body style="background:#0F0F0E;color:#E8E6DF;min-height:100vh;">
 
-<div class="flex min-h-screen">
+<div style="display:flex;min-height:100vh;">
 
-  <!-- ═════════ SIDEBAR ═════════ -->
-  <aside class="hidden md:flex w-[260px] h-screen sticky top-0 flex-col bg-[#141413] border-r border-portal-border">
-    <div class="h-16 flex items-center gap-2.5 px-5 border-b border-portal-border">
-      <div class="w-[30px] h-[30px] rounded-[7px] flex items-center justify-center font-bold text-sm text-portal-bg"
-           style="background: linear-gradient(135deg, #C8B88A, #A89860);">VP</div>
-      <div class="font-display text-[18px] tracking-wide text-portal-text">VitalPath</div>
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside style="width:260px;min-height:100vh;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;background:#141413;border-right:1px solid #2A2A27;flex-shrink:0;">
+    <!-- Brand -->
+    <div style="height:64px;display:flex;align-items:center;gap:10px;padding:0 20px;border-bottom:1px solid #2A2A27;">
+      <div style="width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;background:linear-gradient(135deg,#C8B88A,#A89860);color:#0F0F0E;">VP</div>
+      <span style="font-family:'Playfair Display',serif;font-size:18px;color:#E8E6DF;letter-spacing:0.3px;">VitalPath</span>
     </div>
-
-    <nav class="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-0.5">
-      <!-- Dashboard group -->
-      <div class="text-[10px] font-semibold uppercase tracking-[0.12em] text-portal-textMuted px-3 pt-3.5 pb-1.5">Dashboard</div>
-
-      <a class="relative flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] font-semibold"
-         style="background: rgba(200,184,138,0.12); color: #C8B88A;">
-        <span class="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r" style="background:#C8B88A;"></span>
-        <i data-lucide="layout-grid" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
-        <span class="flex-1">Overview</span>
-      </a>
-
-      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
-        <i data-lucide="flask-conical" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
-        <span class="flex-1">Lab Results</span>
-        <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded" style="background:rgba(200,184,138,0.2);color:#C8B88A;">2 new</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
-        <i data-lucide="watch" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
-        <span class="flex-1">Wearables</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
-        <i data-lucide="dna" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
-        <span class="flex-1">Epigenetics</span>
-      </a>
-
-      <div class="text-[10px] font-semibold uppercase tracking-[0.12em] text-portal-textMuted px-3 pt-3.5 pb-1.5">Care</div>
-      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
-        <i data-lucide="pill" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
-        <span class="flex-1">Medications</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
-        <i data-lucide="message-square" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
-        <span class="flex-1">Messages</span>
-        <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded" style="background:rgba(200,184,138,0.2);color:#C8B88A;">1</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
-        <i data-lucide="book-open" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
-        <span class="flex-1">Education</span>
-      </a>
-
-      <div class="text-[10px] font-semibold uppercase tracking-[0.12em] text-portal-textMuted px-3 pt-3.5 pb-1.5">Account</div>
-      <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13.5px] text-portal-textSecondary">
-        <i data-lucide="clipboard-list" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
-        <span class="flex-1">Care Plan</span>
-      </a>
+    <!-- Nav -->
+    <nav style="flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:2px;">
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6B6961;padding:14px 12px 6px;">Dashboard</div>
+      <!-- Active -->
+      <div style="position:relative;display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:6px;font-size:13.5px;font-weight:600;background:rgba(200,184,138,0.12);color:#C8B88A;cursor:default;">
+        <span style="position:absolute;left:0;top:6px;bottom:6px;width:3px;border-radius:0 2px 2px 0;background:#C8B88A;"></span>
+        <i data-lucide="layout-grid" style="width:18px;height:18px;" stroke-width="1.8"></i>Overview
+      </div>
+      <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:6px;font-size:13.5px;color:#9B9890;cursor:default;">
+        <i data-lucide="flask-conical" style="width:18px;height:18px;" stroke-width="1.8"></i>
+        <span style="flex:1;">Lab Results</span>
+        <span style="font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;background:rgba(200,184,138,0.2);color:#C8B88A;">2 new</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:6px;font-size:13.5px;color:#9B9890;cursor:default;">
+        <i data-lucide="watch" style="width:18px;height:18px;" stroke-width="1.8"></i>Wearables
+      </div>
+      <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:6px;font-size:13.5px;color:#9B9890;cursor:default;">
+        <i data-lucide="dna" style="width:18px;height:18px;" stroke-width="1.8"></i>Epigenetics
+      </div>
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6B6961;padding:14px 12px 6px;margin-top:4px;border-top:1px solid #2A2A27;">Care</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:6px;font-size:13.5px;color:#9B9890;cursor:default;">
+        <i data-lucide="pill" style="width:18px;height:18px;" stroke-width="1.8"></i>Medications
+      </div>
+      <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:6px;font-size:13.5px;color:#9B9890;cursor:default;">
+        <i data-lucide="message-square" style="width:18px;height:18px;" stroke-width="1.8"></i>
+        <span style="flex:1;">Messages</span>
+        <span style="font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;background:rgba(200,184,138,0.2);color:#C8B88A;">1</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:6px;font-size:13.5px;color:#9B9890;cursor:default;">
+        <i data-lucide="book-open" style="width:18px;height:18px;" stroke-width="1.8"></i>Education
+      </div>
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6B6961;padding:14px 12px 6px;margin-top:4px;border-top:1px solid #2A2A27;">Account</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:6px;font-size:13.5px;color:#9B9890;cursor:default;">
+        <i data-lucide="clipboard-list" style="width:18px;height:18px;" stroke-width="1.8"></i>Care Plan
+      </div>
     </nav>
-
-    <div class="p-3 border-t border-portal-border">
-      <div class="flex items-center gap-2.5 p-2.5 rounded-md bg-portal-elevated border border-portal-border">
-        <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm text-portal-bg"
-             style="background: linear-gradient(135deg, #C8B88A, #A89860);">RM</div>
-        <div class="min-w-0 flex-1">
-          <div class="text-[13px] font-semibold text-portal-text truncate">R. Matsuda</div>
-          <div class="text-[10.5px] text-portal-textMuted">Active Member</div>
+    <!-- Member footer -->
+    <div style="padding:12px;border-top:1px solid #2A2A27;">
+      <div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:#252523;border:1px solid #2A2A27;">
+        <div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:linear-gradient(135deg,#C8B88A,#A89860);color:#0F0F0E;flex-shrink:0;">RM</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#E8E6DF;">R. Matsuda</div>
+          <div style="font-size:10.5px;color:#6B6961;">Active Member</div>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- ═════════ MAIN ═════════ -->
-  <div class="flex-1 flex flex-col min-w-0">
+  <!-- ═══ MAIN CONTENT ═══ -->
+  <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
 
     <!-- Topbar -->
-    <header class="h-16 sticky top-0 z-20 flex items-center justify-between gap-4 px-5 md:px-8 bg-portal-bg/80 backdrop-blur border-b border-portal-border">
-      <h1 class="font-display text-[22px] text-portal-text">Overview</h1>
-      <div class="flex items-center gap-3">
-        <button class="relative w-9 h-9 rounded-md flex items-center justify-center text-portal-textSecondary hover:text-portal-text hover:bg-portal-cardHover transition-colors">
-          <i data-lucide="bell" class="w-[18px] h-[18px]" stroke-width="1.8"></i>
-          <span class="absolute top-1.5 right-2 w-1.5 h-1.5 rounded-full" style="background:#C8B88A;"></span>
+    <header style="height:64px;position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:rgba(15,15,14,0.88);backdrop-filter:blur(10px);border-bottom:1px solid #2A2A27;">
+      <span style="font-family:'Playfair Display',serif;font-size:22px;color:#E8E6DF;">Overview</span>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button style="position:relative;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:none;border:none;color:#9B9890;cursor:pointer;">
+          <i data-lucide="bell" style="width:18px;height:18px;" stroke-width="1.8"></i>
+          <span style="position:absolute;top:6px;right:8px;width:6px;height:6px;border-radius:50%;background:#C8B88A;"></span>
         </button>
-        <button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-md text-[13px] font-semibold text-portal-bg hover:opacity-90 transition-opacity"
-                style="background: linear-gradient(135deg, #C8B88A, #A89860);">
-          <i data-lucide="calendar-plus" class="w-4 h-4" stroke-width="2"></i>
-          Book Visit
+        <button style="display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;background:linear-gradient(135deg,#C8B88A,#A89860);color:#0F0F0E;border:none;cursor:pointer;">
+          <i data-lucide="calendar-plus" style="width:16px;height:16px;" stroke-width="2"></i>Book Visit
         </button>
       </div>
     </header>
 
-    <!-- Page body -->
-    <main class="flex-1 px-5 md:px-8 py-6 md:py-8 flex flex-col gap-6">
+    <!-- Dashboard body -->
+    <main style="flex:1;padding:32px;display:flex;flex-direction:column;gap:24px;">
 
       <!-- Greeting -->
-      <section>
-        <div class="vp-eyebrow mb-1">Welcome back</div>
-        <h2 class="font-display text-[32px] leading-tight text-portal-text">Hello, Riko.</h2>
-        <p class="text-[13.5px] text-portal-textSecondary mt-1 max-w-[540px]">
-          Here's where your health is trending today — all signals reviewed by your care team.
-        </p>
-      </section>
+      <div>
+        <div class="vp-eyebrow" style="margin-bottom:4px;">Welcome back</div>
+        <div style="font-family:'Playfair Display',serif;font-size:32px;color:#E8E6DF;line-height:1.2;margin-bottom:6px;">Hello, Riko.</div>
+        <p style="font-size:13.5px;color:#9B9890;max-width:520px;">Here's where your health is trending today — all signals reviewed by your care team.</p>
+      </div>
 
       <!-- Stat strip -->
-      <section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
 
-        <!-- LDL-P (good) -->
-        <div class="vp-card relative overflow-hidden flex flex-col gap-1.5">
-          <div class="absolute left-0 top-0 bottom-0 w-[3px]" style="background:#6BCB77;"></div>
-          <div class="flex items-start justify-between">
-            <div class="w-8 h-8 rounded-md flex items-center justify-center" style="background:rgba(200,184,138,0.12);color:#C8B88A;">
-              <i data-lucide="droplet" class="w-4 h-4" stroke-width="1.8"></i>
+        <!-- LDL-P good -->
+        <div class="vp-card" style="position:relative;overflow:hidden;display:flex;flex-direction:column;gap:6px;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#6BCB77;"></div>
+          <div style="display:flex;align-items:start;justify-content:space-between;">
+            <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(200,184,138,0.12);color:#C8B88A;">
+              <i data-lucide="droplet" style="width:16px;height:16px;" stroke-width="1.8"></i>
             </div>
-            <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10.5px] font-semibold"
-                 style="background:rgba(107,203,119,0.12); color:#6BCB77; border-color:rgba(107,203,119,0.2);">
-              <i data-lucide="trending-down" class="w-3 h-3" stroke-width="2.2"></i>
-              −14% vs 6mo
-            </div>
+            <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;border:1px solid rgba(107,203,119,0.25);background:rgba(107,203,119,0.12);color:#6BCB77;font-size:10.5px;font-weight:600;">
+              <i data-lucide="trending-down" style="width:12px;height:12px;" stroke-width="2.2"></i>−14% vs 6mo
+            </span>
           </div>
-          <div class="vp-stat-label mt-2">LDL-P</div>
-          <div class="flex items-baseline gap-1.5">
-            <span class="vp-stat-value">1,190</span>
-            <span class="text-xs text-portal-textMuted">nmol/L</span>
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6B6961;margin-top:6px;">LDL-P</div>
+          <div style="display:flex;align-items:baseline;gap:6px;">
+            <span style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#E8E6DF;line-height:1;">1,190</span>
+            <span style="font-size:12px;color:#6B6961;">nmol/L</span>
           </div>
         </div>
 
-        <!-- HsCRP (warn) -->
-        <div class="vp-card relative overflow-hidden flex flex-col gap-1.5">
-          <div class="absolute left-0 top-0 bottom-0 w-[3px]" style="background:#E8A838;"></div>
-          <div class="flex items-start justify-between">
-            <div class="w-8 h-8 rounded-md flex items-center justify-center" style="background:rgba(200,184,138,0.12);color:#C8B88A;">
-              <i data-lucide="flame" class="w-4 h-4" stroke-width="1.8"></i>
+        <!-- HsCRP warn -->
+        <div class="vp-card" style="position:relative;overflow:hidden;display:flex;flex-direction:column;gap:6px;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#E8A838;"></div>
+          <div style="display:flex;align-items:start;justify-content:space-between;">
+            <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(200,184,138,0.12);color:#C8B88A;">
+              <i data-lucide="flame" style="width:16px;height:16px;" stroke-width="1.8"></i>
             </div>
-            <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10.5px] font-semibold"
-                 style="background:rgba(232,168,56,0.12); color:#E8A838; border-color:rgba(232,168,56,0.2);">
-              <i data-lucide="trending-up" class="w-3 h-3" stroke-width="2.2"></i>
-              +0.6 vs last
-            </div>
+            <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;border:1px solid rgba(232,168,56,0.25);background:rgba(232,168,56,0.12);color:#E8A838;font-size:10.5px;font-weight:600;">
+              <i data-lucide="trending-up" style="width:12px;height:12px;" stroke-width="2.2"></i>+0.6 vs last
+            </span>
           </div>
-          <div class="vp-stat-label mt-2">HsCRP</div>
-          <div class="flex items-baseline gap-1.5">
-            <span class="vp-stat-value">2.4</span>
-            <span class="text-xs text-portal-textMuted">mg/L</span>
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6B6961;margin-top:6px;">HsCRP</div>
+          <div style="display:flex;align-items:baseline;gap:6px;">
+            <span style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#E8E6DF;line-height:1;">2.4</span>
+            <span style="font-size:12px;color:#6B6961;">mg/L</span>
           </div>
         </div>
 
-        <!-- HRV (warn) -->
-        <div class="vp-card relative overflow-hidden flex flex-col gap-1.5">
-          <div class="absolute left-0 top-0 bottom-0 w-[3px]" style="background:#E8A838;"></div>
-          <div class="flex items-start justify-between">
-            <div class="w-8 h-8 rounded-md flex items-center justify-center" style="background:rgba(200,184,138,0.12);color:#C8B88A;">
-              <i data-lucide="heart-pulse" class="w-4 h-4" stroke-width="1.8"></i>
+        <!-- HRV warn -->
+        <div class="vp-card" style="position:relative;overflow:hidden;display:flex;flex-direction:column;gap:6px;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#E8A838;"></div>
+          <div style="display:flex;align-items:start;justify-content:space-between;">
+            <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(200,184,138,0.12);color:#C8B88A;">
+              <i data-lucide="heart-pulse" style="width:16px;height:16px;" stroke-width="1.8"></i>
             </div>
-            <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10.5px] font-semibold"
-                 style="background:rgba(232,168,56,0.12); color:#E8A838; border-color:rgba(232,168,56,0.2);">
-              <i data-lucide="trending-down" class="w-3 h-3" stroke-width="2.2"></i>
-              −8 vs 30d avg
-            </div>
+            <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;border:1px solid rgba(232,168,56,0.25);background:rgba(232,168,56,0.12);color:#E8A838;font-size:10.5px;font-weight:600;">
+              <i data-lucide="trending-down" style="width:12px;height:12px;" stroke-width="2.2"></i>−8 vs 30d avg
+            </span>
           </div>
-          <div class="vp-stat-label mt-2">HRV (avg)</div>
-          <div class="flex items-baseline gap-1.5">
-            <span class="vp-stat-value">48</span>
-            <span class="text-xs text-portal-textMuted">ms</span>
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6B6961;margin-top:6px;">HRV (avg)</div>
+          <div style="display:flex;align-items:baseline;gap:6px;">
+            <span style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#E8E6DF;line-height:1;">48</span>
+            <span style="font-size:12px;color:#6B6961;">ms</span>
           </div>
         </div>
 
-        <!-- Glucose (good) -->
-        <div class="vp-card relative overflow-hidden flex flex-col gap-1.5">
-          <div class="absolute left-0 top-0 bottom-0 w-[3px]" style="background:#6BCB77;"></div>
-          <div class="flex items-start justify-between">
-            <div class="w-8 h-8 rounded-md flex items-center justify-center" style="background:rgba(200,184,138,0.12);color:#C8B88A;">
-              <i data-lucide="activity" class="w-4 h-4" stroke-width="1.8"></i>
+        <!-- Glucose good -->
+        <div class="vp-card" style="position:relative;overflow:hidden;display:flex;flex-direction:column;gap:6px;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#6BCB77;"></div>
+          <div style="display:flex;align-items:start;justify-content:space-between;">
+            <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(200,184,138,0.12);color:#C8B88A;">
+              <i data-lucide="activity" style="width:16px;height:16px;" stroke-width="1.8"></i>
             </div>
-            <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10.5px] font-semibold"
-                 style="background:rgba(107,203,119,0.12); color:#6BCB77; border-color:rgba(107,203,119,0.2);">
-              <i data-lucide="minus" class="w-3 h-3" stroke-width="2.2"></i>
-              In target
-            </div>
+            <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;border:1px solid rgba(107,203,119,0.25);background:rgba(107,203,119,0.12);color:#6BCB77;font-size:10.5px;font-weight:600;">
+              <i data-lucide="minus" style="width:12px;height:12px;" stroke-width="2.2"></i>In target
+            </span>
           </div>
-          <div class="vp-stat-label mt-2">Fasting Glucose</div>
-          <div class="flex items-baseline gap-1.5">
-            <span class="vp-stat-value">92</span>
-            <span class="text-xs text-portal-textMuted">mg/dL</span>
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6B6961;margin-top:6px;">Fasting Glucose</div>
+          <div style="display:flex;align-items:baseline;gap:6px;">
+            <span style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#E8E6DF;line-height:1;">92</span>
+            <span style="font-size:12px;color:#6B6961;">mg/dL</span>
           </div>
         </div>
 
-      </section>
+      </div>
 
       <!-- Chart + Feed -->
-      <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
 
-        <!-- Biomarker chart -->
-        <div class="lg:col-span-2 vp-card">
-          <div class="flex items-start justify-between mb-4 gap-4 flex-wrap">
+        <!-- Chart (2 cols) -->
+        <div class="vp-card" style="grid-column:span 2;">
+          <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:16px;gap:16px;">
             <div>
-              <div class="vp-eyebrow mb-1">Biomarker Trends</div>
-              <div class="text-[14px] font-semibold text-portal-text">Key markers — 12-month view</div>
+              <div class="vp-eyebrow" style="margin-bottom:4px;">Biomarker Trends</div>
+              <div style="font-size:14px;font-weight:600;color:#E8E6DF;">Key markers — 12-month view</div>
             </div>
-            <div class="flex gap-1 p-1 bg-portal-elevated rounded-md border border-portal-border">
-              <button class="px-3 py-1 text-[11px] font-semibold rounded text-portal-textMuted">3M</button>
-              <button class="px-3 py-1 text-[11px] font-semibold rounded text-portal-textMuted">6M</button>
-              <button class="px-3 py-1 text-[11px] font-semibold rounded" style="background:rgba(200,184,138,0.12);color:#C8B88A;">12M</button>
+            <div style="display:flex;gap:4px;padding:4px;border-radius:8px;background:#252523;border:1px solid #2A2A27;">
+              <button style="padding:4px 12px;font-size:11px;font-weight:600;border-radius:6px;background:none;border:none;color:#6B6961;cursor:pointer;">3M</button>
+              <button style="padding:4px 12px;font-size:11px;font-weight:600;border-radius:6px;background:none;border:none;color:#6B6961;cursor:pointer;">6M</button>
+              <button style="padding:4px 12px;font-size:11px;font-weight:600;border-radius:6px;background:rgba(200,184,138,0.12);border:none;color:#C8B88A;cursor:pointer;">12M</button>
             </div>
           </div>
-          <div id="chart-root" class="h-[300px] w-full"></div>
-          <p class="text-[11px] text-portal-textMuted mt-2">
-            Values normalized for display — hover points to see actual units.
-          </p>
+
+          <!-- SVG chart container -->
+          <div style="position:relative;height:280px;">
+            <div id="chart-tooltip"></div>
+            <svg id="biomarker-svg" style="display:block;width:100%;height:100%;overflow:visible;"></svg>
+          </div>
+
+          <!-- Legend -->
+          <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#5EC4BD;display:inline-block;"></span><span style="font-size:11px;color:#9B9890;">LDL-P</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#FAC775;display:inline-block;"></span><span style="font-size:11px;color:#9B9890;">HsCRP</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#A78BFA;display:inline-block;"></span><span style="font-size:11px;color:#9B9890;">HRV</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#F87171;display:inline-block;"></span><span style="font-size:11px;color:#9B9890;">Glucose</span></div>
+          </div>
+          <p style="font-size:11px;color:#6B6961;margin-top:6px;">Values normalized for display — hover data points to see actual units.</p>
         </div>
 
         <!-- Care feed -->
-        <div class="flex flex-col gap-3">
+        <div style="display:flex;flex-direction:column;gap:12px;">
           <div class="vp-eyebrow">Recent Activity</div>
 
           <!-- Physician note -->
-          <div class="vp-card border-l-[3px] p-4" style="border-left-color:#1DA8A0;">
-            <div class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-md flex items-center justify-center shrink-0" style="background:rgba(29,168,160,0.15);color:#1DA8A0;">
-                <i data-lucide="check-circle-2" class="w-4 h-4" stroke-width="1.8"></i>
+          <div class="vp-card" style="padding:16px;border-left:3px solid #1DA8A0;">
+            <div style="display:flex;align-items:start;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(29,168,160,0.15);color:#1DA8A0;">
+                <i data-lucide="check-circle-2" style="width:16px;height:16px;" stroke-width="1.8"></i>
               </div>
-              <div class="min-w-0 flex-1">
-                <div class="text-[12px] font-semibold uppercase tracking-wider text-portal-textSecondary mb-1">Physician Note</div>
-                <p class="text-[12.5px] text-portal-textSecondary leading-relaxed">
-                  Lipid response is on track. Continuing statin + lifestyle protocol.
-                </p>
-                <div class="mt-2 inline-flex items-center gap-1.5 text-[10.5px]" style="color:#1DA8A0;">
-                  <i data-lucide="check-circle-2" class="w-3 h-3" stroke-width="2.2"></i>
-                  Dr. R. Patel · 3d ago
+              <div>
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#9B9890;margin-bottom:4px;">Physician Note</div>
+                <p style="font-size:12.5px;color:#9B9890;line-height:1.55;">Lipid response is on track. Continuing statin + lifestyle protocol.</p>
+                <div style="margin-top:8px;display:inline-flex;align-items:center;gap:6px;font-size:10.5px;color:#1DA8A0;">
+                  <i data-lucide="check-circle-2" style="width:12px;height:12px;" stroke-width="2.2"></i>Dr. R. Patel · 3d ago
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- AI Alert -->
-          <div class="vp-card border-l-[3px] p-4" style="border-left-color:#E8A838;">
-            <div class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-md flex items-center justify-center shrink-0" style="background:rgba(232,168,56,0.12);color:#E8A838;">
-                <i data-lucide="sparkles" class="w-4 h-4" stroke-width="1.8"></i>
+          <!-- AI alert -->
+          <div class="vp-card" style="padding:16px;border-left:3px solid #E8A838;">
+            <div style="display:flex;align-items:start;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(232,168,56,0.12);color:#E8A838;">
+                <i data-lucide="sparkles" style="width:16px;height:16px;" stroke-width="1.8"></i>
               </div>
-              <div class="min-w-0 flex-1">
-                <div class="flex items-center gap-2 mb-1">
-                  <div class="text-[12px] font-semibold uppercase tracking-wider text-portal-textSecondary">AI Pattern Alert</div>
-                  <span class="w-1.5 h-1.5 rounded-full animate-pulse-soft" style="background:#E8A838;"></span>
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#9B9890;">AI Pattern Alert</div>
+                  <span style="width:6px;height:6px;border-radius:50%;background:#E8A838;display:inline-block;"></span>
                 </div>
-                <p class="text-[12.5px] text-portal-textSecondary leading-relaxed">
-                  HRV declined 18% over 6 weeks while HsCRP is trending up. Flagged for physician review.
-                </p>
+                <p style="font-size:12.5px;color:#9B9890;line-height:1.55;">HRV declined 18% over 6 weeks while HsCRP is trending up. Flagged for physician review.</p>
               </div>
             </div>
           </div>
 
           <!-- Bio age -->
-          <div class="vp-card border-l-[3px] p-4" style="border-left-color:#C8B88A;">
-            <div class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-md flex items-center justify-center shrink-0" style="background:rgba(200,184,138,0.12);color:#C8B88A;">
-                <i data-lucide="dna" class="w-4 h-4" stroke-width="1.8"></i>
+          <div class="vp-card" style="padding:16px;border-left:3px solid #C8B88A;">
+            <div style="display:flex;align-items:start;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(200,184,138,0.12);color:#C8B88A;">
+                <i data-lucide="dna" style="width:16px;height:16px;" stroke-width="1.8"></i>
               </div>
-              <div class="min-w-0 flex-1">
-                <div class="text-[12px] font-semibold uppercase tracking-wider text-portal-textSecondary mb-1">Biological Age</div>
-                <div class="flex items-baseline gap-2 mt-0.5">
-                  <span class="font-display text-[26px]" style="color:#C8B88A;">41</span>
-                  <span class="text-[11px] text-portal-textMuted">vs 47 chronological</span>
+              <div>
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#9B9890;margin-bottom:4px;">Biological Age</div>
+                <div style="display:flex;align-items:baseline;gap:8px;">
+                  <span style="font-family:'Playfair Display',serif;font-size:26px;color:#C8B88A;font-weight:700;">41</span>
+                  <span style="font-size:11px;color:#6B6961;">vs 47 chronological</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-      </section>
+      </div>
 
       <!-- Program progress -->
-      <section>
-        <div class="vp-card">
-          <div class="vp-eyebrow mb-1">Program Progress</div>
-          <div class="text-[14px] font-semibold text-portal-text mb-4">Year-to-date</div>
-
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="flex flex-col gap-1.5">
-              <div class="flex items-baseline justify-between">
-                <span class="text-[11px] text-portal-textMuted">Wearable Data Days</span>
-                <span class="text-[11px] font-semibold text-portal-text">182 / 365</span>
-              </div>
-              <div class="progress-track"><div class="progress-fill" style="width:50%; background:#1DA8A0;"></div></div>
+      <div class="vp-card">
+        <div class="vp-eyebrow" style="margin-bottom:4px;">Program Progress</div>
+        <div style="font-size:14px;font-weight:600;color:#E8E6DF;margin-bottom:16px;">Year-to-date</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;justify-content:space-between;">
+              <span style="font-size:11px;color:#6B6961;">Wearable Data Days</span>
+              <span style="font-size:11px;font-weight:600;color:#E8E6DF;">182 / 365</span>
             </div>
-            <div class="flex flex-col gap-1.5">
-              <div class="flex items-baseline justify-between">
-                <span class="text-[11px] text-portal-textMuted">Lab Panels</span>
-                <span class="text-[11px] font-semibold text-portal-text">1 of 2</span>
-              </div>
-              <div class="progress-track"><div class="progress-fill" style="width:50%; background:#6BCB77;"></div></div>
+            <div class="progress-track"><div class="progress-fill" style="width:50%;background:#1DA8A0;"></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;justify-content:space-between;">
+              <span style="font-size:11px;color:#6B6961;">Lab Panels</span>
+              <span style="font-size:11px;font-weight:600;color:#E8E6DF;">1 of 2</span>
             </div>
-            <div class="flex flex-col gap-1.5">
-              <div class="flex items-baseline justify-between">
-                <span class="text-[11px] text-portal-textMuted">Physician Visits</span>
-                <span class="text-[11px] font-semibold text-portal-text">2 of 3</span>
-              </div>
-              <div class="progress-track"><div class="progress-fill" style="width:66%; background:#5B9BD5;"></div></div>
+            <div class="progress-track"><div class="progress-fill" style="width:50%;background:#6BCB77;"></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;justify-content:space-between;">
+              <span style="font-size:11px;color:#6B6961;">Physician Visits</span>
+              <span style="font-size:11px;font-weight:600;color:#E8E6DF;">2 of 3</span>
             </div>
-            <div class="flex flex-col gap-1.5">
-              <div class="flex items-baseline justify-between">
-                <span class="text-[11px] text-portal-textMuted">Medication Adherence</span>
-                <span class="text-[11px] font-semibold text-portal-text">94%</span>
-              </div>
-              <div class="progress-track"><div class="progress-fill" style="width:94%; background:#6BCB77;"></div></div>
+            <div class="progress-track"><div class="progress-fill" style="width:66%;background:#5B9BD5;"></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;justify-content:space-between;">
+              <span style="font-size:11px;color:#6B6961;">Medication Adherence</span>
+              <span style="font-size:11px;font-weight:600;color:#E8E6DF;">94%</span>
             </div>
+            <div class="progress-track"><div class="progress-fill" style="width:94%;background:#6BCB77;"></div></div>
           </div>
         </div>
-      </section>
+      </div>
 
     </main>
   </div>
-
 </div>
 
 <script>
-// Initialize Lucide icons
 lucide.createIcons();
 
-// ── Render biomarker chart ──
-const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } = Recharts;
+// ── Pure SVG biomarker chart — zero external dependencies ──
+(function () {
+  const RAW = [
+    { month:"May '25", ldlP:1385, hsCrp:1.9, hrv:56, glucose:94 },
+    { month:"Jun '25", ldlP:1350, hsCrp:2.0, hrv:58, glucose:93 },
+    { month:"Jul '25", ldlP:1320, hsCrp:1.8, hrv:59, glucose:95 },
+    { month:"Aug '25", ldlP:1290, hsCrp:1.7, hrv:60, glucose:92 },
+    { month:"Sep '25", ldlP:1260, hsCrp:1.6, hrv:57, glucose:94 },
+    { month:"Oct '25", ldlP:1240, hsCrp:1.5, hrv:55, glucose:91 },
+    { month:"Nov '25", ldlP:1230, hsCrp:1.6, hrv:54, glucose:92 },
+    { month:"Dec '25", ldlP:1220, hsCrp:1.7, hrv:53, glucose:93 },
+    { month:"Jan '26", ldlP:1210, hsCrp:1.9, hrv:52, glucose:91 },
+    { month:"Feb '26", ldlP:1205, hsCrp:2.1, hrv:50, glucose:92 },
+    { month:"Mar '26", ldlP:1200, hsCrp:2.3, hrv:49, glucose:93 },
+    { month:"Apr '26", ldlP:1190, hsCrp:2.4, hrv:48, glucose:92 },
+  ];
 
-const data = [
-  { month: "May '25", ldlPN: 92.3, hsCrpN: 54.3, hrvN: 70, glucoseN: 78.3, ldlP: 1385, hsCrp: 1.9, hrv: 56, glucose: 94 },
-  { month: "Jun '25", ldlPN: 90, hsCrpN: 57.1, hrvN: 72.5, glucoseN: 77.5, ldlP: 1350, hsCrp: 2.0, hrv: 58, glucose: 93 },
-  { month: "Jul '25", ldlPN: 88, hsCrpN: 51.4, hrvN: 73.75, glucoseN: 79.2, ldlP: 1320, hsCrp: 1.8, hrv: 59, glucose: 95 },
-  { month: "Aug '25", ldlPN: 86, hsCrpN: 48.6, hrvN: 75, glucoseN: 76.7, ldlP: 1290, hsCrp: 1.7, hrv: 60, glucose: 92 },
-  { month: "Sep '25", ldlPN: 84, hsCrpN: 45.7, hrvN: 71.25, glucoseN: 78.3, ldlP: 1260, hsCrp: 1.6, hrv: 57, glucose: 94 },
-  { month: "Oct '25", ldlPN: 82.7, hsCrpN: 42.9, hrvN: 68.75, glucoseN: 75.8, ldlP: 1240, hsCrp: 1.5, hrv: 55, glucose: 91 },
-  { month: "Nov '25", ldlPN: 82, hsCrpN: 45.7, hrvN: 67.5, glucoseN: 76.7, ldlP: 1230, hsCrp: 1.6, hrv: 54, glucose: 92 },
-  { month: "Dec '25", ldlPN: 81.3, hsCrpN: 48.6, hrvN: 66.25, glucoseN: 77.5, ldlP: 1220, hsCrp: 1.7, hrv: 53, glucose: 93 },
-  { month: "Jan '26", ldlPN: 80.7, hsCrpN: 54.3, hrvN: 65, glucoseN: 75.8, ldlP: 1210, hsCrp: 1.9, hrv: 52, glucose: 91 },
-  { month: "Feb '26", ldlPN: 80.3, hsCrpN: 60, hrvN: 62.5, glucoseN: 76.7, ldlP: 1205, hsCrp: 2.1, hrv: 50, glucose: 92 },
-  { month: "Mar '26", ldlPN: 80, hsCrpN: 65.7, hrvN: 61.25, glucoseN: 77.5, ldlP: 1200, hsCrp: 2.3, hrv: 49, glucose: 93 },
-  { month: "Apr '26", ldlPN: 79.3, hsCrpN: 68.6, hrvN: 60, glucoseN: 76.7, ldlP: 1190, hsCrp: 2.4, hrv: 48, glucose: 92 },
-];
+  const NORM   = { ldlP:1500, hsCrp:3.5, hrv:80, glucose:120 };
+  const SERIES = [
+    { key:'ldlP',    label:'LDL-P',   color:'#5EC4BD', unit:'nmol/L' },
+    { key:'hsCrp',   label:'HsCRP',   color:'#FAC775', unit:'mg/L'   },
+    { key:'hrv',     label:'HRV',     color:'#A78BFA', unit:'ms'     },
+    { key:'glucose', label:'Glucose', color:'#F87171', unit:'mg/dL'  },
+  ];
 
-const SERIES = [
-  { key: "ldlPN", label: "LDL-P", color: "#5EC4BD" },
-  { key: "hsCrpN", label: "HsCRP", color: "#FAC775" },
-  { key: "hrvN", label: "HRV", color: "#A78BFA" },
-  { key: "glucoseN", label: "Glucose", color: "#F87171" },
-];
+  const svgEl   = document.getElementById('biomarker-svg');
+  const tooltip = document.getElementById('chart-tooltip');
 
-const e = React.createElement;
-const chart = e(ResponsiveContainer, { width: "100%", height: "100%" },
-  e(LineChart, { data, margin: { top: 8, right: 8, bottom: 0, left: -20 } },
-    e(CartesianGrid, { strokeDasharray: "3 3", stroke: "#2A2A27", vertical: false }),
-    e(XAxis, { dataKey: "month", tick: { fill: "#9B9890", fontSize: 11 }, axisLine: { stroke: "#2A2A27" }, tickLine: false }),
-    e(YAxis, { tick: { fill: "#6B6961", fontSize: 10 }, axisLine: false, tickLine: false, domain: [0, 100] }),
-    e(Tooltip, {
-      contentStyle: { background: "#1A1A18", border: "1px solid #2A2A27", borderRadius: 8, fontSize: 12, color: "#E8E6DF" },
-      labelStyle: { color: "#9B9890", fontSize: 11, marginBottom: 4 },
-    }),
-    e(Legend, { iconType: "circle", wrapperStyle: { fontSize: 11, color: "#9B9890", paddingTop: 8 } }),
-    ...SERIES.map(s => e(Line, {
-      key: s.key, type: "monotone", dataKey: s.key, name: s.label,
-      stroke: s.color, strokeWidth: 2,
-      dot: { r: 2.5, strokeWidth: 0, fill: s.color },
-      activeDot: { r: 5, strokeWidth: 0 },
-    }))
-  )
-);
+  function draw() {
+    const W  = svgEl.parentElement.clientWidth  || 600;
+    const H  = svgEl.parentElement.clientHeight || 280;
+    const PL = 40, PR = 16, PT = 12, PB = 36;
+    const cW = W - PL - PR;
+    const cH = H - PT - PB;
+    const n  = RAW.length;
+    const xOf = i  => PL + (i / (n - 1)) * cW;
+    const yOf = pct => PT + (1 - pct / 100) * cH;
+    const nm  = (k, v) => (v / NORM[k]) * 100;
 
-ReactDOM.createRoot(document.getElementById('chart-root')).render(chart);
+    let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">`;
+
+    // Grid + Y labels
+    [0,25,50,75,100].forEach(p => {
+      const yy = yOf(p);
+      s += `<line x1="${PL}" y1="${yy}" x2="${PL+cW}" y2="${yy}" stroke="#2A2A27" stroke-width="1" stroke-dasharray="4 3"/>`;
+      s += `<text x="${PL-6}" y="${yy+4}" fill="#6B6961" font-size="10" text-anchor="end" font-family="DM Sans,sans-serif">${p}</text>`;
+    });
+
+    // X labels (every other)
+    RAW.forEach((d,i) => {
+      if (i % 2 === 0) {
+        s += `<text x="${xOf(i)}" y="${PT+cH+22}" fill="#9B9890" font-size="10" text-anchor="middle" font-family="DM Sans,sans-serif">${d.month}</text>`;
+      }
+    });
+
+    // Lines
+    SERIES.forEach(sr => {
+      const pts = RAW.map((d,i) => `${xOf(i).toFixed(1)},${yOf(nm(sr.key, d[sr.key])).toFixed(1)}`).join(' ');
+      s += `<polyline points="${pts}" fill="none" stroke="${sr.color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    });
+
+    // Dots
+    SERIES.forEach(sr => {
+      RAW.forEach((d,i) => {
+        s += `<circle cx="${xOf(i).toFixed(1)}" cy="${yOf(nm(sr.key, d[sr.key])).toFixed(1)}" r="3.5" fill="${sr.color}"/>`;
+      });
+    });
+
+    // Invisible hover columns
+    RAW.forEach((d,i) => {
+      const cx  = xOf(i);
+      const hw  = cW / (n - 1);
+      const rx  = cx - hw / 2;
+      const enc = encodeURIComponent(JSON.stringify({ month:d.month, ldlP:d.ldlP, hsCrp:d.hsCrp, hrv:d.hrv, glucose:d.glucose }));
+      s += `<rect x="${(i===0?PL:rx).toFixed(1)}" y="${PT}" width="${(i===0||i===n-1?hw/2:hw).toFixed(1)}" height="${cH}"
+                  fill="transparent" class="hover-col" data-d="${enc}" style="cursor:crosshair;"/>`;
+    });
+
+    s += '</svg>';
+    svgEl.outerHTML = s;
+
+    // Re-query after outerHTML replacement
+    const newSvg = document.getElementById('biomarker-svg') || document.querySelector('[class*="hover-col"]')?.closest('svg');
+    const svg2 = svgEl.parentElement.querySelector('svg');
+
+    svg2.querySelectorAll('.hover-col').forEach(rect => {
+      rect.addEventListener('mouseenter', ev => {
+        const d = JSON.parse(decodeURIComponent(ev.target.dataset.d));
+        tooltip.innerHTML = `
+          <div style="color:#9B9890;font-size:11px;margin-bottom:7px;font-weight:600;">${d.month}</div>
+          <div style="display:flex;flex-direction:column;gap:5px;font-size:12px;">
+            <div style="display:flex;justify-content:space-between;gap:20px;"><span style="color:#5EC4BD;">● LDL-P</span><span>${d.ldlP} nmol/L</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;"><span style="color:#FAC775;">● HsCRP</span><span>${d.hsCrp} mg/L</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;"><span style="color:#A78BFA;">● HRV</span><span>${d.hrv} ms</span></div>
+            <div style="display:flex;justify-content:space-between;gap:20px;"><span style="color:#F87171;">● Glucose</span><span>${d.glucose} mg/dL</span></div>
+          </div>`;
+        tooltip.style.display = 'block';
+      });
+      rect.addEventListener('mousemove', ev => {
+        const pr = tooltip.parentElement.getBoundingClientRect();
+        let l = ev.clientX - pr.left + 16;
+        let t = ev.clientY - pr.top  - 20;
+        if (l + 175 > pr.width) l = ev.clientX - pr.left - 185;
+        tooltip.style.left = l + 'px';
+        tooltip.style.top  = t + 'px';
+      });
+      rect.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+    });
+  }
+
+  draw();
+  window.addEventListener('resize', draw);
+})();
 </script>
-
 </body>
 </html>
